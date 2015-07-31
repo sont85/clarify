@@ -15,8 +15,11 @@ module.exports = function(io) {
     console.log('user connected');
     socket.emit('users count', io.engine.clientsCount);
     socket.emit('question', data);
-    socket.on("answers", function(answer){
+    socket.on('answers', function(answer){
       console.log(answer);
     });
+    socket.on('newQuestion', function(question){
+      console.log(question);
+    });
   });
-}
+};

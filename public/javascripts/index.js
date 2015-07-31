@@ -12,6 +12,9 @@ app.controller('MainCtrl', function($scope) {
     });
   });
 
+$scope.submitNewQuestion = function() {
+  socket.emit("newQuestion", $scope.newQuestion);
+}
 
 
 
