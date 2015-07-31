@@ -19,16 +19,18 @@ app.controller('MainCtrl', function($scope) {
 
   socket.on('questionIndex', function(index) {
     $scope.$apply(function() {
-      $scope.time = 5;
+      $scope.time = $scope.questionList[index].time;
       $scope.timeOut = false;
       $scope.question = $scope.questionList[index];
       $scope.answer = null;
+
     });
     var timer = setInterval(function(){
       $scope.$apply(function(){
         $scope.time --;
       });
     }, 1000);
+
     setTimeout(function(){
       clearInterval(timer);
       $scope.$apply(function() {
@@ -38,7 +40,7 @@ app.controller('MainCtrl', function($scope) {
       if (!$scope.answer) {
         socket.emit('answers', 'null');
       }
-    }, 5000);
+    }, $scope.questionList[index].time * 1000);
   });
 
   $scope.submitNewQuestion = function() {

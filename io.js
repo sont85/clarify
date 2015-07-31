@@ -7,6 +7,7 @@ var questionSchema = mongoose.Schema({
   list : [{
       question : String,
       answer: String,
+      time: Number,
       choiceA: String,
       choiceB: String,
       choiceC: String,
@@ -21,17 +22,18 @@ var Question = mongoose.model('Question', questionSchema);
 var data = {
   question : 'What shape is the world?',
   answer: 'C',
+  time: 5,
   choiceA: 'world is flat',
   choiceB: 'world is square',
   choiceC: 'world is round',
   choiceD: 'world is triangle'
 };
-//
+
 // var question = new Question();
 // question.list.push(data);
 // question.save();
-//
-//
+
+
 
 
 
