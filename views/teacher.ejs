@@ -10,7 +10,14 @@
   <input type='text' placeholder="choice C" ng-model="newQuestion.choiceC" />
   <label>choice D</label>
   <input type='text' placeholder="choice D" ng-model="newQuestion.choiceD" />
-  <input type='text' placeholder="Answer" ng-model="newQuestion.answer" />
+  <label>Answer</label>
+  <select ng-model='newQuestion.answer'>
+    <option value='A'>A</option>
+    <option value='B'>B</option>
+    <option value='C'>C</option>
+    <option value='D'>D</option>
+    <option value='E'>E</option>
+  </select>
   <input type='text' placeholder="time alloted" ng-model="newQuestion.time">
   <button type="submit">Enter New Question</button>
 </form>

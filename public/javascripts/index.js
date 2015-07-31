@@ -47,7 +47,6 @@ app.controller('MainCtrl', function($scope) {
     socket.emit('newQuestion', $scope.newQuestion);
   };
   $scope.submitAnswer = function() {
-    console.log($scope.answer);
     socket.emit('answers', $scope.question.answer === $scope.answer);
   };
   $scope.startTest = function(index) {
