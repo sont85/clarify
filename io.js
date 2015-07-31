@@ -36,8 +36,9 @@ var data = {
 
 
 var result = {
-  correct : 0,
-  wrong: 0,
+  true : 0,
+  false: 0,
+  null: 0,
   total: 0
 };
 
@@ -52,14 +53,9 @@ module.exports = function(io) {
 
     socket.on('answers', function(answer){
       result.total ++
-      if (answer === true) {
-        result.correct ++
-        console.log(result);
-      } else {
-        result.wrong --
-      }
+      result[answer] ++;
       io.sockets.emit('result', result);
-      console.log(answer);
+      console.log(result);
     });
     socket.on('newQuestion', function(newQuestion){
       Question.findOne({}, function(err, question){
@@ -70,7 +66,6 @@ module.exports = function(io) {
     });
 
     socket.on('startTest', function(index) {
-      console.log(index)
       socket.broadcast.emit('questionIndex', index)
     });
   });

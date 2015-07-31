@@ -11,7 +11,8 @@
         <input type="radio" value="B" ng-model="answer">{{question.choiceB}}
         <input type="radio" value="C" ng-model="answer">{{question.choiceC}}
         <input type="radio" value="D" ng-model="answer">{{question.choiceD}}
-        <button type="submit">submit Answer</button>
+        <button type="submit" ng-disabled='timeOut'>submit Answer</button>
+        <h5>{{time}}</h5>
       <h1>{{question.answer}}</h1>
     </form>
     <form ng-submit="submitNewQuestion()">
