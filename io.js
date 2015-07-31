@@ -1,9 +1,20 @@
+'use strict';
+var data = {
+  question : 'What shape is the world?',
+  answer: 'C',
+  choiceA: 'world is flat',
+  choiceB: 'world is square',
+  choiceC: 'world is round',
+};
+
+
+
 
 module.exports = function(io) {
-  io.on('connection', function(socket){
+  io.sockets.on('connection', function(socket){
     console.log('user connected');
-    io.emit('users count', io.engine.clientsCount);
-    io.emit('hello', 'hello world');
+    socket.emit('users count', io.engine.clientsCount);
+    socket.emit('question', data);
     socket.on("answers", function(answer){
       console.log(answer);
     });
