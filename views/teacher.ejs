@@ -1,0 +1,21 @@
+<% include layout %>
+<form ng-submit="submitNewQuestion()">
+  <label>question1</label>
+  <input type='text' placeholder="new question"/ ng-model="newQuestion.question">
+  <label>choice A</label>
+  <input type='text' placeholder="choice A" ng-model="newQuestion.choiceA" />
+  <label>choice B</label>
+  <input type='text' placeholder="choice B" ng-model="newQuestion.choiceB" />
+  <label>choice C</label>
+  <input type='text' placeholder="choice C" ng-model="newQuestion.choiceC" />
+  <label>choice D</label>
+  <input type='text' placeholder="choice D" ng-model="newQuestion.choiceD" />
+  <input type='text' placeholder="Answer" ng-model="newQuestion.answer" />
+  <input type='text' placeholder="time alloted" ng-model="newQuestion.time">
+  <button type="submit">Enter New Question</button>
+</form>
+
+<div ng-repeat='question in questionList'>
+  <h3>{{question.question}}</h3>
+  <button ng-click='startTest($index)'>start Question</button>
+</div>

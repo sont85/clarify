@@ -1,44 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body ng-app='app' ng-controller='MainCtrl'>
-    <form ng-submit="submitAnswer()">
-      <h1>{{question.question}}</h1>
-        <input type="radio" value="A" ng-model="answer">{{question.choiceA}}
-        <input type="radio" value="B" ng-model="answer">{{question.choiceB}}
-        <input type="radio" value="C" ng-model="answer">{{question.choiceC}}
-        <input type="radio" value="D" ng-model="answer">{{question.choiceD}}
-        <button type="submit" ng-disabled='timeOut'>submit Answer</button>
-        <h5>{{time}}</h5>
-      <h1>{{question.answer}}</h1>
-    </form>
-    <form ng-submit="submitNewQuestion()">
-      <label>question1</label>
-      <input type='text' placeholder="new question"/ ng-model="newQuestion.question">
-      <label>choice A</label>
-      <input type='text' placeholder="choice A" ng-model="newQuestion.choiceA" />
-      <label>choice B</label>
-      <input type='text' placeholder="choice B" ng-model="newQuestion.choiceB" />
-      <label>choice C</label>
-      <input type='text' placeholder="choice C" ng-model="newQuestion.choiceC" />
-      <label>choice D</label>
-      <input type='text' placeholder="choice D" ng-model="newQuestion.choiceD" />
-      <input type='text' placeholder="Answer" ng-model="newQuestion.answer" />
-      <input type='text' placeholder="time alloted" ng-model="newQuestion.time">
-      <button type="submit">Enter New Question</button>
-    </form>
-
-    <div ng-repeat='question in questionList'>
-      <h3>{{question.question}}</h3>
-      <button ng-click='startTest($index)'>start Question</button>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="javascripts/index.js"></script>
-  </body>
-</html>
+<% include layout %>
+<form>
+  <input type='email' placeholder='email'>
+  <input type='password' placeholder='password'>
+  <button>log in</button>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="javascripts/index.js"></script>
