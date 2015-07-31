@@ -2,25 +2,40 @@
 var app = angular.module('app',[]);
 var socket = io.connect('http://localhost:3000');
 app.controller('MainCtrl', function($scope) {
+
   socket.on('users count', function(msg){
     console.log(msg);
   });
+  socket.on('result', function(msg){
+    console.log(msg.correct);
+    console.log(msg.wrong)
+    console.log(msg.correct / msg.total)
+  });
   socket.on('question', function(question){
     $scope.$apply(function(){
-      $scope.question = question;
-      console.log($scope.question);
+      $scope.questionList = question.list;
+      console.log(question);
     });
   });
 
-$scope.submitNewQuestion = function() {
-  socket.emit("newQuestion", $scope.newQuestion);
-}
+  socket.on('questionIndex', function(index) {
+    $scope.$apply(function() {
+      $scope.question = $scope.questionList[index];
+    })
+  });
 
-
+  $scope.submitNewQuestion = function() {
+    socket.emit("newQuestion", $scope.newQuestion);
+  };
 
   $scope.submitAnswer = function() {
     console.log($scope.answer);
-    socket.emit("answers", $scope.answer);
+    socket.emit("answers", $scope.question.answer === $scope.answer);
   }
+
+  $scope.startTest = function(index) {
+    console.log(index)
+    socket.emit('startTest', index)
+  };
 
 })
