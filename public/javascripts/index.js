@@ -9,15 +9,18 @@ app.config(function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state('allQuestion', {
       url: '/',
-      templateUrl: '../html/allQuestion.html'
+      templateUrl: '../html/allQuestion.html',
+      controller: 'TeacherCtrl'
     })
     .state('newQuestion', {
       url: '/newQuestion',
-      templateUrl: '../html/newQuestion.html'
+      templateUrl: '../html/newQuestion.html',
+      controller: 'TeacherCtrl'
     })
     .state('questionList', {
       url: '/questionList',
-      templateUrl: '../html/questionList.html'
+      templateUrl: '../html/questionList.html',
+      controller: 'TeacherCtrl'
     });
 });
 
@@ -101,21 +104,21 @@ app.controller('TeacherCtrl', function($scope, TeacherService, $state){
     });
   });
 
-  $scope.addQuestion = function(newQuestion) {
-    TeacherService.addQuestion(newQuestion, $scope.currentSet._id);
+  $scope.addQuestion = function() {
+    TeacherService.addQuestion($scope.newQuestion, $scope.currentSet._id);
+    $scope.newQuestion = "";
   };
 
   $scope.startTest = function(question) {
     socket.emit('startTest', question);
   };
-
   $scope.editList = function(list) {
     $scope.currentSet = list;
     console.log($scope.currentSet);
     $state.go('questionList');
   };
-  $scope.addSet = function(newSetName){
-    TeacherService.addSet(newSetName);
-    $scope.newSetName = '';
+  $scope.addSet = function(){
+    TeacherService.addSet($scope.newSetName);
+    $scope.newSetName ='';
   };
 });
