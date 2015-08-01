@@ -23,8 +23,17 @@ app.config(function($stateProvider, $urlRouterProvider){
 
 app.service('TeacherService', function($http) {
   this.addSet = function(newSetName){
-    console.log(newSetName);
-    $http.post('http://localhost:3000/teacher/addSet', newSetName)
+    $http.post('http://localhost:3000/teacher/set', { setName: newSetName })
+    .success(function(response){
+      console.log(response);
+    }).catch(function(err){
+      console.log(err);
+    });
+  };
+  this.addQuestion = function(newQuestion, setId){
+    console.log(setId)
+    console.log(newQuestion)
+    $http.post('http://localhost:3000/teacher/question/'+ setId, newQuestion)
     .success(function(response){
       console.log(response);
     }).catch(function(err){
@@ -43,19 +52,12 @@ app.controller('MainCtrl', function($scope, $state, TeacherService, SocketServic
     console.log(msg);
   });
 
-
-  socket.on('question', function(question){
-    $scope.$apply(function(){
-      $scope.questionList = question.list;
-      console.log(question);
-    });
-  });
-
-  socket.on('questionIndex', function(index) {
+  socket.on('currentTestQuestion', function(question) {
+    console.log(question);
     $scope.$apply(function() {
-      $scope.time = $scope.questionList[index].time;
+      $scope.time = question.time;
       $scope.timeOut = false;
-      $scope.question = $scope.questionList[index];
+      $scope.currentQuestion = question;
       $scope.answer = null;
     });
     var timer = setInterval(function(){
@@ -70,14 +72,24 @@ app.controller('MainCtrl', function($scope, $state, TeacherService, SocketServic
         $scope.timeOut = true;
         $scope.time = null;
       });
-      if (!$scope.answer) {
+      if (!$scope.studentAnswer) {
         socket.emit('answers', 'null');
       }
-    }, $scope.questionList[index].time * 1000);
+    }, question.time * 1000);
   });
 
+  socket.on('result', function(msg){
+    console.log(msg);
+    console.log(msg.true / msg.total);
+  });
 
+  $scope.submitAnswer = function() {
+    console.log($scope.studentAnswer);
+    socket.emit('answers', $scope.currentQuestion.answer === $scope.studentAnswer);
+  };
+});
 
+app.controller('TeacherCtrl', function($scope, TeacherService, $state){
   socket.on('result', function(msg){
     console.log(msg);
     console.log(msg.true / msg.total);
@@ -89,24 +101,21 @@ app.controller('MainCtrl', function($scope, $state, TeacherService, SocketServic
     });
   });
 
-  $scope.submitAnswer = function() {
-    socket.emit('answers', $scope.question.answer === $scope.answer);
+  $scope.addQuestion = function(newQuestion) {
+    TeacherService.addQuestion(newQuestion, $scope.currentSet._id);
   };
 
-  $scope.submitNewQuestion = function() {
-    socket.emit('newQuestion', $scope.newQuestion);
-    $scope.newQuestion = '';
-  };
-
-  $scope.startTest = function(index) {
-    socket.emit('startTest', index);
+  $scope.startTest = function(question) {
+    socket.emit('startTest', question);
   };
 
   $scope.editList = function(list) {
-    $scope.currentList = list;
+    $scope.currentSet = list;
+    console.log($scope.currentSet);
     $state.go('questionList');
   };
   $scope.addSet = function(newSetName){
     TeacherService.addSet(newSetName);
+    $scope.newSetName = '';
   };
 });

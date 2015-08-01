@@ -51,10 +51,6 @@ module.exports = function(io) {
     console.log('user connected');
     socket.emit('users count', io.engine.clientsCount);
 
-    Question.findOne({}, function(err, question){
-      socket.emit('question', question);
-    });
-
     Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
       socket.emit('allQuestion', allQuestion);
     });
@@ -65,16 +61,9 @@ module.exports = function(io) {
       io.sockets.emit('result', result);
       console.log(result);
     });
-    socket.on('newQuestion', function(newQuestion){
-      Question.findOne({}, function(err, question){
-        question.list.push(newQuestion);
-        question.save();
-        socket.emit('question', question);
-      });
-    });
 
-    socket.on('startTest', function(index) {
-      socket.broadcast.emit('questionIndex', index);
+    socket.on('startTest', function(question) {
+      socket.broadcast.emit('currentTestQuestion', question);
     });
   });
 };

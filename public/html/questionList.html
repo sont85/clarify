@@ -1,5 +1,5 @@
 <button ui-sref='newQuestion'>Enter New Question</button>
-<div ng-repeat='question in currentList.list'>
+<div ng-repeat='question in currentSet.list'>
   <h3>{{question.question}}</h3>
-  <button ng-click='startTest($index)'>start Question</button>
+  <button ng-click='startTest(question)'>start Question</button>
 </div>
