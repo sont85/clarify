@@ -23,7 +23,7 @@ app.config(function($stateProvider, $urlRouterProvider){
 
 app.service('TeacherService', function($http) {
   this.addSet = function(newSetName){
-    console.log(newSetName)
+    console.log(newSetName);
     $http.post('http://localhost:3000/teacher/addSet', newSetName)
     .success(function(response){
       console.log(response);
@@ -32,11 +32,17 @@ app.service('TeacherService', function($http) {
     });
   };
 });
-app.controller('MainCtrl', function($scope, $state, TeacherService, $http) {
+app.service('SocketService', function() {
+  this.emit = function(name, data) {
+    socket.emit(name, data);
+  };
+});
+app.controller('MainCtrl', function($scope, $state, TeacherService, SocketService) {
 
   socket.on('users count', function(msg){
     console.log(msg);
   });
+
 
   socket.on('question', function(question){
     $scope.$apply(function(){
@@ -101,12 +107,6 @@ app.controller('MainCtrl', function($scope, $state, TeacherService, $http) {
     $state.go('questionList');
   };
   $scope.addSet = function(newSetName){
-    $http.post('http://localhost:3000/student', newSetName)
-    .success(function(response){
-      console.log(response);
-    }).catch(function(err){
-      console.log(err);
-    });
-    // TeacherService.addSet(newSetName);
+    TeacherService.addSet(newSetName);
   };
 });

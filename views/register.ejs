@@ -1,11 +1,13 @@
-<% include layout %>
-<h3><%= title %></h3>
-<label>Email</label>
-<input type='email' placeholder="email">
-<label>Password</label>
-<input type='email' placeholder="email">
-<label>User Type</label>
-<select>
-  <option value='teacher'>Teacher</option>
-  <option value='student'>Student</option>
-</select>
+<% include head %>
+<body ng-app='app' ng-controller='MainCtrl'>
+  <h3><%= title %></h3>
+  <label>Email</label>
+  <input type='email' placeholder="email">
+  <label>Password</label>
+  <input type='email' placeholder="email">
+  <label>User Type</label>
+  <select>
+    <option value='teacher'>Teacher</option>
+    <option value='student'>Student</option>
+  </select>
+<% include footer %>
