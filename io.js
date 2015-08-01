@@ -3,7 +3,17 @@ var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/clarity');
 
+var teacherSchema = mongoose.Schema({
+  displayName: String,
+  email: String,
+  image: String,
+  questionsList : [{type: mongoose.Schema.ObjectId, ref: 'Question'}]
+});
+
+var Teacher = mongoose.model('Teacher', teacherSchema);
+
 var questionSchema = mongoose.Schema({
+  listName: String,
   list : [{
       question : String,
       answer: String,
@@ -13,10 +23,13 @@ var questionSchema = mongoose.Schema({
       choiceC: String,
       choiceD: String,
       choiceE: String
-    }]
+    }],
+  createdBy: {type: mongoose.Schema.ObjectId}
 });
 
 var Question = mongoose.model('Question', questionSchema);
+
+
 
 
 var data = {
@@ -29,12 +42,29 @@ var data = {
   choiceD: 'world is triangle'
 };
 
-// var question = new Question();
-// question.list.push(data);
-// question.save();
+
+// Teacher.create({
+//   displayName: 'Son Truong',
+//   email: 'son@gmail.com'
+// }, function(err, teacher){
+//   if (teacher) {
+//     Question.create({
+//       listName: "QuestionSet1",
+//       list: [data],
+//       createdBy: teacher._id
+//     }, function(err, question) {
+//       teacher.questionsList.push(question._id);
+//       console.log('+++++++++', teacher);
+//       console.log(question);
+//       teacher.save();
+//     });
+//   }
+// });
 
 
-
+// Teacher.findOne({email: 'son@gmail.com'}).populate("questionsList").exec(function(err, teacher){
+//   console.log(teacher.questionsList);
+// })
 
 
 var result = {
@@ -46,12 +76,16 @@ var result = {
 
 module.exports = function(io) {
   io.sockets.on('connection', function(socket){
+    console.log('user connected');
+    socket.emit('users count', io.engine.clientsCount);
+
     Question.findOne({}, function(err, question){
       socket.emit('question', question);
     });
 
-    console.log('user connected');
-    socket.emit('users count', io.engine.clientsCount);
+    Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
+      socket.emit('allQuestion', allQuestion)
+    });
 
     socket.on('answers', function(answer){
       result.total ++

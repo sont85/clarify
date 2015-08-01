@@ -1,12 +1,32 @@
-<% include layout %>
-<h3><%= title %></h3>
-<form ng-submit="submitAnswer()">
-  <h1>{{question.question}}</h1>
-  <input type="radio" value="A" ng-model="answer">{{question.choiceA}}
-  <input type="radio" value="B" ng-model="answer">{{question.choiceB}}
-  <input type="radio" value="C" ng-model="answer">{{question.choiceC}}
-  <input type="radio" value="D" ng-model="answer">{{question.choiceD}}
-  <button type="submit" ng-disabled='timeOut'>submit Answer</button>
-  <h5>{{time}}</h5>
-  <h1>{{question.answer}}</h1>
-</form>
+<div class="row">
+  <div class='small-12-centered columns'>
+    <h3>
+      <%= title %>
+    </h3>
+    <form ng-submit="submitAnswer()">
+      <h1>{{question.question}}</h1>
+      <p>
+        <input name="answer" type="radio" value="A">
+        <label>{{question.choiceA}}</label>
+      </p>
+      <p>
+        <input name="answer" type="radio" value="B">
+        <label>{{question.choiceB}}</label>
+      </p>
+      <p>
+        <input name="answer" type="radio" value="C">
+        <label>{{question.choiceC}}</label>
+      </p>
+      <p>
+        <input name="answer" type="radio" value="D">
+        <label>{{question.choiceD}}</label>
+      </p>
+      <p>
+        <button type="submit" ng-disabled='timeOut'>submit Answer</button>
+        <h5>{{time}}</h5>
+        <h1>{{question.answer}}</h1>
+      </p>
+    </form>
+  </div>
+</div>
+  <% include layout %>
