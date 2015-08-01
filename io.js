@@ -1,48 +1,20 @@
 'use strict';
 var mongoose = require('mongoose');
-
+var Teacher = require('./models/teacherSchema');
+var Question = require('./models/questionSchema');
 mongoose.connect('mongodb://localhost/clarity');
 
-var teacherSchema = mongoose.Schema({
-  displayName: String,
-  email: String,
-  image: String,
-  questionsList : [{type: mongoose.Schema.ObjectId, ref: 'Question'}]
-});
-
-var Teacher = mongoose.model('Teacher', teacherSchema);
-
-var questionSchema = mongoose.Schema({
-  listName: String,
-  list : [{
-      question : String,
-      answer: String,
-      time: Number,
-      choiceA: String,
-      choiceB: String,
-      choiceC: String,
-      choiceD: String,
-      choiceE: String
-    }],
-  createdBy: {type: mongoose.Schema.ObjectId}
-});
-
-var Question = mongoose.model('Question', questionSchema);
-
-
-
-
 var data = {
-  question : 'What shape is the world?',
+  question : 'What shape is the world111?',
   answer: 'C',
   time: 5,
-  choiceA: 'world is flat',
-  choiceB: 'world is square',
-  choiceC: 'world is round',
-  choiceD: 'world is triangle'
+  choiceA: 'world is flat1',
+  choiceB: 'world is square1',
+  choiceC: 'world is round1',
+  choiceD: 'world is triangle1'
 };
 
-
+//
 // Teacher.create({
 //   displayName: 'Son Truong',
 //   email: 'son@gmail.com'
@@ -84,11 +56,11 @@ module.exports = function(io) {
     });
 
     Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
-      socket.emit('allQuestion', allQuestion)
+      socket.emit('allQuestion', allQuestion);
     });
 
     socket.on('answers', function(answer){
-      result.total ++
+      result.total ++;
       result[answer] ++;
       io.sockets.emit('result', result);
       console.log(result);
@@ -102,7 +74,7 @@ module.exports = function(io) {
     });
 
     socket.on('startTest', function(index) {
-      socket.broadcast.emit('questionIndex', index)
+      socket.broadcast.emit('questionIndex', index);
     });
   });
 };
