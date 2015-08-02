@@ -51,10 +51,6 @@ module.exports = function(io) {
     console.log('user connected');
     socket.emit('users count', io.engine.clientsCount);
 
-    Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
-      socket.emit('allQuestion', allQuestion);
-    });
-
     socket.on('answers', function(answer){
       result.total ++;
       result[answer] ++;

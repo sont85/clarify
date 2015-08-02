@@ -1,5 +1,27 @@
-<button ui-sref='newQuestion'>Enter New Question</button>
 <div ng-repeat='question in currentSet.list'>
   <h3>{{question.question}}</h3>
-  <button ng-click='startTest(question)'>start Question</button>
+  <button ng-click='startTest(question)'>Start Question</button>
 </div>
+<form ng-submit="addQuestion()">
+  <label>question1</label>
+  <input type='text' placeholder="new question" ng-model="newQuestion.question" />
+  <label>choice A</label>
+  <input type='text' placeholder="choice A" ng-model="newQuestion.choiceA" />
+  <label>choice B</label>
+  <input type='text' placeholder="choice B" ng-model="newQuestion.choiceB" />
+  <label>choice C</label>
+  <input type='text' placeholder="choice C" ng-model="newQuestion.choiceC" />
+  <label>choice D</label>
+  <input type='text' placeholder="choice D" ng-model="newQuestion.choiceD" />
+  <label>Answer</label>
+  <select ng-model='newQuestion.answer'>
+    <option value='A'>A</option>
+    <option value='B'>B</option>
+    <option value='C'>C</option>
+    <option value='D'>D</option>
+    <option value='E'>E</option>
+  </select>
+  {{newQuestion.time}}
+  <input type="range" min="15" max="300" ng-model='newQuestion.time' />
+  <button type="submit">Enter New Question</button>
+</form>

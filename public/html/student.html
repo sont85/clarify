@@ -1,0 +1,24 @@
+<form ng-submit="submitAnswer()">
+  <h1>{{currentQuestion.question}}</h1>
+  <p>
+    <input name="answer" type="radio" value="A" ng-model='studentAnswer'>
+    <label>{{currentQuestion.choiceA}}</label>
+  </p>
+  <p>
+    <input name="answer" type="radio" value="B" ng-model='studentAnswer'>
+    <label>{{currentQuestion.choiceB}}</label>
+  </p>
+  <p>
+    <input name="answer" type="radio" value="C" ng-model='studentAnswer'>
+    <label>{{currentQuestion.choiceC}}</label>
+  </p>
+  <p>
+    <input name="answer" type="radio" value="D" ng-model='studentAnswer'>
+    <label>{{currentQuestion.choiceD}}</label>
+  </p>
+  <p>
+    <button type="submit" ng-disabled='timeOut'>submit Answer</button>
+    <h5>{{time}}</h5>
+    <h1>{{currentQuestion.answer}}</h1>
+  </p>
+</form>

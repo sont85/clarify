@@ -1,0 +1,11 @@
+<div ng-repeat='set in allQuestion'>
+  <a class='h4' ng-click='editList(set)'>{{set.listName}}</a>
+  <button ng-click='deleteSet(set)'>Delete List</button>
+</div>
+<div>
+  <form ng-submit="addSet()">
+    <label>New Set</label>
+    <input type='text' ng-model="newSetName" placeholder="Name of New Question Set" />
+    <button type="submit">New Question set</button>
+  </form>
+</div>

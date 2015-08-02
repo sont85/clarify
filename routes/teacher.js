@@ -29,5 +29,20 @@ router.post('/question/:setId', function(req, res){
     res.json(question);
   });
 });
+router.get('/allQuestion', function(req, res){
+  Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
+    res.json(allQuestion);
+  });
+});
+router.delete('/question/:setId', function(req, res) {
+  Question.findById(req.params.setId).remove().exec(function(err, question){
+    Teacher.findOne({email: 'son@gmail.com'}, function(err, teacher){
+      teacher.questionsList.pull(req.params.setId);
+      teacher.save();
+      res.json(teacher);
+    });
+  });
+});
+
 
 module.exports = router;
