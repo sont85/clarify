@@ -54,8 +54,8 @@ app.service('TeacherService', function($http, $stateParams) {
   this.allQuestions = function() {
     return $http.get('http://localhost:3000/teacher/allQuestion');
   };
-  this.deleteSet = function(question) {
-    $http.delete('http://localhost:3000/teacher/set/'+set._id)
+  this.deleteSet = function(set) {
+    $http.delete('http://localhost:3000/teacher/set/'+ set._id)
     .success(function(response) {
       console.log(response);
     }).catch(function(err){
