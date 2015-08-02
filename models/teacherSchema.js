@@ -4,6 +4,7 @@ var teacherSchema = mongoose.Schema({
   displayName: String,
   email: String,
   image: String,
+  type: String,
   questionsList : [{type: mongoose.Schema.ObjectId, ref: 'Question'}]
 });
 

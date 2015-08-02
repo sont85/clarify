@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var Teacher = require('../models/teacherSchema');
 var Question = require('../models/questionSchema');
-var Question = require('../models/studentSchema');
+var Student = require('../models/studentSchema');
 var passport = require('passport');
 
 
@@ -14,11 +14,22 @@ router.get('/', function(req, res, next) {
 
 router.post('/register', function(req, res, next){
   console.log(req.user);
-  console.log(req.body);
   if (req.body.userType === 'student') {
-
+    Student.create({
+      displayName: req.user.displayName,
+      email: req.user.emails[0].value,
+      image: req.user.photos[0].value,
+      type: 'student'
+    });
+    res.json('student created');
   } else if (req.body.userType === 'teacher'){
-
+    Teacher.create({
+      displayName: req.user.displayName,
+      email: req.user.emails[0].value,
+      image: req.user.photos[0].value,
+      type: 'teacher'
+    });
+    res.json('teacher created');
   }
 });
 
