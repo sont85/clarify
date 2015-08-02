@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var Teacher = require('../models/teacherSchema');
 var Question = require('../models/questionSchema');
+var Question = require('../models/studentSchema');
 var passport = require('passport');
 
 
@@ -11,6 +12,15 @@ router.get('/', function(req, res, next) {
   res.render('index', { user: req.user });
 });
 
+router.post('/register', function(req, res, next){
+  console.log(req.user);
+  console.log(req.body);
+  if (req.body.userType === 'student') {
+
+  } else if (req.body.userType === 'teacher'){
+
+  }
+});
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the

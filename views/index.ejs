@@ -9,23 +9,18 @@
   </ul>
   <% if (user) { %>
     <div ui-view></div>
-  <% } else {%>
-  <div>
-    <form>
-      <input type='email' placeholder='email'>
-      <input type='password' placeholder='password'>
-      <button class="btn btn-primary">log in</button>
-    </form>
+  <% } else { %>
   <a href='/auth/google'>GOOGLE SIGN IN</a>
   <% } %>
+  <div ng-controller='MainCtrl'>
+    <% if (user && !user.userType) { %>
+    <form ng-submit='registerUser()'>
+      <h5>Please Register User Type</h5>
+      <input name='userType' type='radio' value='teacher' ng-model='userType' required>Teacher
+      <input name='userType' type='radio' value='student' ng-model='userType' required>Student
+      <button type='submit'>registered user</button>
+    </form>
+    <% } %>
   </div>
-  <% if (user && !user.userType) { %>
-  <form>
-    <h5>Please Register User Type</h5>
-    <input type='radio' value='teacher'>Teacher
-    <input type='radio' value='student'>Student
-    <button>registered user</button>
-  </form>
-  <% } %>
 </div>
 <% include footer %>

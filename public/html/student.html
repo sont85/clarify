@@ -1,19 +1,19 @@
 <form ng-submit="submitAnswer()">
   <h1>{{currentQuestion.question}}</h1>
   <p>
-    <input name="answer" type="radio" value="A" ng-model='studentAnswer'>
+    <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceA}}</label>
   </p>
   <p>
-    <input name="answer" type="radio" value="B" ng-model='studentAnswer'>
+    <input name="answer" type="radio" value="B" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceB}}</label>
   </p>
   <p>
-    <input name="answer" type="radio" value="C" ng-model='studentAnswer'>
+    <input name="answer" type="radio" value="C" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceC}}</label>
   </p>
   <p>
-    <input name="answer" type="radio" value="D" ng-model='studentAnswer'>
+    <input name="answer" type="radio" value="D" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceD}}</label>
   </p>
   <p>

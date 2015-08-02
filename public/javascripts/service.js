@@ -1,4 +1,5 @@
 (function(){
+  'use strict';
   var app = angular.module('clarity.service', []);
   app.service('TeacherService', function($http, $stateParams) {
     var self = this;

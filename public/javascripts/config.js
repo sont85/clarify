@@ -1,4 +1,5 @@
 (function() {
+  'use strict';
   var app = angular.module('clarity.config', []);
   app.config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/');

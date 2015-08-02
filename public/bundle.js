@@ -2,9 +2,9 @@
   'use strict';
   var app = angular.module('app',['ui.router', 'clarity.service', 'clarity.controller', 'clarity.config']);
 })();
-var socket = io.connect('http://localhost:3000');
 
 (function() {
+  'use strict';
   var app = angular.module('clarity.config', []);
   app.config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/');
@@ -33,7 +33,9 @@ var socket = io.connect('http://localhost:3000');
 })();
 
 (function(){
-  var app = angular.module('clarity.controller', [])
+  'use strict';
+  var app = angular.module('clarity.controller', []);
+  var socket = io.connect('http://localhost:3000');
   app.controller('StudentCtrl', function($scope, $state, TeacherService) {
     socket.on('users count', function(msg){
       console.log(msg);
@@ -122,9 +124,20 @@ var socket = io.connect('http://localhost:3000');
       TeacherService.deleteQuestion(question);
     };
   });
+  app.controller('MainCtrl', function($scope, $http){
+    $scope.registerUser = function() {
+      $http.post('http://localhost:3000/register', {userType: $scope.userType})
+      .success(function(response){
+        console.log(response);
+      }).catch(function(err){
+        console.error(err);
+      });
+    };
+  });
 })();
 
 (function(){
+  'use strict';
   var app = angular.module('clarity.service', []);
   app.service('TeacherService', function($http, $stateParams) {
     var self = this;

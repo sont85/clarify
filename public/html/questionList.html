@@ -5,17 +5,17 @@
 </div>
 <form ng-submit="addQuestion()">
   <label>question1</label>
-  <input type='text' placeholder="new question" ng-model="newQuestion.question" />
+  <input type='text' placeholder="new question" ng-model="newQuestion.question" required />
   <label>choice A</label>
-  <input type='text' placeholder="choice A" ng-model="newQuestion.choiceA" />
+  <input type='text' placeholder="choice A" ng-model="newQuestion.choiceA" required />
   <label>choice B</label>
-  <input type='text' placeholder="choice B" ng-model="newQuestion.choiceB" />
+  <input type='text' placeholder="choice B" ng-model="newQuestion.choiceB" required />
   <label>choice C</label>
   <input type='text' placeholder="choice C" ng-model="newQuestion.choiceC" />
   <label>choice D</label>
   <input type='text' placeholder="choice D" ng-model="newQuestion.choiceD" />
   <label>Answer</label>
-  <select ng-model='newQuestion.answer'>
+  <select ng-model='newQuestion.answer' required>
     <option value='A'>A</option>
     <option value='B'>B</option>
     <option value='C'>C</option>
@@ -23,6 +23,6 @@
     <option value='E'>E</option>
   </select>
   {{newQuestion.time}}
-  <input type="range" min="15" max="300" value="30" ng-model='newQuestion.time' />
+  <input type="range" min="15" max="300" value="30" ng-model='newQuestion.time' required />
   <button type="submit">Enter New Question</button>
 </form>
