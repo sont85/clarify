@@ -5,9 +5,9 @@ var app = angular.module('app',['ui.router']);
 app.config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise('/');
   $stateProvider
-    .state('login', {
+    .state('home', {
       url: '/',
-      templateUrl: '../html/login.html',
+      templateUrl: '../html/main.html',
       controller: 'MainCtrl'
     })
     .state('student', {

@@ -1,15 +1,22 @@
 <% include head %>
 <div class="container">
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#">Home</a></li>
-    <li><a href="#">Teacher</a></li>
+    <li class="active"><a href="#">CLARITY</a></li>
     <% if (user) { %>
-      <li><a href="/logout">Log Out</a></li>
+    <li><a href="#"><%= user.displayName %></a></li>
+    <li><a href="/logout">Log Out</a></li>
     <% } %>
   </ul>
   <% if (user) { %>
-  <%= user.displayName %>
+    <div ui-view></div>
+  <% } else {%>
+  <form>
+    <input type='email' placeholder='email'>
+    <input type='password' placeholder='password'>
+    <button class="btn btn-primary">log in</button>
+  </form>
+  <a href='/auth/google'>GOOGLE SIGN IN</a>
+  <a ui-sref='register'>Register</a>
   <% } %>
-  <div ui-view></div>
 </div>
 <% include footer %>
