@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 var questionSchema = mongoose.Schema({
   listName: String,
   list : [{
-      question : String,
-      answer: String,
-      time: Number,
-      choiceA: String,
-      choiceB: String,
+      question : {type: String, required: true},
+      answer: {type: String, required: true},
+      time: {type: Number, default: 30},
+      choiceA: {type: String, required: true},
+      choiceB: {type: String, required: true},
       choiceC: String,
       choiceD: String,
       choiceE: String

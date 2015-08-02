@@ -1,6 +1,7 @@
 <div ng-repeat='question in currentSet.list'>
   <h3>{{question.question}}</h3>
   <button ng-click='startTest(question)'>Start Question</button>
+  <button ng-click='deleteQuestion(question)'>Delete Question</button>
 </div>
 <form ng-submit="addQuestion()">
   <label>question1</label>
@@ -22,6 +23,6 @@
     <option value='E'>E</option>
   </select>
   {{newQuestion.time}}
-  <input type="range" min="15" max="300" ng-model='newQuestion.time' />
+  <input type="range" min="15" max="300" value="30" ng-model='newQuestion.time' />
   <button type="submit">Enter New Question</button>
 </form>

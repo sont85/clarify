@@ -8,6 +8,12 @@ router.get('/', function(req, res, next) {
   res.render('teacher', { title: 'Teacher' });
 });
 
+router.get('/allQuestion', function(req, res){
+  Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
+    res.json(allQuestion);
+  });
+});
+
 router.post('/set', function(req, res){
   console.log(req.body);
   Teacher.findOne({email: 'son@gmail.com'}, function(err, teacher){
@@ -35,12 +41,14 @@ router.post('/question/:setId', function(req, res){
     res.json(question);
   });
 });
-router.get('/allQuestion', function(req, res){
-  Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
-    res.json(allQuestion);
+router.delete('/question/:setId/:questionId', function(req, res){
+  Question.findById(req.params.setId, function(err, question){
+    question.list.pull(req.params.questionId);
+    question.save();
+    res.json(question);
   });
 });
-router.delete('/question/:setId', function(req, res) {
+router.delete('/set/:setId', function(req, res) {
   Question.findById(req.params.setId).remove().exec(function(err, question){
     Teacher.findOne({email: 'son@gmail.com'}, function(err, teacher){
       teacher.questionsList.pull(req.params.setId);
@@ -49,6 +57,5 @@ router.delete('/question/:setId', function(req, res) {
     });
   });
 });
-
 
 module.exports = router;

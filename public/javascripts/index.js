@@ -5,6 +5,11 @@ var app = angular.module('app',['ui.router']);
 app.config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise('/');
   $stateProvider
+    .state('login', {
+      url: '/',
+      templateUrl: '../html/login.html',
+      controller: 'MainCtrl'
+    })
     .state('student', {
       url: '/student',
       templateUrl: '../html/student.html',
@@ -49,8 +54,8 @@ app.service('TeacherService', function($http, $stateParams) {
   this.allQuestions = function() {
     return $http.get('http://localhost:3000/teacher/allQuestion');
   };
-  this.deleteSet = function(set) {
-    $http.delete('http://localhost:3000/teacher/question/'+ set._id)
+  this.deleteSet = function(question) {
+    $http.delete('http://localhost:3000/teacher/set/'+set._id)
     .success(function(response) {
       console.log(response);
     }).catch(function(err){
@@ -59,6 +64,14 @@ app.service('TeacherService', function($http, $stateParams) {
   };
   this.getCurrentSet = function(setId) {
     return $http.get('http://localhost:3000/teacher/set/'+setId);
+  };
+  this.deleteQuestion = function(question){
+    $http.delete('http://localhost:3000/teacher/question/'+ self.currentSet._id + '/'+ question._id)
+    .success(function(response) {
+      console.log(response);
+    }).catch(function(err){
+      console.log(err);
+    });
   };
 });
 app.controller('MainCtrl', function($scope, $state, TeacherService) {
@@ -131,7 +144,7 @@ app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state
 app.controller('QuestionCtrl', function($scope, TeacherService, $location, $state, $stateParams){
   TeacherService.getCurrentSet($stateParams.setId)
   .success(function(currentSet){
-    console.log(currentSet);
+    TeacherService.currentSet = currentSet;
     $scope.currentSet = currentSet;
   }).catch(function(err){
     console.log(err);
@@ -142,5 +155,10 @@ app.controller('QuestionCtrl', function($scope, TeacherService, $location, $stat
   };
   $scope.startTest = function(question) {
     socket.emit('startTest', question);
+  };
+  $scope.deleteQuestion = function(question){
+    console.log(question);
+    console.log(TeacherService.currentSet);
+    TeacherService.deleteQuestion(question);
   };
 });
