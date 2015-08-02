@@ -21,13 +21,13 @@ app.config(function($stateProvider, $urlRouterProvider){
       controller: 'TeacherCtrl'
     })
     .state('questionList', {
-      url: '/teacher/questionList',
+      url: '/teacher/questionList/:setId',
       templateUrl: '../html/questionList.html',
       controller: 'QuestionCtrl'
     });
 });
 
-app.service('TeacherService', function($http) {
+app.service('TeacherService', function($http, $stateParams) {
   var self = this;
   this.currentSet = null;
   this.addSet = function(newSetName){
@@ -50,13 +50,15 @@ app.service('TeacherService', function($http) {
     return $http.get('http://localhost:3000/teacher/allQuestion');
   };
   this.deleteSet = function(set) {
-    console.log(set)
     $http.delete('http://localhost:3000/teacher/question/'+ set._id)
     .success(function(response) {
       console.log(response);
     }).catch(function(err){
       console.log(err);
     });
+  };
+  this.getCurrentSet = function(setId) {
+    return $http.get('http://localhost:3000/teacher/set/'+setId);
   };
 });
 app.controller('MainCtrl', function($scope, $state, TeacherService) {
@@ -118,18 +120,22 @@ app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state
     TeacherService.addSet($scope.newSetName);
     $scope.newSetName ='';
   };
-  $scope.editList = function(list) {
-    TeacherService.currentSet = list;
-    $state.go('questionList');
+  $scope.editList = function(set) {
+    TeacherService.currentSet = set;
+    $location.url('/teacher/questionList/'+set._id);
   };
   $scope.deleteSet = function(set) {
     TeacherService.deleteSet(set);
   };
 });
-app.controller('QuestionCtrl', function($scope, TeacherService, $location, $state){
-  if (TeacherService.currentSet) {
-    $scope.currentSet = TeacherService.currentSet;
-  }
+app.controller('QuestionCtrl', function($scope, TeacherService, $location, $state, $stateParams){
+  TeacherService.getCurrentSet($stateParams.setId)
+  .success(function(currentSet){
+    console.log(currentSet);
+    $scope.currentSet = currentSet;
+  }).catch(function(err){
+    console.log(err);
+  });
   $scope.addQuestion = function() {
     TeacherService.addQuestion($scope.newQuestion);
     $scope.newQuestion = '';
