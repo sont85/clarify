@@ -3,8 +3,13 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#">Home</a></li>
     <li><a href="#">Teacher</a></li>
-    <li><a href="#">Student</a></li>
+    <% if (user) { %>
+      <li><a href="/logout">Log Out</a></li>
+    <% } %>
   </ul>
+  <% if (user) { %>
+  <%= user.displayName %>
+  <% } %>
   <div ui-view></div>
 </div>
 <% include footer %>
