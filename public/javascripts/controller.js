@@ -47,7 +47,7 @@
     $scope.addTeacher = function(teacher){
       StudentService.addTeacher(teacher);
     };
-    
+
     $scope.submitAnswer = function() {
       console.log($scope.studentAnswer);
       socket.emit('answers', $scope.currentQuestion.answer === $scope.studentAnswer);

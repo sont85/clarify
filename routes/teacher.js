@@ -8,8 +8,6 @@ router.get('/', function(req, res, next) {
   res.render('teacher', { title: 'Teacher' });
 });
 
-router.post('/')
-
 router.get('/allQuestion', function(req, res){
   Question.find({createdBy: req.user._id}, function(err, allQuestion){
     res.json(allQuestion);

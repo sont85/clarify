@@ -6,14 +6,11 @@ var Question = require('../models/questionSchema');
 var Student = require('../models/studentSchema');
 var passport = require('passport');
 
-
-/* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { user: req.user });
 });
 
 router.post('/register', function(req, res, next){
-  console.log(req.user);
   if (req.body.type === 'student') {
     Student.create({
       displayName: req.user.displayName,
@@ -41,12 +38,9 @@ router.get('/teachers', function(req, res){
   });
 });
 router.patch('/addteacher', function(req, res){
-  console.log(req.user)
-  console.log(req.body)
   Student.findById(req.user._id, function(err, student){
     student.teacher.push(req.body._id);
     student.save();
-    console.log('===================')
     res.json(student);
   });
 });
@@ -78,7 +72,5 @@ router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
-
 
 module.exports = router;
