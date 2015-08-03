@@ -7,13 +7,17 @@ var Question = require('../models/questionSchema');
 router.get('/', function(req, res, next) {
   res.render('teacher', { title: 'Teacher' });
 });
+router.get('/teachers', function(req, res){
+  Teacher.find({}, function(err, teachers){
+    res.json(teachers);
+  });
+});
 
 router.get('/allQuestion', function(req, res){
   Question.find({createdBy: req.user._id}, function(err, allQuestion){
     res.json(allQuestion);
   });
 });
-
 router.post('/set', function(req, res){
   console.log(req.body);
   Teacher.findById(req.user._id, function(err, teacher){
@@ -33,7 +37,6 @@ router.get('/set/:setId', function(req, res){
     res.json(question);
   });
 });
-
 router.post('/question/:setId', function(req, res){
   Question.findById(req.params.setId, function(err, question){
     question.list.push(req.body);
@@ -57,6 +60,7 @@ router.delete('/set/:setId', function(req, res) {
     });
   });
 });
+
 // function ensureAuthenticated(req, res, next) {
 //   if (req.isAuthenticated()) { return next(); }
 //   res.redirect('/');

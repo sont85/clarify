@@ -3,6 +3,14 @@
   var app = angular.module('clarity.controller', []);
   var socket = io.connect('http://localhost:3000');
   app.controller('StudentCtrl', function($scope, $state, TeacherService) {
+    TeacherService.allTeacher()
+    .success(function(teachers){
+      $scope.teachers = teachers;
+    }).catch(function(err){
+      console.log(err);
+    });
+
+
     socket.on('users count', function(msg){
       console.log(msg);
     });
