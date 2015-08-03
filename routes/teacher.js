@@ -9,14 +9,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/allQuestion', function(req, res){
-  Question.find({createdBy: '55bc42d5a6951cdac15f0926'}, function(err, allQuestion){
+  Question.find({createdBy: req.user._id}, function(err, allQuestion){
     res.json(allQuestion);
   });
 });
 
 router.post('/set', function(req, res){
   console.log(req.body);
-  Teacher.findOne({email: 'son@gmail.com'}, function(err, teacher){
+  Teacher.findById(req.user._id, function(err, teacher){
     Question.create({
       listName: req.body.setName,
       createdBy: teacher._id
@@ -50,7 +50,7 @@ router.delete('/question/:setId/:questionId', function(req, res){
 });
 router.delete('/set/:setId', function(req, res) {
   Question.findById(req.params.setId).remove().exec(function(err, question){
-    Teacher.findOne({email: 'son@gmail.com'}, function(err, teacher){
+    Teacher.findOne({email: req.user.email}, function(err, teacher){
       teacher.questionsList.pull(req.params.setId);
       teacher.save();
       res.json(teacher);

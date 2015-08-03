@@ -6,6 +6,11 @@
     <li><a href="#"><%= user.displayName %></a></li>
     <li><a href="/logout">Log Out</a></li>
     <% } %>
+    <% if (user && user.type === 'student') { %>
+    <li><a href="#/student">Student</a></li>
+    <% } else if (user && user.type === 'teacher') { %>
+    <li><a href="#/teacher">Teacher</a></li>
+    <% } %>
   </ul>
   <% if (user) { %>
     <div ui-view></div>

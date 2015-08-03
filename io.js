@@ -4,41 +4,6 @@ var Teacher = require('./models/teacherSchema');
 var Question = require('./models/questionSchema');
 mongoose.connect('mongodb://localhost/clarity');
 
-var data = {
-  question : 'What shape is the world111?',
-  answer: 'C',
-  time: 5,
-  choiceA: 'world is flat1',
-  choiceB: 'world is square1',
-  choiceC: 'world is round1',
-  choiceD: 'world is triangle1'
-};
-
-//
-// Teacher.create({
-//   displayName: 'Son Truong',
-//   email: 'son@gmail.com'
-// }, function(err, teacher){
-//   if (teacher) {
-//     Question.create({
-//       listName: "QuestionSet1",
-//       list: [data],
-//       createdBy: teacher._id
-//     }, function(err, question) {
-//       teacher.questionsList.push(question._id);
-//       console.log('+++++++++', teacher);
-//       console.log(question);
-//       teacher.save();
-//     });
-//   }
-// });
-
-
-// Teacher.findOne({email: 'son@gmail.com'}).populate("questionsList").exec(function(err, teacher){
-//   console.log(teacher.questionsList);
-// })
-
-
 var result = {
   true : 0,
   false: 0,
