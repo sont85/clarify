@@ -37,6 +37,11 @@ router.get('/teachers', function(req, res){
     res.json(teachers);
   });
 });
+router.get('/myteachers', function(req, res) {
+  Student.findById(req.user._id).populate('teacher').exec(function(err, student){
+    res.json(student.teacher);
+  });
+});
 router.patch('/addteacher', function(req, res){
   Student.findById(req.user._id, function(err, student){
     student.teacher.push(req.body._id);

@@ -60,5 +60,8 @@
       });
       console.log(teacher);
     };
+    this.myTeacher = function() {
+      return $http.get(Constant.url + 'myteachers');
+    };
   });
 })();

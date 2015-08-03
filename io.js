@@ -16,6 +16,12 @@ module.exports = function(io) {
     console.log('user connected');
     socket.emit('users count', io.engine.clientsCount);
 
+    socket.on('join', function(teacherId){
+      console.log('------teacherId--------',teacherId);
+      socket.join(teacherId);
+    });
+
+
     socket.on('answers', function(answer){
       result.total ++;
       result[answer] ++;
@@ -24,7 +30,7 @@ module.exports = function(io) {
     });
 
     socket.on('startTest', function(question) {
-      socket.broadcast.emit('currentTestQuestion', question);
+      socket.broadcast.to('55bebc7f2a5dfdda73ddd74f').emit('currentTestQuestion', question);
     });
   });
 };

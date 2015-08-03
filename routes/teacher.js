@@ -27,7 +27,6 @@ router.post('/set', function(req, res){
   });
 });
 router.get('/set/:setId', function(req, res){
-  console.log(req.params.setId);
   Question.findById(req.params.setId, function(err, question){
     res.json(question);
   });

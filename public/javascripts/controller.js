@@ -10,6 +10,14 @@
       console.log(err);
     });
 
+    StudentService.myTeacher()
+    .success(function(teachers){
+      console.log(teachers);
+      $scope.myTeachers = teachers;
+    }).catch(function(err){
+      console.log(err);
+    });
+
     socket.on('users count', function(msg){
       console.log(msg);
     });
@@ -48,6 +56,10 @@
       StudentService.addTeacher(teacher);
     };
 
+    $scope.enterRoom = function(teacher){
+      socket.emit('join', '55bebc7f2a5dfdda73ddd74f');
+    };
+
     $scope.submitAnswer = function() {
       console.log($scope.studentAnswer);
       socket.emit('answers', $scope.currentQuestion.answer === $scope.studentAnswer);
@@ -55,6 +67,7 @@
   });
 
   app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state){
+
     socket.on('result', function(msg){
       console.log(msg);
       console.log(msg.true / msg.total);
@@ -84,6 +97,8 @@
     .success(function(currentSet){
       TeacherService.currentSet = currentSet;
       $scope.currentSet = currentSet;
+      console.log(currentSet.createdBy);
+      socket.emit('join', currentSet.createdBy);
     }).catch(function(err){
       console.log(err);
     });

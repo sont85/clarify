@@ -1,13 +1,3 @@
-<div ng-repeat='myTeacher in myTeachers'>
-  <a ng-click='enterRoom(myTeacher)'>{{myTeacher.displayName}}</a>
-</div>
-
-
-<div ng-repeat='teacher in teachers'>
-  <button ng-click='addTeacher(teacher)'>Add Teacher</button>
-  <span class='h4'>{{teacher.displayName}}</span>
-</div>
-
 <form ng-submit="submitAnswer()">
   <h1>{{currentQuestion.question}}</h1>
     <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>

@@ -7,7 +7,7 @@
       .state('home', {
         url: '/',
         templateUrl: '../html/main.html',
-        controller: 'StudentCtrl'
+        controller: 'MainCtrl'
       })
       .state('student', {
         url: '/student',
