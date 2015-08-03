@@ -23,15 +23,11 @@ module.exports = function(app){
       process.nextTick(function () {
         Student.findOne({email: profile.emails[0].value}, function(err, student){
           if (student) {
-            profile.type = student.type;
-            console.log('=======student========',profile);
-            return done(null, profile);
+            return done(null, student);
           } else {
             Teacher.findOne({email: profile.emails[0].value}, function(err, teacher){
               if (teacher) {
-                profile.type = teacher.type;
-                console.log('=========teacher=======', profile);
-                return done(null, profile);
+                return done(null, teacher);
               } else {
                 return done(null, profile);
               }

@@ -42,8 +42,20 @@
         console.log(err);
       });
     };
+
+  });
+  app.service('StudentService', function($http) {
     this.allTeacher = function() {
       return $http.get('http://localhost:3000/teachers');
+    };
+    this.addTeacher = function(teacher){
+      $http.patch('http://localhost:3000/addteacher', teacher)
+      .success(function(response){
+        console.log(response);
+      }).catch(function(err){
+        console.log(err);
+      });
+      console.log(teacher);
     };
   });
 })();

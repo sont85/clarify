@@ -40,6 +40,16 @@ router.get('/teachers', function(req, res){
     res.json(teachers);
   });
 });
+router.patch('/addteacher', function(req, res){
+  console.log(req.user)
+  console.log(req.body)
+  Student.findById(req.user._id, function(err, student){
+    student.teacher.push(req.body._id);
+    student.save();
+    console.log('===================')
+    res.json(student);
+  });
+});
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
