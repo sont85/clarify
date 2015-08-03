@@ -2,7 +2,7 @@
   'use strict';
   var app = angular.module('clarity.controller', []);
   var socket = io.connect('http://localhost:3000');
-  app.controller('StudentCtrl', function($scope, $state, TeacherService, StudentService) {
+  app.controller('StudentCtrl', function($scope, $state, TeacherService, StudentService, $location) {
     StudentService.allTeacher()
     .success(function(teachers){
       $scope.teachers = teachers;
@@ -57,7 +57,9 @@
     };
 
     $scope.enterRoom = function(teacher){
-      socket.emit('join', '55bebc7f2a5dfdda73ddd74f');
+      console.log(teacher._id);
+      socket.emit('join', teacher._id);
+      $location.url('/student/room/'+teacher._id);
     };
 
     $scope.submitAnswer = function() {
@@ -107,11 +109,10 @@
       $scope.newQuestion = '';
     };
     $scope.startTest = function(question) {
-      socket.emit('startTest', question);
+      var roomId = $scope.currentSet.createdBy;
+      socket.emit('startTest', question, roomId);
     };
     $scope.deleteQuestion = function(question){
-      console.log(question);
-      console.log(TeacherService.currentSet);
       TeacherService.deleteQuestion(question);
     };
   });

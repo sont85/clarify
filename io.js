@@ -16,9 +16,8 @@ module.exports = function(io) {
     console.log('user connected');
     socket.emit('users count', io.engine.clientsCount);
 
-    socket.on('join', function(teacherId){
-      console.log('------teacherId--------',teacherId);
-      socket.join(teacherId);
+    socket.on('join', function(roomId){
+      socket.join(roomId);
     });
 
 
@@ -29,8 +28,8 @@ module.exports = function(io) {
       console.log(result);
     });
 
-    socket.on('startTest', function(question) {
-      socket.broadcast.to('55bebc7f2a5dfdda73ddd74f').emit('currentTestQuestion', question);
+    socket.on('startTest', function(question, roomId) {
+      socket.broadcast.to(roomId).emit('currentTestQuestion', question);
     });
   });
 };

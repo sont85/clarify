@@ -14,6 +14,11 @@
         templateUrl: '../html/student.html',
         controller: 'StudentCtrl'
       })
+      .state('room', {
+        url: '/student/room/:roomId',
+        templateUrl: '../html/room.html',
+        controller: 'StudentCtrl'
+      })
       .state('teacher', {
         url: '/teacher',
         templateUrl: '../html/teacher.html',

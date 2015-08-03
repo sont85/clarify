@@ -1,25 +1,9 @@
 <div ng-repeat='myTeacher in myTeachers'>
-  <a ng-click='enterRoom(myTeacher)'>{{myTeacher.displayName}}</a>
+  <span class="h4">{{myTeacher.displayName}}</span>
+  <button ng-click='enterRoom(myTeacher)'>Join Room</button>
 </div>
-
 
 <div ng-repeat='teacher in teachers'>
   <button ng-click='addTeacher(teacher)'>Add Teacher</button>
   <span class='h4'>{{teacher.displayName}}</span>
 </div>
-
-<form ng-submit="submitAnswer()">
-  <h1>{{currentQuestion.question}}</h1>
-    <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceA}}</label>
-    <input name="answer" type="radio" value="B" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceB}}</label>
-    <input name="answer" type="radio" value="C" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceC}}</label>
-    <input name="answer" type="radio" value="D" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceD}}</label>
-    <button type="submit" ng-disabled='timeOut'>submit Answer</button>
-    <h5>{{time}}</h5>
-    <h1>{{currentQuestion.answer}}</h1>
-  </p>
-</form>
