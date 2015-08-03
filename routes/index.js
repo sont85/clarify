@@ -35,6 +35,12 @@ router.post('/register', function(req, res, next){
   }
 });
 
+router.get('/teachers', function(req, res){
+  Teacher.find({}, function(err, teachers){
+    res.json(teachers);
+  });
+});
+
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Google authentication will involve

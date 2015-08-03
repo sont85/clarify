@@ -43,7 +43,7 @@
       });
     };
     this.allTeacher = function() {
-      return $http.get('http://localhost:3000/teacher/teachers');
+      return $http.get('http://localhost:3000/teachers');
     };
   });
 })();

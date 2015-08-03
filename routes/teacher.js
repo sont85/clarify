@@ -7,11 +7,8 @@ var Question = require('../models/questionSchema');
 router.get('/', function(req, res, next) {
   res.render('teacher', { title: 'Teacher' });
 });
-router.get('/teachers', function(req, res){
-  Teacher.find({}, function(err, teachers){
-    res.json(teachers);
-  });
-});
+
+router.post('/')
 
 router.get('/allQuestion', function(req, res){
   Question.find({createdBy: req.user._id}, function(err, allQuestion){
