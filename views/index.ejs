@@ -13,11 +13,11 @@
   <a href='/auth/google'>GOOGLE SIGN IN</a>
   <% } %>
   <div ng-controller='MainCtrl'>
-    <% if (user && !user.userType) { %>
+    <% if (user && !user.type) { %>
     <form ng-submit='registerUser()'>
       <h5>Please Register User Type</h5>
-      <input name='userType' type='radio' value='teacher' ng-model='userType' required>Teacher
-      <input name='userType' type='radio' value='student' ng-model='userType' required>Student
+      <input name='userType' type='radio' value='teacher' ng-model='type' required>Teacher
+      <input name='userType' type='radio' value='student' ng-model='type' required>Student
       <button type='submit'>registered user</button>
     </form>
     <% } %>

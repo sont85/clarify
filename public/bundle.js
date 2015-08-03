@@ -126,7 +126,7 @@
   });
   app.controller('MainCtrl', function($scope, $http){
     $scope.registerUser = function() {
-      $http.post('http://localhost:3000/register', {userType: $scope.userType})
+      $http.post('http://localhost:3000/register', {type: $scope.type})
       .success(function(response){
         console.log(response);
       }).catch(function(err){

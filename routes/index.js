@@ -14,22 +14,24 @@ router.get('/', function(req, res, next) {
 
 router.post('/register', function(req, res, next){
   console.log(req.user);
-  if (req.body.userType === 'student') {
+  if (req.body.type === 'student') {
     Student.create({
       displayName: req.user.displayName,
       email: req.user.emails[0].value,
       image: req.user.photos[0].value,
       type: 'student'
+    }, function(err, student){
+      res.json(student);
     });
-    res.json('student created');
-  } else if (req.body.userType === 'teacher'){
+  } else if (req.body.type === 'teacher'){
     Teacher.create({
       displayName: req.user.displayName,
       email: req.user.emails[0].value,
       image: req.user.photos[0].value,
       type: 'teacher'
+    }, function(err, teacher){
+      res.json(teacher);
     });
-    res.json('teacher created');
   }
 });
 
