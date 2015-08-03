@@ -69,7 +69,6 @@
   });
 
   app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state){
-
     socket.on('result', function(msg){
       console.log(msg);
       console.log(msg.true / msg.total);
@@ -86,7 +85,7 @@
       TeacherService.addSet($scope.newSetName);
       $scope.newSetName ='';
     };
-    $scope.editList = function(set) {
+    $scope.linkToList = function(set) {
       TeacherService.currentSet = set;
       $location.url('/teacher/questionList/'+set._id);
     };
@@ -94,7 +93,7 @@
       TeacherService.deleteSet(set);
     };
   });
-  app.controller('QuestionCtrl', function($scope, TeacherService, $location, $state, $stateParams){
+  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $state, $stateParams){
     TeacherService.getCurrentSet($stateParams.setId)
     .success(function(currentSet){
       TeacherService.currentSet = currentSet;
@@ -112,8 +111,18 @@
       var roomId = $scope.currentSet.createdBy;
       socket.emit('startTest', question, roomId);
     };
-    $scope.deleteQuestion = function(question){
-      TeacherService.deleteQuestion(question);
+    $scope.linkToQuestion = function(question){
+      TeacherService.currentQuestion = question;
+      $location.url('teacher/question/'+question._id);
+    };
+  });
+  app.controller('QuestionCtrl', function(TeacherService, $scope){
+    $scope.currentQuestion = TeacherService.currentQuestion;
+    $scope.deleteQuestion = function(){
+      TeacherService.deleteQuestion($scope.currentQuestion);
+    };
+    $scope.editQuestion = function(){
+      // TeacherService.editQuestion($scope.currentQuestion);
     };
   });
   app.controller('MainCtrl', function($scope, $http){

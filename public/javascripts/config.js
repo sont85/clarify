@@ -27,6 +27,11 @@
       .state('questionList', {
         url: '/teacher/questionList/:setId',
         templateUrl: '../html/questionList.html',
+        controller: 'QuestionListCtrl'
+      })
+      .state('question', {
+        url:'/teacher/question/:questionId',
+        templateUrl: '../html/question.html',
         controller: 'QuestionCtrl'
       });
   });

@@ -7,6 +7,7 @@
   app.service('TeacherService', function($http, $stateParams, Constant) {
     var self = this;
     this.currentSet = null;
+    this.currentQuestion = null;
     this.addSet = function(newSetName){
       $http.post(Constant.url + 'teacher/set', { setName: newSetName })
       .success(function(response){
@@ -37,6 +38,9 @@
     this.getCurrentSet = function(setId) {
       return $http.get(Constant.url + 'teacher/set/'+setId);
     };
+    // this.editQuestion = function() {
+    //
+    // };
     this.deleteQuestion = function(question){
       $http.delete(Constant.url + 'teacher/question/'+ self.currentSet._id + '/'+ question._id)
       .success(function(response) {

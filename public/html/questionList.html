@@ -1,7 +1,6 @@
 <div ng-repeat='question in currentSet.list'>
-  <h3>{{question.question}}</h3>
+  <a ng-click='linkToQuestion(question)'>{{question.question}}</a>
   <button ng-click='startTest(question)'>Start Question</button>
-  <button ng-click='deleteQuestion(question)'>Delete Question</button>
 </div>
 <form ng-submit="addQuestion()">
   <label>question1</label>
