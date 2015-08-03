@@ -149,11 +149,14 @@
 (function(){
   'use strict';
   var app = angular.module('clarity.service', []);
-  app.service('TeacherService', function($http, $stateParams) {
+  app.constant('Constant', {
+    url: 'http://localhost:3000/'
+  });
+  app.service('TeacherService', function($http, $stateParams, Constant) {
     var self = this;
     this.currentSet = null;
     this.addSet = function(newSetName){
-      $http.post('http://localhost:3000/teacher/set', { setName: newSetName })
+      $http.post(Constant.url + 'teacher/set', { setName: newSetName })
       .success(function(response){
         console.log(response);
       }).catch(function(err){
@@ -161,7 +164,7 @@
       });
     };
     this.addQuestion = function(newQuestion){
-      $http.post('http://localhost:3000/teacher/question/'+ self.currentSet._id, newQuestion)
+      $http.post(Constant.url + 'teacher/question/'+ self.currentSet._id, newQuestion)
       .success(function(response){
         console.log(response);
       }).catch(function(err){
@@ -169,10 +172,10 @@
       });
     };
     this.allQuestions = function() {
-      return $http.get('http://localhost:3000/teacher/allQuestion');
+      return $http.get(Constant.url + 'teacher/allQuestion');
     };
     this.deleteSet = function(set) {
-      $http.delete('http://localhost:3000/teacher/set/'+ set._id)
+      $http.delete(Constant.url + 'teacher/set/'+ set._id)
       .success(function(response) {
         console.log(response);
       }).catch(function(err){
@@ -180,10 +183,10 @@
       });
     };
     this.getCurrentSet = function(setId) {
-      return $http.get('http://localhost:3000/teacher/set/'+setId);
+      return $http.get(Constant.url + 'teacher/set/'+setId);
     };
     this.deleteQuestion = function(question){
-      $http.delete('http://localhost:3000/teacher/question/'+ self.currentSet._id + '/'+ question._id)
+      $http.delete(Constant.url + 'teacher/question/'+ self.currentSet._id + '/'+ question._id)
       .success(function(response) {
         console.log(response);
       }).catch(function(err){
@@ -192,12 +195,12 @@
     };
 
   });
-  app.service('StudentService', function($http) {
+  app.service('StudentService', function($http, Constant) {
     this.allTeacher = function() {
-      return $http.get('http://localhost:3000/teachers');
+      return $http.get(Constant.url + 'teachers');
     };
     this.addTeacher = function(teacher){
-      $http.patch('http://localhost:3000/addteacher', teacher)
+      $http.patch(Constant.url + 'addteacher', teacher)
       .success(function(response){
         console.log(response);
       }).catch(function(err){
