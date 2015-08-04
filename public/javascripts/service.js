@@ -52,6 +52,14 @@
 
   });
   app.service('StudentService', function($http, Constant) {
+    this.registerUser = function(userType) {
+      $http.post(Constant.url + 'register', {type: userType})
+      .success(function(response){
+        console.log(response);
+      }).catch(function(err){
+        console.error(err);
+      });
+    };
     this.allTeacher = function() {
       return $http.get(Constant.url + 'teachers');
     };

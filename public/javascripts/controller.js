@@ -2,7 +2,7 @@
   'use strict';
   var app = angular.module('clarity.controller', []);
   var socket = io.connect('http://localhost:3000');
-  app.controller('StudentCtrl', function($scope, $state, TeacherService, StudentService, $location) {
+  app.controller('StudentCtrl', function($scope, TeacherService, StudentService, $location) {
     StudentService.allTeacher()
     .success(function(teachers){
       $scope.teachers = teachers;
@@ -68,7 +68,7 @@
     };
   });
 
-  app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state){
+  app.controller('TeacherCtrl', function($scope, TeacherService, $location){
     socket.on('result', function(msg){
       console.log(msg);
       console.log(msg.true / msg.total);
@@ -93,7 +93,7 @@
       TeacherService.deleteSet(set);
     };
   });
-  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $state, $stateParams){
+  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams){
     TeacherService.getCurrentSet($stateParams.setId)
     .success(function(currentSet){
       TeacherService.currentSet = currentSet;
@@ -125,14 +125,9 @@
       // TeacherService.editQuestion($scope.currentQuestion);
     };
   });
-  app.controller('MainCtrl', function($scope, $http){
+  app.controller('MainCtrl', function($scope, StudentService){
     $scope.registerUser = function() {
-      $http.post('http://localhost:3000/register', {type: $scope.type})
-      .success(function(response){
-        console.log(response);
-      }).catch(function(err){
-        console.error(err);
-      });
+      StudentService.registerUser($scope.type);
     };
   });
 })();
