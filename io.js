@@ -21,10 +21,10 @@ module.exports = function(io) {
     });
 
 
-    socket.on('answers', function(answer){
+    socket.on('answers', function(answer, roomId){
       result.total ++;
       result[answer] ++;
-      io.sockets.emit('result', result);
+      socket.to(roomId).emit('result', result);
       console.log(result);
     });
 

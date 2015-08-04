@@ -43,7 +43,7 @@
           $scope.time = null;
         });
         if (!$scope.studentAnswer) {
-          socket.emit('answers', 'null');
+          socket.emit('answers', 'null', $scope.currentQuestion);
         }
       }, question.time * 1000);
     });
@@ -57,14 +57,14 @@
     };
 
     $scope.enterRoom = function(teacher){
-      console.log(teacher._id);
       socket.emit('join', teacher._id);
+      StudentService.currentTeacher = teacher;
       $location.url('/student/room/'+teacher._id);
     };
 
     $scope.submitAnswer = function() {
-      console.log($scope.studentAnswer);
-      socket.emit('answers', $scope.currentQuestion.answer === $scope.studentAnswer);
+      var result = $scope.currentQuestion.answer === $scope.studentAnswer;
+      socket.emit('answers', result , StudentService.currentTeacher._id);
     };
   });
 

@@ -52,6 +52,7 @@
 
   });
   app.service('StudentService', function($http, Constant) {
+    this.currentTeacher = null;
     this.registerUser = function(userType) {
       $http.post(Constant.url + 'register', {type: userType})
       .success(function(response){
