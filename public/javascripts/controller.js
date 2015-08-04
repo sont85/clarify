@@ -2,6 +2,7 @@
   'use strict';
   var app = angular.module('clarity.controller', []);
   var socket = io.connect('http://localhost:3000');
+
   app.controller('StudentCtrl', function($scope, TeacherService, StudentService, $location) {
     StudentService.allTeacher()
     .success(function(teachers){
@@ -66,6 +67,54 @@
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       socket.emit('answers', result , StudentService.currentTeacher._id);
     };
+
+      $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                }
+            },
+            title: {
+                text: 'Browser market shares at a specific website, 2014'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    depth: 35,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['Others',   0.7]
+                ]
+            }]
+        });
+    });
+
   });
 
   app.controller('TeacherCtrl', function($scope, TeacherService, $location){
