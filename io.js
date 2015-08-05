@@ -8,7 +8,11 @@ var result = {
   true : 0,
   false: 0,
   null: 0,
-  total: 0
+  total: 0,
+  A: 0,
+  B: 0,
+  C: 0,
+  D: 0
 };
 
 module.exports = function(io) {
@@ -21,11 +25,17 @@ module.exports = function(io) {
     });
 
 
-    socket.on('answers', function(answer, roomId){
+    socket.on('answers', function(truthy, letter, roomId){
+
       result.total ++;
-      result[answer] ++;
-      socket.to(roomId).emit('result', result);
-      console.log(result);
+      result[letter] ++;
+      result[truthy] ++;
+      // var users = io.sockets.adapter.rooms[roomId];
+      // var totalStudent = Object.keys(users).length - 1;
+      // if ( result.total === totalStudent) {
+        io.sockets.in(roomId).emit('result', result);
+        console.log(result);
+      // }
     });
 
     socket.on('startTest', function(question, roomId) {
