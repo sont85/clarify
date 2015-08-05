@@ -38,6 +38,13 @@ router.post('/question/:setId', function(req, res){
     res.json(question);
   });
 });
+router.patch('/question/:setId/:questionId', function(req, res){
+  Question.update({'list._id': req.params.questionId}, {$set : {
+    'list.$.question': req.body.question, 'list.$.answer': req.body.answer, 'list.$.choiceA': req.body.choiceA, 'list.$.choiceB': req.body.choiceB, 'list.$.choiceC': req.body.choiceC, 'list.$.choiceD': req.body.choiceD, 'list.$.time': req.body.time
+  }}, function(err, question){
+    res.json(question);
+  });
+});
 router.delete('/question/:setId/:questionId', function(req, res){
   Question.findById(req.params.setId, function(err, question){
     question.list.pull(req.params.questionId);

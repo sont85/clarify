@@ -24,6 +24,22 @@
         console.log(err);
       });
     };
+    this.editQuestion = function(editedQuestion) {
+      $http.patch(Constant.url + 'teacher/question/' + self.currentSet._id + '/' + self.currentQuestion._id, editedQuestion)
+      .success(function(response){
+        console.log(response);
+      }).catch(function(err){
+        console.log(err);
+      });
+    };
+    this.deleteQuestion = function(question){
+      $http.delete(Constant.url + 'teacher/question/'+ self.currentSet._id + '/'+ question._id)
+      .success(function(response) {
+        console.log(response);
+      }).catch(function(err){
+        console.log(err);
+      });
+    };
     this.allQuestions = function() {
       return $http.get(Constant.url + 'teacher/allQuestion');
     };
@@ -38,18 +54,6 @@
     this.getCurrentSet = function(setId) {
       return $http.get(Constant.url + 'teacher/set/'+setId);
     };
-    // this.editQuestion = function() {
-    //
-    // };
-    this.deleteQuestion = function(question){
-      $http.delete(Constant.url + 'teacher/question/'+ self.currentSet._id + '/'+ question._id)
-      .success(function(response) {
-        console.log(response);
-      }).catch(function(err){
-        console.log(err);
-      });
-    };
-
   });
   app.service('StudentService', function($http, Constant) {
     this.currentTeacher = null;

@@ -15,13 +15,13 @@
   <input type='text' placeholder="choice D" ng-model="newQuestion.choiceD" />
   <label>Answer</label>
   <select ng-model='newQuestion.answer' required>
+    <option value="">Please Select</option>
     <option value='A'>A</option>
     <option value='B'>B</option>
     <option value='C'>C</option>
     <option value='D'>D</option>
     <option value='E'>E</option>
   </select>
-  {{newQuestion.time}}
-  <input type="range" min="15" max="300" value="30" ng-model='newQuestion.time' required />
+  <input type="number" min="30" max="300"  step='10' ng-model='newQuestion.time' required />
   <button type="submit">Enter New Question</button>
 </form>
