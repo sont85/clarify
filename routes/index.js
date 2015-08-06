@@ -44,9 +44,11 @@ router.get('/myteachers', function(req, res) {
 });
 router.patch('/addteacher', function(req, res){
   Student.findById(req.user._id, function(err, student){
-    student.teacher.push(req.body._id);
-    student.save();
-    res.json(student);
+    if (student.teacher.indexOf(req.body._id) === -1) {
+      student.teacher.push(req.body._id);
+      student.save();
+      res.json(student);
+    }
   });
 });
 

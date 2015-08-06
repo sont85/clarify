@@ -2,12 +2,12 @@
     <a class='list-group-item' ng-click='linkToList(set)'>{{set.listName}}</a>
     <button ng-click='deleteSet(set)' class='btn btn-danger'>Delete List</button>
   </div>
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setModal">
     Add Question Set
   </button>
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="setModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <form ng-submit="addSet()">

@@ -1,13 +1,14 @@
 <h2 class='text-center'>{{currentSet.listName}}</h2>
 <div ng-repeat='question in currentSet.list'>
-  <button ng-click='startTest(question)'>Start Question</button>
+  <button class='btn btn-default' ng-click='startTest(question)'>Start</button>
   <a ng-click='linkToQuestion(question)'>{{question.question}}</a>
 </div>
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Enter New Question
-</button>
-
+<div class='text-center'>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Enter New Question
+  </button>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
