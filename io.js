@@ -26,7 +26,7 @@ module.exports = function(io) {
 
 
     socket.on('answers', function(truthy, letter, roomId){
-
+      console.log('===============')
       result.total ++;
       result[letter] ++;
       result[truthy] ++;

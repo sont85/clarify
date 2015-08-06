@@ -57,48 +57,59 @@
 
       $(function () {
           $('#container').highcharts({
-              chart: {
-                  type: 'pie',
-                  options3d: {
-                      enabled: true,
-                      alpha: 45,
-                      beta: 0
-                  }
-              },
-              title: {
-                  text: 'Browser market shares at a specific website, 2014'
-              },
-              tooltip: {
-                  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-              },
-              plotOptions: {
-                  pie: {
-                      allowPointSelect: true,
-                      cursor: 'pointer',
-                      depth: 35,
-                      dataLabels: {
-                          enabled: true,
-                          format: '{point.name}'
-                      }
-                  }
-              },
-              series: [{
-                  type: 'pie',
-                  name: 'Browser share',
-                  data: [
-                      {
-                        name: 'A',
-                        y: msg.A,
-                        sliced: true,
-                        selected: true
-                      },
-                      ['B',       msg.B],
-                      ['C',       msg.C],
-                      ['D',       msg.D],
-                      ['null',    msg.null]
-                  ]
-              }]
-          });
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Monthly Average Rainfall'
+    },
+    subtitle: {
+        text: 'Source: WorldClimate.com'
+    },
+    xAxis: {
+            categories: [
+                'Jan'
+            ],
+            crosshair: true
+        },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Rainfall (mm)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'A',
+        data: msg.A
+
+    }, {
+        name: 'B',
+        data: msg.B
+
+    }, {
+        name: 'C',
+        data: msg.C
+
+    }, {
+        name: 'D',
+        data: msg.D
+
+    }]
+});
           $('#container2').highcharts({
               chart: {
                   type: 'pie',
@@ -398,7 +409,7 @@
     .success(function(currentSet){
       TeacherService.currentSet = currentSet;
       $scope.currentSet = currentSet;
-      console.log(currentSet.createdBy);
+      console.log(currentSet);
       socket.emit('join', currentSet.createdBy);
     }).catch(function(err){
       console.log(err);

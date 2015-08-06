@@ -1,22 +1,30 @@
-<form ng-submit="submitAnswer()">
-  <h1>{{currentQuestion.question}}</h1>
+<form ng-submit="submitAnswer()" ng-show='currentQuestion'>
+  <h3>{{currentQuestion.question}}</h3>
+  <div>
     <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceA}}</label>
+  </div>
+  <div>
     <input name="answer" type="radio" value="B" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceB}}</label>
+  </div>
+  <div>
     <input name="answer" type="radio" value="C" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceC}}</label>
+  </div>
+  <div>
     <input name="answer" type="radio" value="D" ng-model='studentAnswer' required>
     <label>{{currentQuestion.choiceD}}</label>
-    <button type="submit" ng-disabled='timeOut'>submit Answer</button>
-    <h5>{{time}}</h5>
-    <h1>{{currentQuestion.answer}}</h1>
+  </div>
+    <button class='btn btn-primary' type="submit" ng-disabled='timeOut'>submit Answer</button>
 </form>
-<div id='container'>
+<h5>{{time}}</h5>
 
-
-</div>
-<div id='container2'>
-
-
+<div class="row">
+  <div class="col-sm-6">
+    <div id='container'></div>
+  </div>
+  <div class="col-sm-6">
+    <div id='container2'></div>
+  </div>
 </div>
