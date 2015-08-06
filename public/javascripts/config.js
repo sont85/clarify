@@ -17,7 +17,7 @@
       .state('room', {
         url: '/student/room/:roomId',
         templateUrl: '../html/room.html',
-        controller: 'StudentCtrl'
+        controller: 'RoomCtrl'
       })
       .state('teacher', {
         url: '/teacher',

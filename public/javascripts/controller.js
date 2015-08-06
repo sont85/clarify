@@ -2,7 +2,6 @@
   'use strict';
   var app = angular.module('clarity.controller', []);
   var socket = io.connect('http://localhost:3000');
-
   app.controller('StudentCtrl', function($scope, TeacherService, StudentService, $location) {
     StudentService.allTeacher()
     .success(function(teachers){
@@ -21,6 +20,23 @@
     socket.on('users count', function(msg){
       console.log(msg);
     });
+
+    $scope.addTeacher = function(teacher){
+      StudentService.addTeacher(teacher);
+    };
+
+    $scope.enterRoom = function(teacher){
+      socket.emit('join', teacher._id);
+      StudentService.currentTeacher = teacher;
+      $location.url('/student/room/'+teacher._id);
+    };
+  });
+  app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location) {
+    $scope.submitAnswer = function() {
+      console.log("*******");
+      var result = $scope.currentQuestion.answer === $scope.studentAnswer;
+      socket.emit('answers', result, $scope.studentAnswer, StudentService.currentTeacher._id);
+    };
 
     socket.on('currentTestQuestion', function(question) {
       console.log(question);
@@ -43,7 +59,6 @@
           $scope.timeOut = true;
           $scope.time = null;
         });
-        console.log("-------",!$scope.studentAnswer)
         if (!$scope.studentAnswer) {
           socket.emit('answers', 'null', StudentService.currentTeacher._id);
         }
@@ -52,7 +67,7 @@
 
     socket.on('result', function(msg){
       console.log(msg);
-      console.log(msg.true / msg.total);
+      console.log("correct ratio", msg.true / msg.total);
 
 
       $(function () {
@@ -359,24 +374,7 @@
 
       // Apply the theme
       Highcharts.setOptions(Highcharts.theme);
-
-
     });
-    $scope.addTeacher = function(teacher){
-      StudentService.addTeacher(teacher);
-    };
-
-    $scope.enterRoom = function(teacher){
-      socket.emit('join', teacher._id);
-      StudentService.currentTeacher = teacher;
-      $location.url('/student/room/'+teacher._id);
-    };
-
-    $scope.submitAnswer = function() {
-      console.log("*******");
-      var result = $scope.currentQuestion.answer === $scope.studentAnswer;
-      socket.emit('answers', result, $scope.studentAnswer, StudentService.currentTeacher._id);
-    };
   });
 
   app.controller('TeacherCtrl', function($scope, TeacherService, $location){
