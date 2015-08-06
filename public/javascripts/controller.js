@@ -405,6 +405,7 @@
     $scope.addQuestion = function() {
       TeacherService.addQuestion($scope.newQuestion);
       $scope.newQuestion = '';
+      $('#questionModal').modal('hide');
     };
     $scope.startTest = function(question) {
       var roomId = $scope.currentSet.createdBy;
@@ -422,6 +423,7 @@
     };
     $scope.editQuestion = function() {
       TeacherService.editQuestion($scope.editedQuestion);
+      $('#editQuestion').modal('hide');
     };
   });
   app.controller('MainCtrl', function($scope, StudentService) {
