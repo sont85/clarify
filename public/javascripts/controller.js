@@ -76,14 +76,14 @@
         type: 'column'
     },
     title: {
-        text: 'Monthly Average Rainfall'
+        text: 'Multiple Choice Selection'
     },
     subtitle: {
-        text: 'Source: WorldClimate.com'
+        text: ''
     },
     xAxis: {
             categories: [
-                'Jan'
+                'A', 'B', 'C', 'D', 'Null'
             ],
             crosshair: true
         },
@@ -108,22 +108,8 @@
         }
     },
     series: [{
-        name: 'A',
-        data: msg.A
-
-    }, {
-        name: 'B',
-        data: msg.B
-
-    }, {
-        name: 'C',
-        data: msg.C
-
-    }, {
-        name: 'D',
-        data: msg.D
-
-    }]
+            data: [msg.A, msg.B, msg.C, msg.D, msg.null]
+        }]
 });
           $('#container2').highcharts({
               chart: {
@@ -135,7 +121,7 @@
                   }
               },
               title: {
-                  text: 'Browser market shares at a specific website, 2014'
+                  text: 'Classroom Results'
               },
               tooltip: {
                   pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
