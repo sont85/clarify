@@ -26,21 +26,21 @@
     };
 
     $scope.enterRoom = function(teacher) {
-      socket.emit('join', teacher._id);
       StudentService.currentTeacher = teacher;
       $location.url('/student/room/' + teacher._id);
     };
   });
-  app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location) {
+  app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       socket.emit('answers', result, $scope.studentAnswer, StudentService.currentTeacher._id);
       $scope.timeOut = true;
     };
 
+    socket.emit('join', $stateParams.roomId);
+
     socket.on('currentTestQuestion', function(question) {
       console.log(question);
-
       $scope.$apply(function() {
         $scope.time = question.time;
         $scope.timeOut = false;

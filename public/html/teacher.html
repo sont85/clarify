@@ -1,6 +1,14 @@
-  <div class='panel panel-default' ng-repeat='set in allQuestion'>
-    <a class='list-group-item' ng-click='linkToList(set)'>{{set.listName}}</a>
-    <button ng-click='deleteSet(set)' class='btn btn-danger'>Delete List</button>
+  <div class='row'>
+    <div ng-repeat='set in allQuestion'>
+      <div class='col-xs-4'>
+        <div class='panel panel-default text-center'>
+          <div class='well clickable' ng-click='linkToList(set)'>
+            <h3>{{set.listName}}</h3>
+          </div>
+          <button ng-click='deleteSet(set)' class='btn btn-warning'>Delete List</button>
+        </div>
+      </div>
+    </div>
   </div>
   <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setModal">
     Add Question Set

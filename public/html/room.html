@@ -1,20 +1,23 @@
+ROOM
+<h3 class='text-center'>{{currentQuestion.question}}</h3>
 <form ng-submit="submitAnswer()" ng-show='currentQuestion'>
-  <h3>{{currentQuestion.question}}</h3>
-  <div>
-    <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceA}}</label>
-  </div>
-  <div>
-    <input name="answer" type="radio" value="B" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceB}}</label>
-  </div>
-  <div>
-    <input name="answer" type="radio" value="C" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceC}}</label>
-  </div>
-  <div>
-    <input name="answer" type="radio" value="D" ng-model='studentAnswer' required>
-    <label>{{currentQuestion.choiceD}}</label>
+  <div class='well'>
+    <div>
+      <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>
+      <label>{{currentQuestion.choiceA}}</label>
+    </div>
+    <div>
+      <input name="answer" type="radio" value="B" ng-model='studentAnswer' required>
+      <label>{{currentQuestion.choiceB}}</label>
+    </div>
+    <div ng-show='currentQuestion.choiceC'>
+      <input name="answer" type="radio" value="C" ng-model='studentAnswer' required>
+      <label>{{currentQuestion.choiceC}}</label>
+    </div>
+    <div ng-show='currentQuestion.choiceD'>
+      <input name="answer" type="radio" value="D" ng-model='studentAnswer' required>
+      <label>{{currentQuestion.choiceD}}</label>
+    </div>
   </div>
   <div class='text-center'>
     <button class='btn btn-primary' type="submit" ng-disabled='timeOut'>submit Answer</button>
