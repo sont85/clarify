@@ -35,6 +35,9 @@
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       socket.emit('answers', result, $scope.studentAnswer, StudentService.currentTeacher._id);
       $scope.timeOut = true;
+      if (result){
+        StudentService.postPoint($stateParams.roomId)
+      }
     };
 
     socket.emit('join', $stateParams.roomId);

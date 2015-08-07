@@ -83,5 +83,14 @@
     this.myTeacher = function() {
       return $http.get(Constant.url + 'myteachers');
     };
+    this.postPoint = function(roomId) {
+      console.log(roomId)
+      $http.patch(Constant.url + 'student/point/'+ roomId)
+      .success(function(response){
+        console.log(response);
+      }).catch(function(err){
+        console.log(err);
+      });
+    };
   });
 })();

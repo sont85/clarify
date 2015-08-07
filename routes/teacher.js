@@ -14,8 +14,8 @@ router.get('/question/:questionId', function(req, res){
       if (question._id == req.params.questionId) {
         res.json(question);
       }
-    })
-  })
+    });
+  });
 });
 
 router.get('/allQuestion', function(req, res){
