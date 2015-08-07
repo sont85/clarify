@@ -33,7 +33,6 @@
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location) {
     $scope.submitAnswer = function() {
-      console.log("*******");
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       socket.emit('answers', result, $scope.studentAnswer, StudentService.currentTeacher._id);
       $scope.timeOut = true;
@@ -384,7 +383,6 @@
       $('#setModal').modal('hide');
     };
     $scope.linkToList = function(set) {
-      TeacherService.currentSet = set;
       $location.url('/teacher/questionList/' + set._id);
     };
     $scope.deleteSet = function(set) {
@@ -392,7 +390,7 @@
       $state.reload();
     };
   });
-  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams) {
+  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
     TeacherService.getCurrentSet($stateParams.setId)
       .success(function(currentSet) {
         TeacherService.currentSet = currentSet;
@@ -406,20 +404,29 @@
       TeacherService.addQuestion($scope.newQuestion);
       $scope.newQuestion = '';
       $('#questionModal').modal('hide');
+      $location.url('teacher/questionList/'+ $stateParams.setId)
     };
     $scope.startTest = function(question) {
       var roomId = $scope.currentSet.createdBy;
       socket.emit('startTest', question, roomId);
     };
     $scope.linkToQuestion = function(question) {
-      TeacherService.currentQuestion = question;
+      // TeacherService.currentQuestion = question;
       $location.url('teacher/question/' + question._id);
     };
   });
-  app.controller('QuestionCtrl', function(TeacherService, $scope) {
+  app.controller('QuestionCtrl', function(TeacherService, $scope, $location, $stateParams) {
+    TeacherService.currentQuestion($stateParams.questionId)
+    .success(function(response){
+      $scope.currentQuestion = response;
+      console.log(response)
+    }).catch(function(err){
+      console.log(err)
+    });
     $scope.currentQuestion = TeacherService.currentQuestion;
     $scope.deleteQuestion = function() {
       TeacherService.deleteQuestion($scope.currentQuestion);
+      $location.url('teacher/questionList/'+TeacherService.currentSet._id);
     };
     $scope.editQuestion = function() {
       TeacherService.editQuestion($scope.editedQuestion);

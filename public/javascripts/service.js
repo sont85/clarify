@@ -7,7 +7,10 @@
   app.service('TeacherService', function($http, $stateParams, Constant) {
     var self = this;
     this.currentSet = null;
-    this.currentQuestion = null;
+    this.currentQuestion = function(questionId) {
+      console.log(questionId)
+      return $http.get(Constant.url + 'teacher/question/'+ questionId);
+    };
     this.addSet = function(newSetName){
       $http.post(Constant.url + 'teacher/set', { setName: newSetName })
       .success(function(response){
@@ -75,6 +78,7 @@
       }).catch(function(err){
         console.log(err);
       });
+      console.log(teacher);
     };
     this.myTeacher = function() {
       return $http.get(Constant.url + 'myteachers');

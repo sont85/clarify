@@ -8,6 +8,16 @@ router.get('/', function(req, res, next) {
   res.render('teacher', { title: 'Teacher' });
 });
 
+router.get('/question/:questionId', function(req, res){
+  Question.findOne({'list._id': req.params.questionId}, function(err, questions){
+    questions.list.forEach(function(question){
+      if (question._id == req.params.questionId) {
+        res.json(question);
+      }
+    })
+  })
+});
+
 router.get('/allQuestion', function(req, res){
   Question.find({createdBy: req.user._id}, function(err, allQuestion){
     res.json(allQuestion);
