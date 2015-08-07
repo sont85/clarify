@@ -31,16 +31,24 @@
     };
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
+    socket.emit('join', $stateParams.roomId);
+
+    StudentService.getPoint()
+    .success(function(response){
+      $scope.pointsData = response;
+    }).catch(function(err){
+      console.log(err);
+    });
+
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       socket.emit('answers', result, $scope.studentAnswer, StudentService.currentTeacher._id);
       $scope.timeOut = true;
       if (result){
-        StudentService.postPoint($stateParams.roomId)
+        StudentService.postPoint()
       }
     };
 
-    socket.emit('join', $stateParams.roomId);
 
     socket.on('currentTestQuestion', function(question) {
       console.log(question);

@@ -1,7 +1,15 @@
 <h3>My Teachers</h3>
-<div ng-repeat='myTeacher in myTeachers'>
-  <span class="h4">{{myTeacher.displayName}}</span>
-  <button class='btn btn-default' ng-click='enterRoom(myTeacher)'>Join Room</button>
+<div class='row'>
+  <div ng-repeat='myTeacher in myTeachers'>
+    <div class='col-sm-4'>
+      <div class='panel panel-default text-center'>
+        <div class='well'>
+          <span class="h4">{{myTeacher.displayName}}</span>
+        </div>
+        <button class='btn btn-default' ng-click='enterRoom(myTeacher)'>Join Room</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <h3>All Teachers</h3>

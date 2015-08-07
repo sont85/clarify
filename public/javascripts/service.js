@@ -58,7 +58,7 @@
       return $http.get(Constant.url + 'teacher/set/'+setId);
     };
   });
-  app.service('StudentService', function($http, Constant) {
+  app.service('StudentService', function($http, Constant, $stateParams) {
     this.currentTeacher = null;
     this.registerUser = function(userType) {
       $http.post(Constant.url + 'register', {type: userType})
@@ -83,14 +83,16 @@
     this.myTeacher = function() {
       return $http.get(Constant.url + 'myteachers');
     };
-    this.postPoint = function(roomId) {
-      console.log(roomId)
-      $http.patch(Constant.url + 'student/point/'+ roomId)
+    this.postPoint = function() {
+      $http.patch(Constant.url + 'student/point/'+ $stateParams.roomId)
       .success(function(response){
         console.log(response);
       }).catch(function(err){
         console.log(err);
       });
     };
+    this.getPoint = function() {
+      return $http.get(Constant.url + 'student/point/'+ $stateParams.roomId);
+    }
   });
 })();

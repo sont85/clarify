@@ -63,13 +63,15 @@ router.patch('/addteacher', function(req, res){
   });
 
 });
-router.patch('/student/point/:roomId', function(req, res){
-  console.log("userId",req.user._id);
-  console.log("roomId",req.params.roomId);
-  Point.findOne({studentId: req.user._id, teacherId: req.params.roomId}, function(err, point){
-    console.log(point)
+router.patch('/student/point/:teacherId', function(req, res){
+  Point.findOne({studentId: req.user._id, teacherId: req.params.teacherId}, function(err, point){
     point.points ++;
     point.save();
+  });
+});
+router.get('/student/point/:teacherId', function(req, res){
+  Point.findOne({studentId: req.user._id, teacherId: req.params.teacherId}, function(err, point){
+    res.json(point);
   });
 });
 
