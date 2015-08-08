@@ -509,15 +509,21 @@
     };
   });
   app.controller('MainCtrl', function($scope, StudentService) {
-    StudentService.getUserInfo()
-    .success(function(response){
-      $scope.user = response;
-      console.log(response);
-    }).catch(function(err){
-      console.error(err);
-    });
+    // StudentService.getUserInfo()
+    // .success(function(response){
+    //   $scope.user = response;
+    //   console.log(response);
+    // }).catch(function(err){
+    //   console.error(err);
+    // });
     $scope.registerUser = function() {
-      StudentService.registerUser($scope.type);
+      StudentService.registerUser($scope.type)
+      .success(function(response){
+        console.log(response);
+        location.href = 'http://localhost:3000/auth/google';
+      }).catch(function(err){
+        console.error(err);
+      });
     };
   });
 })();

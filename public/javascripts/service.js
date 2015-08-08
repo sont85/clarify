@@ -42,12 +42,7 @@
   });
   app.service('StudentService', function($http, Constant, $stateParams) {
     this.registerUser = function(userType) {
-      $http.post(Constant.url + 'register', {type: userType})
-      .success(function(response){
-        console.log(response);
-      }).catch(function(err){
-        console.error(err);
-      });
+      return $http.post(Constant.url + 'register', {type: userType});
     };
     this.getUserInfo = function() {
       return $http.get(Constant.url + 'user');
