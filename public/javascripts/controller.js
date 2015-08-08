@@ -441,21 +441,29 @@
     };
   });
   app.controller('QuestionCtrl', function(TeacherService, $scope, $location, $stateParams) {
-    TeacherService.currentQuestion($stateParams.questionId)
-    .success(function(response){
-      $scope.currentQuestion = response;
-      console.log(response)
-    }).catch(function(err){
-      console.log(err)
-    });
-    $scope.currentQuestion = TeacherService.currentQuestion;
+    function bindQuestion() {
+      TeacherService.currentQuestion($stateParams.questionId)
+      .success(function(response){
+        $scope.currentQuestion = response;
+      }).catch(function(err){
+        console.log(err);
+      });
+    }
+    bindQuestion();
+
     $scope.deleteQuestion = function() {
       TeacherService.deleteQuestion($scope.currentQuestion);
       $location.url('teacher/questionList/'+TeacherService.currentSet._id);
     };
     $scope.editQuestion = function() {
-      TeacherService.editQuestion($scope.editedQuestion);
-      $('#editQuestion').modal('hide');
+      TeacherService.editQuestion($scope.editedQuestion)
+      .success(function(response){
+        bindQuestion();
+        $('#editQuestion').modal('hide');
+        $scope.editedQuestion = '';
+      }).catch(function(err){
+        console.log(err);
+      });
     };
   });
   app.controller('MainCtrl', function($scope, StudentService) {

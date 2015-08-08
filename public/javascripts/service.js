@@ -17,12 +17,9 @@
       return $http.post(Constant.url + 'teacher/question/'+ self.currentSet._id, newQuestion);
     };
     this.editQuestion = function(editedQuestion) {
-      $http.patch(Constant.url + 'teacher/question/' + self.currentSet._id + '/' + self.currentQuestion._id, editedQuestion)
-      .success(function(response){
-        console.log(response);
-      }).catch(function(err){
-        console.log(err);
-      });
+      console.log(self.currentSet._id);
+      console.log($stateParams.questionId);
+      return $http.patch(Constant.url + 'teacher/question/' + self.currentSet._id + '/' + $stateParams.questionId, editedQuestion);
     };
     this.deleteQuestion = function(question){
       $http.delete(Constant.url + 'teacher/question/'+ self.currentSet._id + '/'+ question._id)
