@@ -49,10 +49,11 @@
     socket.emit('join', $stateParams.roomId);
     socket.on('user in room', function(numberOfUser){
       $scope.$apply(function(){
-        console.log(numberOfUser);
+        console.log('number of user', numberOfUser);
         $scope.userCount = numberOfUser;
       });
     });
+
     function bindPoint() {
       StudentService.getPoint()
       .success(function(response){
