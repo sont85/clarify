@@ -380,18 +380,26 @@
       console.log(msg);
       console.log(msg.true / msg.total);
     });
+    function bindSet() {
+      TeacherService.allQuestions()
+        .success(function(allQuestion) {
+          console.log(allQuestion);
+          $scope.allQuestion = allQuestion;
+        }).catch(function(err) {
+          console.log(err);
+        });
+    }
+    bindSet();
 
-    TeacherService.allQuestions()
-      .success(function(allQuestion) {
-        console.log(allQuestion);
-        $scope.allQuestion = allQuestion;
-      }).catch(function(err) {
-        console.log(err);
-      });
     $scope.addSet = function() {
       TeacherService.addSet($scope.newSetName)
-      $scope.newSetName = '';
-      $('#setModal').modal('hide');
+      .success(function(response){
+        bindSet();
+        $scope.newSetName = '';
+        $('#setModal').modal('hide');
+      }).catch(function(err){
+        console.log(err);
+      });
     };
     $scope.linkToList = function(set) {
       $location.url('/teacher/questionList/' + set._id);
@@ -402,27 +410,33 @@
     };
   });
   app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
-    TeacherService.getCurrentSet($stateParams.setId)
-      .success(function(currentSet) {
-        TeacherService.currentSet = currentSet;
-        $scope.currentSet = currentSet;
-        console.log(currentSet);
-        socket.emit('join', currentSet.createdBy);
-      }).catch(function(err) {
+    function bindCurrentSet() {
+      TeacherService.getCurrentSet($stateParams.setId)
+        .success(function(currentSet) {
+          TeacherService.currentSet = currentSet;
+          $scope.currentSet = currentSet;
+          socket.emit('join', currentSet.createdBy);
+        }).catch(function(err) {
+          console.log(err);
+        });
+    }
+    bindCurrentSet();
+
+    $scope.addQuestion = function() {
+      TeacherService.addQuestion($scope.newQuestion)
+      .success(function(response){
+        bindCurrentSet();
+        $scope.newQuestion = '';
+        $('#questionModal').modal('hide');
+      }).catch(function(err){
         console.log(err);
       });
-    $scope.addQuestion = function() {
-      TeacherService.addQuestion($scope.newQuestion);
-      $scope.newQuestion = '';
-      $('#questionModal').modal('hide');
-      $location.url('teacher/questionList/'+ $stateParams.setId)
     };
     $scope.startTest = function(question) {
       var roomId = $scope.currentSet.createdBy;
       socket.emit('startTest', question, roomId);
     };
     $scope.linkToQuestion = function(question) {
-      // TeacherService.currentQuestion = question;
       $location.url('teacher/question/' + question._id);
     };
   });

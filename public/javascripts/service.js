@@ -8,24 +8,13 @@
     var self = this;
     this.currentSet = null;
     this.currentQuestion = function(questionId) {
-      console.log(questionId)
       return $http.get(Constant.url + 'teacher/question/'+ questionId);
     };
     this.addSet = function(newSetName){
-      $http.post(Constant.url + 'teacher/set', { setName: newSetName })
-      .success(function(response){
-        console.log(response);
-      }).catch(function(err){
-        console.log(err);
-      });
+      return $http.post(Constant.url + 'teacher/set', { setName: newSetName });
     };
     this.addQuestion = function(newQuestion){
-      $http.post(Constant.url + 'teacher/question/'+ self.currentSet._id, newQuestion)
-      .success(function(response){
-        console.log(response);
-      }).catch(function(err){
-        console.log(err);
-      });
+      return $http.post(Constant.url + 'teacher/question/'+ self.currentSet._id, newQuestion);
     };
     this.editQuestion = function(editedQuestion) {
       $http.patch(Constant.url + 'teacher/question/' + self.currentSet._id + '/' + self.currentQuestion._id, editedQuestion)
