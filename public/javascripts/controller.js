@@ -38,7 +38,12 @@
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
     socket.emit('join', $stateParams.roomId);
-
+    socket.on('user in room', function(numberOfUser){
+      $scope.$apply(function(){
+        console.log(numberOfUser);
+        $scope.userCount = numberOfUser;
+      });
+    });
     function bindPoint() {
       StudentService.getPoint()
       .success(function(response){
@@ -433,7 +438,9 @@
         });
     }
     bindCurrentSet();
-
+    socket.on('user in room', function(numberOfUser){
+      $scope.userCount = numberOfUser.length;
+    });
     $scope.addQuestion = function() {
       TeacherService.addQuestion($scope.newQuestion)
       .success(function(response){

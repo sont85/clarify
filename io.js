@@ -4,16 +4,7 @@ var Teacher = require('./models/teacherSchema');
 var Question = require('./models/questionSchema');
 mongoose.connect('mongodb://localhost/clarity');
 
-var result = {
-  // true : 0,
-  // false: 0,
-  // null: 0,
-  // total: 0,
-  // A: 0,
-  // B: 0,
-  // C: 0,
-  // D: 0
-};
+var result = {};
 
 module.exports = function(io) {
   io.sockets.on('connection', function(socket){
@@ -22,8 +13,9 @@ module.exports = function(io) {
 
     socket.on('join', function(roomId){
       socket.join(roomId);
+      var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
+      io.sockets.to(roomId).emit('user in room', numberOfUser);
     });
-
 
     socket.on('answers', function(truthy, letter, roomId){
       result[roomId] = result[roomId] || {
