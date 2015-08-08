@@ -1,22 +1,23 @@
 <h4>Instructor: {{pointsData.teacherName}}</h4>
+<h4>Total Points: {{pointsData.points}}</h4>
 <h3 class='text-center'>{{currentQuestion.question}}</h3>
 <form ng-submit="submitAnswer()" ng-show='currentQuestion'>
   <div class='well'>
     <div>
       <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>
-      <label>{{currentQuestion.choiceA}}</label>
+      <label> A. {{currentQuestion.choiceA}}</label>
     </div>
     <div>
       <input name="answer" type="radio" value="B" ng-model='studentAnswer' required>
-      <label>{{currentQuestion.choiceB}}</label>
+      <label> B. {{currentQuestion.choiceB}}</label>
     </div>
     <div ng-show='currentQuestion.choiceC'>
       <input name="answer" type="radio" value="C" ng-model='studentAnswer' required>
-      <label>{{currentQuestion.choiceC}}</label>
+      <label> C. {{currentQuestion.choiceC}}</label>
     </div>
     <div ng-show='currentQuestion.choiceD'>
       <input name="answer" type="radio" value="D" ng-model='studentAnswer' required>
-      <label>{{currentQuestion.choiceD}}</label>
+      <label> D. {{currentQuestion.choiceD}}</label>
     </div>
   </div>
   <div class='text-center'>

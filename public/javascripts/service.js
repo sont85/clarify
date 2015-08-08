@@ -69,10 +69,10 @@
       });
     };
     this.allTeacher = function() {
-      return $http.get(Constant.url + 'teachers');
+      return $http.get(Constant.url + 'student/teachers');
     };
     this.addTeacher = function(teacher){
-      $http.patch(Constant.url + 'addteacher', teacher)
+      $http.patch(Constant.url + 'student/addteacher', teacher)
       .success(function(response){
         console.log(response);
       }).catch(function(err){
@@ -81,7 +81,7 @@
       console.log(teacher);
     };
     this.myTeacher = function() {
-      return $http.get(Constant.url + 'myteachers');
+      return $http.get(Constant.url + 'student/myteachers');
     };
     this.postPoint = function() {
       $http.patch(Constant.url + 'student/point/'+ $stateParams.roomId)
@@ -93,6 +93,6 @@
     };
     this.getPoint = function() {
       return $http.get(Constant.url + 'student/point/'+ $stateParams.roomId);
-    }
+    };
   });
 })();
