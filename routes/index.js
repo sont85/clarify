@@ -31,6 +31,9 @@ router.post('/register', function(req, res, next){
   }
 });
 
+router.get('/user', function(req, res){
+  res.json(req.user);
+});
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the

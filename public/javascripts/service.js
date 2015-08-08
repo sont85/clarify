@@ -49,6 +49,9 @@
         console.error(err);
       });
     };
+    this.getUserInfo = function() {
+      return $http.get(Constant.url + 'user');
+    };
     this.allTeacher = function() {
       return $http.get(Constant.url + 'student/teachers');
     };

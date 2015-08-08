@@ -51,5 +51,11 @@ module.exports = function(io) {
     socket.on('startTest', function(question, roomId) {
       socket.broadcast.to(roomId).emit('currentTestQuestion', question);
     });
+
+    socket.on('disconnect', function(){
+      
+    });
+
+
   });
 };
