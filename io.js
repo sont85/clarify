@@ -11,10 +11,18 @@ module.exports = function(io) {
     console.log('user connected');
     socket.emit('users count', io.engine.clientsCount);
 
+    socket.on('chat message', function(message, roomId){
+      console.log(message);
+      console.log(roomId);
+      io.sockets.to(roomId).emit('message', message);
+    });
+
     socket.on('join', function(roomId){
-      socket.join(roomId);
-      var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
-      io.sockets.to(roomId).emit('user in room', numberOfUser);
+      socket.join(roomId, function(){
+        var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
+        io.sockets.to(roomId).emit('user in room', numberOfUser);
+      });
+
     });
 
     socket.on('answers', function(truthy, letter, roomId){
@@ -33,7 +41,7 @@ module.exports = function(io) {
       result[roomId][truthy] ++;
       var users = io.sockets.adapter.rooms[roomId];
       var totalStudent = Object.keys(users).length - 1;
-      // if ( result[roomId].total === totalStudent) {
+      // if (result[roomId].total === totalStudent) {
         io.sockets.in(roomId).emit('result', result[roomId]);
         console.log(result);
       // }

@@ -37,6 +37,15 @@
     };
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
+
+    $scope.sendMessage = function () {
+      socket.emit('chat message', $scope.message, $stateParams.roomId);
+    };
+    socket.on('message', function(message){
+      console.log(message);
+    });
+
+
     socket.emit('join', $stateParams.roomId);
     socket.on('user in room', function(numberOfUser){
       $scope.$apply(function(){
@@ -428,10 +437,24 @@
     };
   });
   app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
+
+
+
+
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
         .success(function(currentSet) {
           $scope.currentSet = currentSet;
+
+          //chat message
+          $scope.sendMessage = function () {
+            socket.emit('chat message', $scope.message, currentSet.createdBy);
+          };
+          socket.on('message', function(message){
+            console.log(message);
+          });
+          //end of chat message
+
           socket.emit('join', currentSet.createdBy);
         }).catch(function(err) {
           console.log(err);
@@ -439,7 +462,9 @@
     }
     bindCurrentSet();
     socket.on('user in room', function(numberOfUser){
-      $scope.userCount = numberOfUser.length;
+      $scope.$apply(function() {
+        $scope.userCount = numberOfUser;
+      });
     });
     $scope.addQuestion = function() {
       TeacherService.addQuestion($scope.newQuestion)

@@ -5,20 +5,20 @@
 <form ng-submit="submitAnswer()" ng-show='currentQuestion'>
   <div class='well'>
     <div>
-      <input name="answer" type="radio" value="A" ng-model='studentAnswer' required>
-      <label> A. {{currentQuestion.choiceA}}</label>
+      <input name="answer" type="radio" value="A" ng-model='studentAnswer' id='answerA' required>
+      <label for='answerA'> A. {{currentQuestion.choiceA}}</label>
     </div>
     <div>
-      <input name="answer" type="radio" value="B" ng-model='studentAnswer' required>
-      <label> B. {{currentQuestion.choiceB}}</label>
+      <input name="answer" type="radio" value="B" ng-model='studentAnswer' id='answerB' required>
+      <label for='answerB'> B. {{currentQuestion.choiceB}}</label>
     </div>
     <div ng-show='currentQuestion.choiceC'>
-      <input name="answer" type="radio" value="C" ng-model='studentAnswer' required>
-      <label> C. {{currentQuestion.choiceC}}</label>
+      <input name="answer" type="radio" value="C" ng-model='studentAnswer' id='answerC' required>
+      <label for='answerC'> C. {{currentQuestion.choiceC}}</label>
     </div>
     <div ng-show='currentQuestion.choiceD'>
-      <input name="answer" type="radio" value="D" ng-model='studentAnswer' required>
-      <label> D. {{currentQuestion.choiceD}}</label>
+      <input name="answer" type="radio" value="D" ng-model='studentAnswer' id='answerD' required>
+      <label for='answerD'> D. {{currentQuestion.choiceD}}</label>
     </div>
   </div>
   <div class='text-center'>
@@ -33,5 +33,20 @@
   </div>
   <div class="col-sm-6">
     <div id='container2'></div>
+  </div>
+</div>
+
+<div>
+  <div>
+    <span>Speaker</span>
+    <h4>fdsklfjsdlk jlsdjflsdkjlskjf lsj lsj flsj </h4>
+  </div>
+  <div class='input-group'>
+    <form ng-submit='sendMessage()'>
+      <input class='form-control' ng-model='message' placeholder='message'>
+      <span class='input-group-btn'>
+        <button type='submit' class='btn btn-primary'>Send</button>
+      </span>
+    </form>
   </div>
 </div>
