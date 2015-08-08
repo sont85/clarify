@@ -30,6 +30,7 @@ router.patch('/addteacher', function(req, res){
           student.teacher.push(req.body._id);
           student.points.push(point._id);
           student.save();
+          res.json("success")
         });
       }
     });
@@ -40,6 +41,7 @@ router.patch('/point/:teacherId', function(req, res){
   Point.findOne({studentId: req.user._id, teacherId: req.params.teacherId}, function(err, point){
     point.points ++;
     point.save();
+    res.json('success')
   });
 });
 router.get('/point/:teacherId', function(req, res){

@@ -10,11 +10,15 @@ router.get('/', function(req, res, next) {
 
 router.get('/question/:questionId', function(req, res){
   Question.findOne({'list._id': req.params.questionId}, function(err, questions){
-    questions.list.forEach(function(question){
-      if (question._id == req.params.questionId) {
-        res.json(question);
-      }
-    });
+    if (questions.list) {
+      questions.list.forEach(function(question){
+        if (question._id == req.params.questionId) {
+          res.json(question);
+        }
+      });
+    } else {
+      res.send();
+    }
   });
 });
 

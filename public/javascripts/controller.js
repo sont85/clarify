@@ -4,54 +4,67 @@
   var socket = io.connect('http://localhost:3000');
   app.controller('StudentCtrl', function($scope, TeacherService, StudentService, $location) {
     StudentService.allTeacher()
-      .success(function(teachers) {
-        $scope.teachers = teachers;
-      }).catch(function(err) {
-        console.log(err);
-      });
+    .success(function(teachers) {
+      $scope.teachers = teachers;
+    }).catch(function(err) {
+      console.log(err);
+    });
 
-    StudentService.myTeacher()
+    function bindMyTeacher() {
+      StudentService.myTeacher()
       .success(function(teachers) {
+        console.log(teachers);
         $scope.myTeachers = teachers;
       }).catch(function(err) {
         console.log(err);
       });
-
+    }
+    bindMyTeacher();
     socket.on('users count', function(msg) {
       console.log(msg);
     });
 
     $scope.addTeacher = function(teacher) {
-      StudentService.addTeacher(teacher);
+      StudentService.addTeacher(teacher)
+      .success(function(response){
+        bindMyTeacher();
+      }).catch(function(err){
+        console.log(err);
+      });
     };
-
     $scope.enterRoom = function(teacher) {
-      StudentService.currentTeacher = teacher;
       $location.url('/student/room/' + teacher._id);
     };
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
     socket.emit('join', $stateParams.roomId);
 
-    StudentService.getPoint()
-    .success(function(response){
-      $scope.pointsData = response;
-    }).catch(function(err){
-      console.log(err);
-    });
+    function bindPoint() {
+      StudentService.getPoint()
+      .success(function(response){
+        $scope.pointsData = response;
+      }).catch(function(err){
+        console.log(err);
+      });
+    }
+    bindPoint();
+
 
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
-      socket.emit('answers', result, $scope.studentAnswer, StudentService.currentTeacher._id);
+      socket.emit('answers', result, $scope.studentAnswer, $stateParams.roomId);
       $scope.timeOut = true;
       if (result){
         StudentService.postPoint()
+        .success(function(response){
+          bindPoint();
+        }).catch(function(err){
+          console.log(err);
+        });
       }
     };
 
-
     socket.on('currentTestQuestion', function(question) {
-      console.log(question);
       $scope.$apply(function() {
         $scope.time = question.time;
         $scope.timeOut = false;
@@ -71,7 +84,7 @@
           $scope.time = null;
         });
         if (!$scope.studentAnswer) {
-          socket.emit('answers', 'null', StudentService.currentTeacher._id);
+          socket.emit('answers', 'null', $stateParams.roomId);
         }
       }, question.time * 1000);
     });
@@ -413,7 +426,6 @@
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
         .success(function(currentSet) {
-          TeacherService.currentSet = currentSet;
           $scope.currentSet = currentSet;
           socket.emit('join', currentSet.createdBy);
         }).catch(function(err) {
@@ -437,7 +449,7 @@
       socket.emit('startTest', question, roomId);
     };
     $scope.linkToQuestion = function(question) {
-      $location.url('teacher/question/' + question._id);
+      $location.url('teacher/'+ $stateParams.setId + '/question/' + question._id);
     };
   });
   app.controller('QuestionCtrl', function(TeacherService, $scope, $location, $stateParams) {
@@ -453,7 +465,7 @@
 
     $scope.deleteQuestion = function() {
       TeacherService.deleteQuestion($scope.currentQuestion);
-      $location.url('teacher/questionList/'+TeacherService.currentSet._id);
+      $location.url('teacher/questionList/'+$stateParams.setId);
     };
     $scope.editQuestion = function() {
       TeacherService.editQuestion($scope.editedQuestion)

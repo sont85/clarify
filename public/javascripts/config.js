@@ -30,7 +30,7 @@
         controller: 'QuestionListCtrl'
       })
       .state('question', {
-        url:'/teacher/question/:questionId',
+        url:'/teacher/:setId/question/:questionId',
         templateUrl: '../html/question.html',
         controller: 'QuestionCtrl'
       });
