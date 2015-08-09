@@ -5,10 +5,31 @@ body {
 ul {
   list-style: none;
 }
+.main-image {
+  background: url('https://static.salty-salty-studios.com/img/wip/media/bg-classroom.png');
+  background-image: cover;
+  background-repeat: no-repeat;
+  height: 100vw;
+}
 .clickable {
   cursor: pointer;
 }
 .timer {
   color: red;
   font-weight: bolder;
+}
+.title {
+  font-size: 100px;
+}
+.white {
+  color: white;
+}
+
+.vertical-middle {
+  padding-top: 80px;
+  vertical-align: middle;
+}
+
+.shadow {
+  text-shadow: 2px 2px #444;
 }

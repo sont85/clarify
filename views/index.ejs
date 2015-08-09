@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html ng-app='app'>
+<html ng-app='app' ng-controller='MainCtrl'>
   <head>
     <title>Clarity</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cosmo/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
 <body>
@@ -30,35 +31,37 @@
         </ul>
       </div>
     </nav>
-
     <% if (user) { %>
     <div ui-view></div>
     <% } else { %>
-    <div class="row">
-      <div class="col-sm-6">
-        <img width='500px' src='http://sites.psu.edu/clickers/wp-content/uploads/sites/4494/2013/08/iclicker.jpg'>
+      <div class='text-center main-image'>
+        <div class='vertical-middle'>
+          <h1 class='white title'>Clarity</h1>
+          <h2 class='white'>Real Time Classroom Feedback</h2>
+          <a href='/auth/google'><img width='200' src='https://www.luvzoll.com/images/sign-in-with-google.png'></a>
+          <h4 class='white shadow'>Implement Multiple Choice Question And Evaluate Students' Answers In Real Time.</h5>
+          <h4 class='white shadow'> Ability To Have In Class Discussion Through Chatroom. </h5>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <img width='500px' src='http://www.apsnet.org/edcenter/instcomm/TeachingArticles/Article%20Images/PRS_fig02.jpg'>
-      </div>
-    </div>
-    <div class="text-center">
-      <a href='/auth/google'><img width='200' src='https://www.luvzoll.com/images/sign-in-with-google.png'></a>
-    </div>
     <% } %>
-    <div ng-controller='MainCtrl'>
-      <% if (user && !user.type) { %>
-      <form ng-submit='registerUser()'>
-        <h5>Please Register User Type</h5>
-        <input name='userType' type='radio' value='teacher' ng-model='type' required>Teacher
-        <input name='userType' type='radio' value='student' ng-model='type' required>Student
-        <button type='submit'>registered user</button>
-      </form>
-      <% } %>
-    </div>
+    <% if (user && !user.type) { %>
+      <div class='text-center panel'>
+        <form ng-submit='registerUser()'>
+          <h5>Please Register User Type</h5>
+          <label for='registerTeacher'>Teacher</label>
+          <input name='userType' type='radio' id='registerTeacher' value='teacher' ng-model='type' required>
+          <label for='registerStudent'>Student</label>
+          <input name='userType' type='radio' id='registerStudent' value='student' ng-model='type' required>
+          <div>
+            <button class='btn btn-default' type='submit'>registered user</button>
+          </div>
+        </form>
+      </div>
+    <% } %>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.7/highcharts.js"></script>
