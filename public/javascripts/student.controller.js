@@ -90,6 +90,8 @@
     };
 
     socket.on('currentTestQuestion', function(question) {
+      $('#container').empty();
+      $('#container2').empty();
       $scope.$apply(function() {
         $scope.time = question.time;
         $scope.timeOut = false;

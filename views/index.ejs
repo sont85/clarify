@@ -24,12 +24,11 @@
             <li><a href="#/teacher">Teacher Dashboard</a></li>
           <% } %>
           <% if (user) { %>
-            <li><a href="#" class="navbar-link"><%= user.displayName %></a></li>
+            <li><a href="#/" class="navbar-link"><%= user.displayName %></a></li>
             <li><a href="/logout">Log Out</a></li>
           <% } else {%>
             <li><a href="/auth/google">Log In</a></li>
           <% } %>
-
         </ul>
       </div>
     </nav>
@@ -45,8 +44,8 @@
           <h1 class='white clarity-title'>Clarity</h1>
           <h2 class='white'>Real Time Classroom Feedback</h2>
           <a href='/auth/google'><img width='200' src='https://www.luvzoll.com/images/sign-in-with-google.png'></a>
-          <h4 class='white shadow'>Implement Multiple Choice Question And Evaluate Students' Answers In Real Time.</h5>
-          <h4 class='white shadow'> Ability To Have In Class Discussion Through Chatroom. </h5>
+          <h4 class='white'>Implement Multiple Choice Question And Evaluate Students' Answers In Real Time.</h5>
+          <h4 class='white'> Ability To Have In Class Discussion Through Chatroom. </h5>
         </div>
       </div>
     <% } %>

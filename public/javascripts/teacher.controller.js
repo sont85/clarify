@@ -92,6 +92,8 @@
         });
     };
     $scope.startTest = function(question) {
+      $('#container').empty();
+      $('#container2').empty();
       var roomId = $scope.currentSet.createdBy;
       socket.emit('startTest', question, roomId);
     };
