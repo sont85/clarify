@@ -9,7 +9,7 @@ ul {
   background: url('../images/class.png');
   background-size: cover;
   background-repeat: no-repeat;
-  height: 800px;
+  height: 910px;
 }
 .clickable {
   cursor: pointer;
@@ -33,7 +33,7 @@ ul {
 }
 
 .vertical-middle {
-  padding-top: 90px;
+  padding-top: 75px;
 }
 
 .shadow {

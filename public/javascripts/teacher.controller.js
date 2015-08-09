@@ -138,7 +138,7 @@
         .success(function(response) {
           swal({
             title: 'Successfully Registered',
-            text: response.displayName + ' Please Log Back In!',
+            text: response.displayName + ' Added To System',
             type: 'success',
             confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Confirm'
