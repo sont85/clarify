@@ -6,10 +6,10 @@ ul {
   list-style: none;
 }
 .main-image {
-  background: url('https://static.salty-salty-studios.com/img/wip/media/bg-classroom.png');
+  background: url('../images/class.png');
   background-image: cover;
   background-repeat: no-repeat;
-  height: 100vw;
+  height: 800px;
 }
 .clickable {
   cursor: pointer;
@@ -45,6 +45,6 @@ ul {
 }
 @media (max-width: 480px) {
   .main-image {
-    height: 150vw;
+    height: 600px;
   }
 }

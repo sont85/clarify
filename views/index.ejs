@@ -20,14 +20,17 @@
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav navbar-right">
           <% if (user && user.type === 'student') { %>
-          <li><a href="#/student">Student Dashboard</a></li>
+            <li><a href="#/student">Student Dashboard</a></li>
           <% } else if (user && user.type === 'teacher') { %>
-          <li><a href="#/teacher">Teacher Dashboard</a></li>
+            <li><a href="#/teacher">Teacher Dashboard</a></li>
           <% } %>
           <% if (user) { %>
-          <li><a href="#" class="navbar-link"><%= user.displayName %></a></li>
-          <li><a href="/logout">Log Out</a></li>
+            <li><a href="#" class="navbar-link"><%= user.displayName %></a></li>
+            <li><a href="/logout">Log Out</a></li>
+          <% } else {%>
+            <li><a href="/auth/google">Log In</a></li>
           <% } %>
+
         </ul>
       </div>
     </nav>

@@ -1,4 +1,3 @@
-var socket = io.connect('http://localhost:3000');
 (function() {
   'use strict';
   var app = angular.module('clarity.controller.teacher', []);
