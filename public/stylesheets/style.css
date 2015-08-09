@@ -59,7 +59,7 @@ nav{
   padding-top: 20px;
 }
 .wood-image {
-  background: url('http://i38.tinypic.com/34tbm38.jpg');
+  background: url('../images/wood-background.jpg');
   background-repeat: repeat;
   min-height: 910px;
 }
