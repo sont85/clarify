@@ -2,19 +2,21 @@
   <div class='text-center'>
     <h2 class='title'>Welcome {{user.displayName}}</h2>
     <img class='google-image' src='{{user.image}}'>
-    <a ng-if='user.type === "student"' ui-sref='student'><h3>Student dashboard</h3></a>
-    <a ng-if='user.type === "teacher"' ui-sref='teacher'><h3>Teacher dashboard</h3></a>
+    <a ng-if='user.type === "student"' ui-sref='student'>
+      <h3>Student dashboard</h3>
+    </a>
+    <a ng-if='user.type === "teacher"' ui-sref='teacher'>
+      <h3>Teacher dashboard</h3>
+    </a>
   </div>
   <div class='text-center panel' ng-hide='user.type'>
-    <form ng-submit='registerUser()'>
-      <h5>Please Register User Type</h5>
-      <label for='registerTeacher'>Teacher</label>
-      <input id='registerTeacher' name='userType' ng-model='type' required type='radio' value='teacher'>
-      <label for='registerStudent'>Student</label>
-      <input id='registerStudent' name='userType' ng-model='type' required type='radio' value='student'>
-      <div>
-        <button class='btn btn-default' type='submit'>registered user</button>
-      </div>
-    </form>
+    <h3>Please Register User Type</h3>
+    <label for='registerTeacher'>Teacher</label>
+    <input id='registerTeacher' name='userType' ng-model='type' required type='radio' value='teacher'>
+    <label for='registerStudent'>Student</label>
+    <input id='registerStudent' name='userType' ng-model='type' required type='radio' value='student'>
+    <div>
+      <button class='btn btn-default' ng-click='registerUser()'>registered user</button>
+    </div>
   </div>
 </div>

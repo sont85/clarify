@@ -16,7 +16,7 @@
 </div>
 <h3 class='text-center white'>{{currentQuestion.question}}</h3>
 <form ng-submit="submitAnswer()" ng-show='currentQuestion'>
-  <div class='well'>
+  <div class='well mutliple-choice'>
     <div>
       <input name="answer" type="radio" value="A" ng-model='studentAnswer' id='answerA' required>
       <label for='answerA'> A. {{currentQuestion.choiceA}}</label>

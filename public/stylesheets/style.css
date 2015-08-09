@@ -5,6 +5,9 @@ body {
 ul {
   list-style: none;
 }
+nav{
+  padding-right: 25px
+}
 .main-image {
   background: url('../images/class.png');
   background-size: cover;
@@ -13,6 +16,22 @@ ul {
 }
 .clickable {
   cursor: pointer;
+}
+.line-clamp {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.mutliple-choice {
+  line-height: 30px;
+}
+.question-height {
+  -webkit-line-clamp: 4;
+  height: 158px;
+}
+.set-height {
+  -webkit-line-clamp: 3;
+  height: 100px;
 }
 .timer {
   color: red;

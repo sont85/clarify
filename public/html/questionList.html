@@ -1,13 +1,17 @@
-<div class='text-center'>
-  <h2 class='title'>{{currentSet.listName}}</h2>
+<div class='pull-right lead'>
   <h4 class='white'>Connected User Count: <span class='badge'>{{userCount}}</span></h4>
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#questionModal">Enter New Question</button>
+</div>
+<div class='row'>
+  <div class='col-xs-12 text-center'>
+    <h1 class='white'>{{currentSet.listName}}</h1>
+  </div>
 </div>
 <div class='row'>
   <div ng-repeat='question in currentSet.list'>
     <div class='col-sm-4'>
       <div class='panel panel-default text-center'>
-        <div class='well clickable' ng-click='linkToQuestion(question)'>
+        <div class='well clickable line-clamp question-height' ng-click='linkToQuestion(question)'>
           <h3>{{question.question}}</h3>
         </div>
         <div class='clickable' ng-click='startTest(question)'>

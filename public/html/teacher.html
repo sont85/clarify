@@ -1,16 +1,17 @@
-<div class='text-center'>
-  <h1 class='title'>Questions Set</h1>
+<div class='pull-right'>
   <button class="btn btn-primary" data-target="#setModal" data-toggle="modal" type="button">Add Question Set</button>
 </div>
+<h1 class='title text-center lead'>Questions Set</h1>
 <div class='row'>
   <div ng-repeat='set in allQuestion'>
     <div class='col-sm-4'>
       <div class='panel panel-default text-center'>
         <button type="button" ng-click='deleteSet(set)' class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <div class='well clickable' ng-click='linkToList(set)'>
+        <div class='clickable line-clamp set-height' ng-click='linkToList(set)'>
           <h3>{{set.listName}}</h3>
         </div>
         <div>
+          <hr>
           <h3>{{set.list.length}} Questions</h3>
         </div>
       </div>
