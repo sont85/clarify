@@ -41,6 +41,17 @@
     };
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, ChartService, $location, $stateParams) {
+    function bindPoint() {
+      StudentService.getPoint()
+        .success(function(response) {
+          $scope.pointsData = response;
+          socket.emit('join', response.studentName, $stateParams.roomId);
+        }).catch(function(err) {
+          console.log(err);
+        });
+    }
+    bindPoint();
+
     $scope.sendMessage = function() {
       socket.emit('chat message', $scope.message, $scope.pointsData.studentName, $stateParams.roomId);
       $scope.message = '';
@@ -56,23 +67,14 @@
       });
     });
 
-    socket.emit('join', $stateParams.roomId);
-    socket.on('user in room', function(numberOfUser) {
+    socket.on('user in room', function(names, numberOfUser) {
       $scope.$apply(function() {
+        console.log(names);
         console.log('number of user', numberOfUser);
+        $scope.names = names;
         $scope.userCount = numberOfUser;
       });
     });
-
-    function bindPoint() {
-      StudentService.getPoint()
-        .success(function(response) {
-          $scope.pointsData = response;
-        }).catch(function(err) {
-          console.log(err);
-        });
-    }
-    bindPoint();
 
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;

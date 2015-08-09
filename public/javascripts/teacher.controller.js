@@ -70,13 +70,13 @@
           });
           //end of chat message
 
-          socket.emit('join', currentSet.createdBy);
+          socket.emit('join', currentSet.teachername, currentSet.createdBy);
         }).catch(function(err) {
           console.log(err);
         });
     }
     bindCurrentSet();
-    socket.on('user in room', function(numberOfUser) {
+    socket.on('user in room', function(names, numberOfUser) {
       $scope.$apply(function() {
         $scope.userCount = numberOfUser;
       });

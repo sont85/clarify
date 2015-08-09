@@ -1,7 +1,6 @@
 <div>
   <div class='text-center'>
-    <h2 class='title'>Welcome
-      {{user.displayName}}</h2>
+    <h2 class='title'>Welcome {{user.displayName}}</h2>
     <img class='google-image' src='{{user.image}}'>
     <a ng-if='user.type === "student"' ui-sref='student'><h3>Student dashboard</h3></a>
     <a ng-if='user.type === "teacher"' ui-sref='teacher'><h3>Teacher dashboard</h3></a>
