@@ -1,10 +1,11 @@
 (function() {
   'use strict';
   var app = angular.module('clarity.controller.teacher', []);
-  app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state) {
+  app.controller('TeacherCtrl', function($scope, TeacherService, ChartService, $location, $state) {
     socket.on('result', function(msg) {
       console.log(msg);
       console.log(msg.true / msg.total);
+      ChartService.chart(msg)
     });
 
     function bindSet() {

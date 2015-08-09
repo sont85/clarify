@@ -24,6 +24,7 @@ module.exports = function(io) {
     });
 
     socket.on('answers', function(truthy, letter, roomId){
+      console.log('==========', truthy, letter, roomId)
       result[roomId] = result[roomId] || {
         true : 0,
         false: 0,
@@ -35,7 +36,9 @@ module.exports = function(io) {
         D: 0
       };
       result[roomId].total ++;
-      result[roomId][letter] ++;
+      if (letter !== 'null') {
+        result[roomId][letter] ++;
+      }
       result[roomId][truthy] ++;
       var users = io.sockets.adapter.rooms[roomId];
       var totalStudent = Object.keys(users).length - 1;
