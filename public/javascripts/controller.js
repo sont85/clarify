@@ -38,10 +38,18 @@
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
     $scope.sendMessage = function() {
-      socket.emit('chat message', $scope.message, $stateParams.roomId);
+      socket.emit('chat message', $scope.message, $scope.pointsData.studentName, $stateParams.roomId);
+      $scope.message = '';
     };
-    socket.on('message', function(message) {
-      console.log(message);
+    $scope.messages = [];
+    socket.on('message', function(text, name) {
+      $scope.$apply(function(){
+        var message = {
+          text: text,
+          name: name
+        };
+        $scope.messages.unshift(message);
+      });
     });
 
     socket.emit('join', $stateParams.roomId);
@@ -454,18 +462,25 @@
     };
   });
   app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
-
+  $scope.messages = []
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
         .success(function(currentSet) {
           $scope.currentSet = currentSet;
-
+          console.log(currentSet)
           //chat message
           $scope.sendMessage = function() {
-            socket.emit('chat message', $scope.message, currentSet.createdBy);
+            socket.emit('chat message', $scope.message, $scope.currentSet.teacherName, $scope.currentSet.createdBy);
+            $scope.message = '';
           };
-          socket.on('message', function(message) {
-            console.log(message);
+          socket.on('message', function(text, name) {
+            $scope.$apply(function(){
+              var message = {
+                text: text,
+                name: name
+              };
+              $scope.messages.unshift(message);
+            });
           });
           //end of chat message
 

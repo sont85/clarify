@@ -11,10 +11,8 @@ module.exports = function(io) {
     console.log('user connected');
     socket.emit('users count', io.engine.clientsCount);
 
-    socket.on('chat message', function(message, roomId){
-      console.log(message);
-      console.log(roomId);
-      io.sockets.to(roomId).emit('message', message);
+    socket.on('chat message', function(text, name, roomId){
+      io.sockets.to(roomId).emit('message', text, name);
     });
 
     socket.on('join', function(roomId){
@@ -53,7 +51,7 @@ module.exports = function(io) {
     });
 
     socket.on('disconnect', function(){
-      
+
     });
 
 

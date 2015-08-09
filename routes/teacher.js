@@ -28,11 +28,11 @@ router.get('/allQuestion', function(req, res){
   });
 });
 router.post('/set', function(req, res){
-  console.log(req.body);
   Teacher.findById(req.user._id, function(err, teacher){
     Question.create({
       listName: req.body.setName,
-      createdBy: teacher._id
+      createdBy: teacher._id,
+      teacherName: req.user.displayName
     }, function(err, question) {
       teacher.questionsList.push(question._id);
       teacher.save();
