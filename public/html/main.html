@@ -1,13 +1,13 @@
 <div>
   <div class='text-center'>
     <h2 class='title'>Welcome {{user.displayName}}</h2>
-    <img class='google-image' src='{{user.image}}'>
-    <a ng-if='user.type === "student"' ui-sref='student'>
-      <h3>Student dashboard</h3>
-    </a>
-    <a ng-if='user.type === "teacher"' ui-sref='teacher'>
-      <h3>Teacher dashboard</h3>
-    </a>
+    <img class='google-image lead' src='{{user.image}}'>
+    <div>
+      <button ng-if='user.type === "student"' ui-sref='student' class='btn btn-default'>Student Dashboard</button>
+    </div>
+    <div>
+      <button ng-if='user.type === "teacher"' ui-sref='teacher' class='btn btn-default'>Teacher Dashboard</button>
+    </div>
   </div>
   <div class='text-center panel' ng-hide='user.type'>
     <h3>Please Register User Type</h3>
