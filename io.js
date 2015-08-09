@@ -2,7 +2,8 @@
 var mongoose = require('mongoose');
 var Teacher = require('./models/teacherSchema');
 var Question = require('./models/questionSchema');
-mongoose.connect('mongodb://localhost/clarity');
+// mongoose.connect('mongodb://localhost/clarity');
+mongoose.connect(process.env.MONGOLAB_URI);
 
 var result = {};
 var room = {};
