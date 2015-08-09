@@ -2,8 +2,7 @@
 var mongoose = require('mongoose');
 var Teacher = require('./models/teacherSchema');
 var Question = require('./models/questionSchema');
-// mongoose.connect('mongodb://localhost/clarity');
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/clarity');
 
 var result = {};
 var room = {};
