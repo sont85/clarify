@@ -1,5 +1,8 @@
 <h2 class='text-center'>{{currentSet.listName}}</h2>
-<h4>Connected User Count: {{userCount}}</h4>
+<h4 class='text-center'>Connected User Count: <span class='badge'>{{userCount}}</span></h4>
+<div class='text-center'>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#questionModal">Enter New Question</button>
+</div>
 <div class='row'>
   <div ng-repeat='question in currentSet.list'>
     <div class='col-sm-4'>
@@ -13,11 +16,6 @@
   </div>
 </div>
 
-<div class='text-center'>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#questionModal">
-    Enter New Question
-  </button>
-</div>
 <!-- Modal -->
 <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -60,6 +58,7 @@
 </div>
 
 <div>
+  <h2 class='page-header text-center'>Chatroom</h2>
   <form ng-submit='sendMessage()'>
     <div class='input-group'>
       <input class='form-control' ng-model='message' placeholder='message' required>
@@ -70,7 +69,7 @@
   </form>
   <div class='chatBox'>
     <div ng-repeat='message in messages track by $index'>
-      <span>{{message.name}}: </span>
+      <span class='chat-name'>{{message.name}}: </span>
       <span>{{message.text}}</span>
     </div>
   </div>

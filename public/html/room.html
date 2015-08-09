@@ -14,7 +14,7 @@
     </div>
   </div>
 </div>
-<span class='text-center h3'>{{currentQuestion.question}}</span>
+<h3 class='text-center'>{{currentQuestion.question}}</h3>
 <form ng-submit="submitAnswer()" ng-show='currentQuestion'>
   <div class='well'>
     <div>
@@ -49,6 +49,7 @@
 </div>
 
 <div>
+  <h2 class='page-header text-center'>Chatroom</h2>
   <form ng-submit='sendMessage()'>
     <div class='input-group'>
       <input class='form-control' ng-model='message' placeholder='message' required>
@@ -59,7 +60,7 @@
   </form>
   <div class='chatBox'>
     <div ng-repeat='message in messages track by $index'>
-      <span>{{message.name}}: </span>
+      <span class='chat-name'>{{message.name}}: </span>
       <span>{{message.text}}</span>
     </div>
   </div>

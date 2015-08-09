@@ -40,7 +40,9 @@ ul {
   height: 400px;
   background: #CCC;
 }
-
+.chat-name {
+  font-weight: bold;
+}
 @media (max-width: 480px) {
   .main-image {
     height: 150vw;

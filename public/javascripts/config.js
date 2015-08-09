@@ -6,7 +6,8 @@
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: '../html/main.html'
+        templateUrl: '../html/main.html',
+        controller: 'MainCtrl'
       })
       .state('student', {
         url: '/student',
