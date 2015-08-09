@@ -26,8 +26,12 @@
     $scope.addTeacher = function() {
       StudentService.addTeacher($scope.selectedTeacher)
       .success(function(response) {
+        if (response === 'success'){
+          swal(response, 'Successfully added Teacher', response);
+        } else {
+          swal('Error', response , 'error');
+        }
         bindMyTeacher();
-        swal("Error", response , "error");
       }).catch(function(err) {
         console.log(err);
       });

@@ -12,9 +12,11 @@
   </div>
 </div>
 <h1 class='text-center white lead'>All Teachers</h1>
-<div>
+<div class='input-group'>
   <select class='form-control' ng-model='selectedTeacher'>
     <option ng-repeat='teacher in teachers' value='{{teacher}}'>{{teacher.displayName}}</option>
   </select>
-  <button class='btn btn-default' ng-click='addTeacher()'>Add Teacher</button>
+  <span class='input-group-btn'>
+    <button class='btn btn-default' ng-click='addTeacher()'>Add Teacher</button>
+  </span>
 </div>

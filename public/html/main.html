@@ -1,4 +1,11 @@
 <div>
+  <div class='text-center'>
+    <h2 class='title'>Welcome
+      {{user.displayName}}</h2>
+    <img src='{{user.image}}'>
+    <a ng-if='user.type === "student"' ui-sref='student'>Student dashboard</a>
+    <a ng-if='user.type === "teacher"' ui-sref='teacher'>Teacher dashboard</a>
+  </div>
   <div class='text-center panel' ng-hide='user.type'>
     <form ng-submit='registerUser()'>
       <h5>Please Register User Type</h5>
@@ -10,12 +17,5 @@
         <button class='btn btn-default' type='submit'>registered user</button>
       </div>
     </form>
-  </div>
-  <div class='text-center'>
-    <h2 class='title'>Welcome
-      {{user.displayName}}</h2>
-    <img src='{{user.image}}'>
-    <a ng-if='user.type === "student"' ui-sref='student'>Student dashboard</a>
-    <a ng-if='user.type === "teacher"' ui-sref='teacher'>Teacher dashboard</a>
   </div>
 </div>
