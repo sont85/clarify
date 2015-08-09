@@ -3,33 +3,34 @@
   var app = angular.module('clarity.controller.student', []);
   app.controller('StudentCtrl', function($scope, TeacherService, StudentService, $location) {
     StudentService.allTeacher()
-      .success(function(teachers) {
-        $scope.teachers = teachers;
-      }).catch(function(err) {
-        console.log(err);
-      });
+    .success(function(teachers) {
+      $scope.teachers = teachers;
+    }).catch(function(err) {
+      console.log(err);
+    });
 
     function bindMyTeacher() {
       StudentService.myTeacher()
-        .success(function(teachers) {
-          console.log(teachers);
-          $scope.myTeachers = teachers;
-        }).catch(function(err) {
-          console.log(err);
-        });
+      .success(function(teachers) {
+        console.log(teachers);
+        $scope.myTeachers = teachers;
+      }).catch(function(err) {
+        console.log(err);
+      });
     }
     bindMyTeacher();
     socket.on('users count', function(msg) {
       console.log(msg);
     });
 
-    $scope.addTeacher = function(teacher) {
-      StudentService.addTeacher(teacher)
-        .success(function(response) {
-          bindMyTeacher();
-        }).catch(function(err) {
-          console.log(err);
-        });
+    $scope.addTeacher = function() {
+      StudentService.addTeacher($scope.selectedTeacher)
+      .success(function(response) {
+        bindMyTeacher();
+        swal("Error", response , "error");
+      }).catch(function(err) {
+        console.log(err);
+      });
     };
     $scope.enterRoom = function(teacher) {
       $location.url('/student/room/' + teacher._id);

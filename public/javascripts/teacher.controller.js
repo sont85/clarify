@@ -3,19 +3,17 @@
   var app = angular.module('clarity.controller.teacher', []);
   app.controller('TeacherCtrl', function($scope, TeacherService, ChartService, $location, $state) {
     socket.on('result', function(msg) {
-      console.log(msg);
-      console.log(msg.true / msg.total);
       ChartService.chart(msg)
     });
 
     function bindSet() {
       TeacherService.allQuestions()
-        .success(function(allQuestion) {
-          console.log(allQuestion);
-          $scope.allQuestion = allQuestion;
-        }).catch(function(err) {
-          console.log(err);
-        });
+      .success(function(allQuestion) {
+        console.log(allQuestion);
+        $scope.allQuestion = allQuestion;
+      }).catch(function(err) {
+        console.log(err);
+      });
     }
     bindSet();
 
@@ -35,14 +33,14 @@
     $scope.deleteSet = function(set) {
       swal({
         title: 'Delete question set?',
-        text: "All questions within this set will be deleted!",
-        type: "warning",
+        text: 'All questions within this set will be deleted!',
+        type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, delete it!',
         closeOnConfirm: false
       }, function() {
-        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        swal('Deleted!', 'Your imaginary file has been deleted.', 'success');
         TeacherService.deleteSet(set);
         $state.reload();
       });
@@ -139,11 +137,11 @@
       StudentService.registerUser($scope.type)
         .success(function(response) {
           swal({
-            title: "Successfully Registered",
-            text: response.displayName + " Please Log Back In!",
-            type: "success",
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Confirm"
+            title: 'Successfully Registered',
+            text: response.displayName + ' Please Log Back In!',
+            type: 'success',
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Confirm'
           }, function() {
             location.href = 'http://localhost:3000/auth/google';
           });

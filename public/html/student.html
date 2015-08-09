@@ -1,4 +1,4 @@
-<h3>My Teachers</h3>
+<h1 class='text-center title'>My Teachers</h1>
 <div class='row'>
   <div ng-repeat='myTeacher in myTeachers'>
     <div class='col-sm-4'>
@@ -6,14 +6,15 @@
         <div class='well'>
           <span class="h4">{{myTeacher.displayName}}</span>
         </div>
-        <button class='btn btn-default' ng-click='enterRoom(myTeacher)'>Join Room</button>
+        <div class='clickable' ng-click='enterRoom(myTeacher)'><h2>Join Room</h2></div>
       </div>
     </div>
   </div>
 </div>
-
-<h3>All Teachers</h3>
-<div ng-repeat='teacher in teachers'>
-  <span class='h4'>{{teacher.displayName}}</span>
-  <button class='btn btn-default' ng-click='addTeacher(teacher)'>Add Teacher</button>
+<h1 class='text-center white lead'>All Teachers</h1>
+<div>
+  <select class='form-control' ng-model='selectedTeacher'>
+    <option ng-repeat='teacher in teachers' value='{{teacher}}'>{{teacher.displayName}}</option>
+  </select>
+  <button class='btn btn-default' ng-click='addTeacher()'>Add Teacher</button>
 </div>

@@ -1,5 +1,5 @@
 <div class='text-center'>
-  <h2>Welcome {{user.displayName}}</h2>
+  <h2 class='title'>Welcome {{user.displayName}}</h2>
   <img src='{{user.image}}'>
   <a ng-if='user.type === "student"' ui-sref='student'>Student dashboard</a>
   <a ng-if='user.type === "teacher"' ui-sref='teacher'>Teacher dashboard</a>

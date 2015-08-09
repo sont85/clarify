@@ -1,37 +1,42 @@
-  <div class='row'>
-    <div ng-repeat='set in allQuestion'>
-      <div class='col-sm-4'>
-        <div class='panel panel-default text-center'>
-          <div class='well clickable' ng-click='linkToList(set)'>
-            <h3>{{set.listName}}</h3>
-          </div>
-          <button ng-click='deleteSet(set)' class='btn btn-warning'>Delete List</button>
+<div class='text-center'>
+  <button class="btn btn-primary" data-target="#setModal" data-toggle="modal" type="button">Add Question Set</button>
+</div>
+<div class='row'>
+  <div ng-repeat='set in allQuestion'>
+    <div class='col-sm-4'>
+      <div class='panel panel-default text-center'>
+        <button type="button" ng-click='deleteSet(set)' class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class='well clickable' ng-click='linkToList(set)'>
+          <h3>{{set.listName}}</h3>
+        </div>
+        <div>
+          <h3>{{set.list.length}} Questions</h3>
         </div>
       </div>
     </div>
   </div>
-  <div class='text-center'>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setModal">Add Question Set</button>
-  </div>
+</div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="setModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <form ng-submit="addSet()">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Question Set</h4>
-          </div>
-          <div class="modal-body">
-              <label>New Set</label>
-              <input type='text' class='form-control' ng-model="newSetName" placeholder="Name of New Question Set" required />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button class='btn btn-primary' type="submit">Submit New Set</button>
-          </div>
-        </form>
-      </div>
+<!-- Modal -->
+<div aria-labelledby="myModalLabel" class="modal fade" id="setModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form ng-submit="addSet()">
+        <div class="modal-header">
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Question Set</h4>
+        </div>
+        <div class="modal-body">
+          <label>New Set</label>
+          <input class='form-control' ng-model="newSetName" placeholder="Name of New Question Set" required type='text'/>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+          <button class='btn btn-primary' type="submit">Submit New Set</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>

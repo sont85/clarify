@@ -19,6 +19,9 @@ router.get('/myteachers', function(req, res) {
 router.patch('/addteacher', function(req, res){
   Student.findById(req.user._id, function(err, student){
     Point.findOne({studentId: req.user._id, teacherId: req.body._id}, function(err, point){
+      if(point){
+        res.json('Already Added Teacher')
+      }
       if (!point) {
         Point.create({
           studentId: req.user._id,
