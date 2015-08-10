@@ -3,35 +3,35 @@
   var app = angular.module('clarity.controller.student', []);
   app.controller('StudentCtrl', function($scope, TeacherService, StudentService, $location) {
     StudentService.allTeacher()
-    .success(function(teachers) {
-      $scope.teachers = teachers;
-    }).catch(function(err) {
-      console.log(err);
-    });
-
-    function bindMyTeacher() {
-      StudentService.myTeacher()
       .success(function(teachers) {
-        console.log(teachers);
-        $scope.myTeachers = teachers;
+        $scope.teachers = teachers;
       }).catch(function(err) {
         console.log(err);
       });
+
+    function bindMyTeacher() {
+      StudentService.myTeacher()
+        .success(function(teachers) {
+          console.log(teachers);
+          $scope.myTeachers = teachers;
+        }).catch(function(err) {
+          console.log(err);
+        });
     }
     bindMyTeacher();
 
     $scope.addTeacher = function() {
       StudentService.addTeacher($scope.selectedTeacher)
-      .success(function(response) {
-        if (response === 'success'){
-          swal(response, 'Successfully added Teacher', response);
-        } else {
-          swal('Error', response , 'error');
-        }
-        bindMyTeacher();
-      }).catch(function(err) {
-        console.log(err);
-      });
+        .success(function(response) {
+          if (response === 'success') {
+            swal(response, 'Successfully added Teacher', response);
+          } else {
+            swal('Error', response, 'error');
+          }
+          bindMyTeacher();
+        }).catch(function(err) {
+          console.log(err);
+        });
     };
     $scope.enterRoom = function(teacher) {
       $location.url('/student/room/' + teacher._id);
@@ -40,16 +40,16 @@
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, ChartService, $location, $stateParams) {
     function bindPoint() {
       StudentService.getPoint()
-      .success(function(response) {
-        $scope.pointsData = response;
-        socket.emit('join room', response.studentName, $stateParams.roomId, response.studentId);
-      }).catch(function(err) {
-        console.log(err);
-      });
+        .success(function(response) {
+          $scope.pointsData = response;
+          socket.emit('join room', response.studentName, $stateParams.roomId, response.studentId);
+        }).catch(function(err) {
+          console.log(err);
+        });
     }
     bindPoint();
 
-    $scope.$on('$destroy', function(){
+    $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
 
@@ -64,7 +64,7 @@
       $scope.message = '';
     };
     socket.on('message', function(message) {
-      $scope.$apply(function(){
+      $scope.$apply(function() {
         $scope.messages = message;
         console.log($scope.messages);
       });
@@ -80,21 +80,35 @@
 
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
+      $scope.timeOut = true;
       $scope.result = result;
       socket.emit('answers', result, $scope.studentAnswer, $stateParams.roomId);
-      $scope.timeOut = true;
       console.log(result);
       if (result) {
+        swal({
+          title: 'Correct',
+          text: '+1 Point',
+          timer: 2000,
+          type: 'success',
+          showConfirmButton: false
+        });
         StudentService.postPoint()
-          .success(function(response) {
-            bindPoint();
-          }).catch(function(err) {
-            console.log(err);
-          });
+        .success(function(response) {
+          bindPoint();
+        }).catch(function(err) {
+          console.log(err);
+        });
+      } else {
+        swal({
+          title: 'Wrong',
+          timer: 2000,
+          type: 'error',
+          showConfirmButton: false
+        });
       }
     };
 
-    socket.on('currentTestQuestion', function(question) {
+    socket.on('start question', function(question) {
       $('#container').empty();
       $('#container2').empty();
       $scope.$apply(function() {

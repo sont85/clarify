@@ -73,7 +73,7 @@ module.exports = function(io) {
     });
 
     socket.on('startTest', function(question, roomId) {
-      socket.broadcast.to(roomId).emit('currentTestQuestion', question);
+      io.sockets.to(roomId).emit('start question', question);
     });
 
     socket.on('leaving room', function(){

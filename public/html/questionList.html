@@ -5,6 +5,7 @@
 <div class='row'>
   <div class='col-xs-12 text-center'>
     <h1 class='white'>{{currentSet.listName}}</h1>
+    <h1 class='timer'>{{timer}}</h1>
   </div>
 </div>
 <div class='row'>
@@ -52,7 +53,7 @@
               <option value='E'>E</option>
             </select>
             <label>Alloted Time</label>
-            <input class='form-control' type="number" min="30" max="300"  step='10' ng-model='newQuestion.time' required />
+            <input class='form-control' type="number" min="20" max="300" ng-model='newQuestion.time' required />
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
