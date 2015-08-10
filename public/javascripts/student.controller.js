@@ -36,6 +36,10 @@
     $scope.enterRoom = function(teacher) {
       $location.url('/student/room/' + teacher._id);
     };
+    $scope.linkToChat = function(teacher) {
+      console.log(teacher)
+      $location.url('/student/chatroom/' + teacher._id);
+    };
   });
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, ChartService, $location, $stateParams) {
     function bindPoint() {
@@ -49,9 +53,9 @@
     }
     bindPoint();
 
-    $scope.$on('$destroy', function() {
-      socket.emit('leaving room');
-    });
+    // $scope.$on('$destroy', function() {
+    //   socket.emit('leaving room');
+    // });
 
     socket.on('leave room', function(users) {
       $scope.$apply(function() {
@@ -59,22 +63,9 @@
       });
     });
 
-    $scope.sendMessage = function() {
-      socket.emit('chat message', $scope.message, $scope.pointsData.studentName, $stateParams.roomId);
-      $scope.message = '';
-    };
-    socket.on('message', function(message) {
-      $scope.$apply(function() {
-        $scope.messages = message;
-        console.log($scope.messages);
-      });
-    });
-
     socket.on('stored messages and users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
-        $scope.messages = message;
-        console.log($scope.messages);
       });
     });
 
@@ -118,7 +109,7 @@
       $scope.$apply(function() {
         $scope.time = question.time;
         $scope.currentQuestion = question;
-        $scope.answer = null;
+        $scope.studentAnswer = null;
       });
       var timer = setInterval(function() {
         $scope.$apply(function() {
@@ -141,6 +132,42 @@
     socket.on('result', function(msg) {
       console.log(msg);
       ChartService.chart(msg);
+    });
+  });
+  app.controller('StudentChatCtrl', function($scope, StudentService, $location, $stateParams, $state) {
+    function joinChatroom() {
+      StudentService.getUserInfo()
+        .success(function(user) {
+          socket.emit('join room', user.displayName, $stateParams.roomId);
+          $scope.sendMessage = function() {
+            socket.emit('chat message', $scope.message, user.displayName, $stateParams.roomId);
+            $scope.message = '';
+          };
+        }).catch(function(err) {
+          console.log(err);
+        });
+    }
+    joinChatroom();
+    $scope.$on('$destroy', function() {
+      socket.emit('leaving room');
+    });
+
+    socket.on('message', function(message) {
+      $scope.$apply(function() {
+        $scope.messages = message;
+      });
+    });
+
+    socket.on('leave room', function(users) {
+      $scope.$apply(function() {
+        $scope.users = users;
+      });
+    });
+    socket.on('stored messages and users', function(message, users) {
+      $scope.$apply(function() {
+        $scope.users = users;
+        $scope.messages = message;
+      });
     });
   });
 })();

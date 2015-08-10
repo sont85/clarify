@@ -60,26 +60,6 @@
       });
     }
     bindCurrentSet();
-    socket.on('start question', function(question) {
-      (function clearAllIntervals() {
-        for (var i = 1; i < 99999; i++)
-          window.clearInterval(i);
-      })();
-      $scope.$apply(function() {
-        $scope.timer = question.time;
-      });
-      var timer = setInterval(function() {
-        $scope.$apply(function() {
-          $scope.timer--;
-        });
-      }, 1000);
-      setTimeout(function() {
-        $scope.$apply(function() {
-          $scope.timer = null;
-          clearInterval(timer);
-        });
-      }, question.time * 1000);
-    });
     $scope.addQuestion = function() {
       TeacherService.addQuestion($scope.newQuestion)
         .success(function(response) {
@@ -91,16 +71,32 @@
         });
     };
     $scope.startTest = function(question) {
+      (function clearAllIntervals() {
+        for (var i = 1; i < 99999; i++)
+          window.clearInterval(i);
+      })();
       $('#container').empty();
       $('#container2').empty();
       var roomId = $scope.currentSet.createdBy;
       socket.emit('startTest', question, roomId);
+      $scope.timer = question.time;
+      var timer = setInterval(function() {
+        $scope.$apply(function() {
+          $scope.timer--;
+        });
+      }, 1000);
+      setTimeout(function() {
+        $scope.$apply(function() {
+          $scope.timer = null;
+          clearInterval(timer);
+        });
+      }, question.time * 1000);
     };
     $scope.linkToQuestion = function(question) {
       $location.url('teacher/' + $stateParams.setId + '/question/' + question._id);
     };
   });
-  app.controller('TeacherRoomCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
+  app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, $location, $stateParams, $state) {
     function bindSet() {
       TeacherService.allQuestions()
         .success(function(allQuestion) {

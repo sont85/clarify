@@ -34,10 +34,15 @@
         templateUrl: '../html/question.html',
         controller: 'QuestionCtrl'
       })
-      .state('chat', {
+      .state('teacherChat', {
         url:'/teacher/chatroom/:roomId',
         templateUrl: '../html/chat.html',
-        controller: 'TeacherRoomCtrl'
+        controller: 'TeacherChatCtrl'
+      })
+      .state('studentChat', {
+        url:'/student/chatroom/:roomId',
+        templateUrl: '../html/chat.html',
+        controller: 'StudentChatCtrl'
       });
   });
 })();
