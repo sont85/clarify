@@ -5,11 +5,10 @@ var Question = require('./models/questionSchema');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/clarity');
 
 var result = {};
-// var room = {};
+var room = {};
 module.exports = function(io) {
   io.sockets.on('connection', function(socket){
     console.log('user connected');
-    // socket.emit('users count', io.engine.clientsCount);
 
     socket.on('chat message', function(text, name, roomId){
       Teacher.findById(roomId, function(err, teacher){
@@ -21,13 +20,16 @@ module.exports = function(io) {
       });
     });
 
-    socket.on('join', function(name, roomId){
-      // room[roomId] = room[roomId] || { names: [] };
-      // room[roomId].names.push(name);
+    socket.on('join room', function(name, roomId){
       Teacher.findById(roomId, function(err, teacher){
         socket.join(roomId, function(){
-          var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
-          io.sockets.to(roomId).emit('stored messages', teacher.chat , numberOfUser);
+          room[roomId] = room[roomId] || [];
+          room[roomId].push(name);
+          socket.currentRoom = roomId;
+          socket.userName = name;
+          console.log('join name', socket.userName);
+          // var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
+          io.sockets.to(roomId).emit('stored messages and users', teacher.chat , room[roomId]);
         });
       });
     });
@@ -61,8 +63,14 @@ module.exports = function(io) {
       socket.broadcast.to(roomId).emit('currentTestQuestion', question);
     });
 
-    socket.on('disconnect', function(socket){
-
+    socket.on('disconnect', function(){
+      console.log(socket);
+      console.log('disconnect room', this.currentRoom);
+      if (this.currentRoom) {
+        var index = room[this.currentRoom].indexOf(this.userName);
+        room[this.currentRoom].splice(index, 1);
+        io.sockets.to(this.currentRoom).emit('leave room', room[this.currentRoom]);
+      }
     });
   });
 };

@@ -66,15 +66,22 @@
           });
           //end of chat message
 
-          socket.emit('join', currentSet.teachername, currentSet.createdBy);
+          socket.emit('join room', currentSet.teacherName, currentSet.createdBy);
         }).catch(function(err) {
           console.log(err);
         });
     }
     bindCurrentSet();
-    socket.on('stored messages', function(message, numberOfUser) {
+
+    socket.on('leave room', function(users) {
       $scope.$apply(function() {
-        $scope.userCount = numberOfUser;
+        $scope.users = users;
+      });
+    });
+
+    socket.on('stored messages and users', function(message, users) {
+      $scope.$apply(function() {
+        $scope.users = users;
         $scope.messages = message;
         console.log($scope.messages);
       });

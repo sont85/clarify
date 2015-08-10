@@ -19,9 +19,6 @@
       });
     }
     bindMyTeacher();
-    socket.on('users count', function(msg) {
-      console.log(msg);
-    });
 
     $scope.addTeacher = function() {
       StudentService.addTeacher($scope.selectedTeacher)
@@ -45,12 +42,18 @@
       StudentService.getPoint()
         .success(function(response) {
           $scope.pointsData = response;
-          socket.emit('join', response.studentName, $stateParams.roomId);
+          socket.emit('join room', response.studentName, $stateParams.roomId);
         }).catch(function(err) {
           console.log(err);
         });
     }
     bindPoint();
+
+    socket.on('leave room', function(users) {
+      $scope.$apply(function() {
+        $scope.users = users;
+      });
+    });
 
     $scope.sendMessage = function() {
       socket.emit('chat message', $scope.message, $scope.pointsData.studentName, $stateParams.roomId);
@@ -64,9 +67,9 @@
       });
     });
 
-    socket.on('stored messages', function(message, numberOfUser) {
+    socket.on('stored messages and users', function(message, users) {
       $scope.$apply(function() {
-        $scope.userCount = numberOfUser;
+        $scope.users = users;
         $scope.messages = message;
         console.log($scope.messages);
       });

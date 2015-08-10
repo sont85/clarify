@@ -1,5 +1,5 @@
 <div class='pull-right lead'>
-  <h4 class='white'>Connected User Count: <span class='badge'>{{userCount}}</span></h4>
+  <h4 class='white'>Connected User Count: <span class='badge'>{{users.length}}</span></h4>
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#questionModal">Enter New Question</button>
 </div>
 <div class='row'>
@@ -72,20 +72,26 @@
   </div>
 </div>
 
-<div>
-  <h1 class='lead text-center title'>Chatroom</h1>
-  <form ng-submit='sendMessage()'>
-    <div class='input-group'>
-      <input class='form-control' ng-model='message' placeholder='message' required>
-      <span class='input-group-btn'>
-        <button type='submit' class='btn btn-primary'>Send</button>
-      </span>
+<h1 class='title text-center lead'>Chatroom</h1>
+<div class='row'>
+  <div class='col-xs-10'>
+    <form ng-submit='sendMessage()'>
+      <div class='input-group'>
+        <input class='form-control' ng-model='message' placeholder='message' required>
+        <span class='input-group-btn'>
+          <button type='submit' class='btn btn-primary'>Send</button>
+        </span>
+      </div>
+    </form>
+    <div class='chatBox'>
+      <div ng-repeat='message in messages track by $index'>
+        <span class='chat-name'>{{message.name}}: </span>
+        <span>{{message.text}}</span>
+      </div>
     </div>
-  </form>
-  <div class='chatBox'>
-    <div ng-repeat='message in messages track by $index'>
-      <span class='chat-name'>{{message.name}}: </span>
-      <span>{{message.text}}</span>
-    </div>
+  </div>
+  <div class='col-xs-2 chatBox'>
+    <h3 class='text-center page-header'>Users Online</h3>
+    <h4 ng-repeat='user in users'>{{user}}</h4>
   </div>
 </div>
