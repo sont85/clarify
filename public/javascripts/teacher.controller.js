@@ -3,7 +3,7 @@
   var app = angular.module('clarity.controller.teacher', []);
   app.controller('TeacherCtrl', function($scope, TeacherService, ChartService, $location, $state) {
     socket.on('result', function(msg) {
-      ChartService.chart(msg)
+      ChartService.chart(msg);
     });
 
     function bindSet() {
@@ -19,13 +19,13 @@
 
     $scope.addSet = function() {
       TeacherService.addSet($scope.newSetName)
-        .success(function(response) {
-          bindSet();
-          $scope.newSetName = '';
-          $('#setModal').modal('hide');
-        }).catch(function(err) {
-          console.log(err);
-        });
+      .success(function(response) {
+        bindSet();
+        $scope.newSetName = '';
+        $('#setModal').modal('hide');
+      }).catch(function(err) {
+        console.log(err);
+      });
     };
     $scope.linkToList = function(set) {
       $location.url('/teacher/questionList/' + set._id);
@@ -44,32 +44,28 @@
         TeacherService.deleteSet(set);
         $state.reload();
       });
-
     };
   });
   app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
-        .success(function(currentSet) {
-          $scope.currentSet = currentSet;
-          console.log(currentSet)
-          //chat message
-          $scope.sendMessage = function() {
-            socket.emit('chat message', $scope.message, $scope.currentSet.teacherName, $scope.currentSet.createdBy);
-            $scope.message = '';
-          };
-          socket.on('message', function(message) {
-            $scope.$apply(function(){
-              $scope.messages = message;
-              console.log($scope.messages);
-            });
+      .success(function(currentSet) {
+        $scope.currentSet = currentSet;
+        $scope.sendMessage = function() {
+          socket.emit('chat message', $scope.message, $scope.currentSet.teacherName, $scope.currentSet.createdBy);
+          $scope.message = '';
+        };
+        socket.on('message', function(message) {
+          $scope.$apply(function(){
+            $scope.messages = message;
+            console.log($scope.messages);
           });
-          //end of chat message
-
-          socket.emit('join room', currentSet.teacherName, currentSet.createdBy);
-        }).catch(function(err) {
-          console.log(err);
         });
+        console.log('questionctrl')
+        socket.emit('join room', currentSet.teacherName, currentSet.createdBy);
+      }).catch(function(err) {
+        console.log(err);
+      });
     }
     bindCurrentSet();
 
@@ -88,13 +84,13 @@
     });
     $scope.addQuestion = function() {
       TeacherService.addQuestion($scope.newQuestion)
-        .success(function(response) {
-          bindCurrentSet();
-          $scope.newQuestion = '';
-          $('#questionModal').modal('hide');
-        }).catch(function(err) {
-          console.log(err);
-        });
+      .success(function(response) {
+        bindCurrentSet();
+        $scope.newQuestion = '';
+        $('#questionModal').modal('hide');
+      }).catch(function(err) {
+        console.log(err);
+      });
     };
     $scope.startTest = function(question) {
       $('#container').empty();
@@ -109,11 +105,11 @@
   app.controller('QuestionCtrl', function(TeacherService, $scope, $location, $stateParams) {
     function bindQuestion() {
       TeacherService.currentQuestion($stateParams.questionId)
-        .success(function(response) {
-          $scope.currentQuestion = response;
-        }).catch(function(err) {
-          console.log(err);
-        });
+      .success(function(response) {
+        $scope.currentQuestion = response;
+      }).catch(function(err) {
+        console.log(err);
+      });
     }
     bindQuestion();
 
@@ -123,39 +119,39 @@
     };
     $scope.editQuestion = function() {
       TeacherService.editQuestion($scope.editedQuestion)
-        .success(function(response) {
-          bindQuestion();
-          $('#editQuestion').modal('hide');
-          $scope.editedQuestion = '';
-        }).catch(function(err) {
-          console.log(err);
-        });
+      .success(function(response) {
+        bindQuestion();
+        $('#editQuestion').modal('hide');
+        $scope.editedQuestion = '';
+      }).catch(function(err) {
+        console.log(err);
+      });
     };
   });
   app.controller('MainCtrl', function($scope, StudentService) {
     StudentService.getUserInfo()
+    .success(function(response) {
+      $scope.user = response;
+      console.log(response);
+    }).catch(function(err) {
+      console.error(err);
+    });
+    $scope.registerUser = function() {
+      StudentService.registerUser($scope.type)
       .success(function(response) {
-        $scope.user = response;
-        console.log(response);
+        swal({
+          title: 'Successfully Registered',
+          text: response.displayName + ' Added To System',
+          type: 'success',
+          confirmButtonColor: '#DD6B55',
+          confirmButtonText: 'Confirm'
+        }, function() {
+          location.href = 'http://localhost:3000/auth/google';
+          // location.href = 'https://clarity.herokuapp.com/auth/google';
+        });
       }).catch(function(err) {
         console.error(err);
       });
-    $scope.registerUser = function() {
-      StudentService.registerUser($scope.type)
-        .success(function(response) {
-          swal({
-            title: 'Successfully Registered',
-            text: response.displayName + ' Added To System',
-            type: 'success',
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Confirm'
-          }, function() {
-            location.href = 'http://localhost:3000/auth/google';
-            // location.href = 'https://clarity.herokuapp.com/auth/google';
-          });
-        }).catch(function(err) {
-          console.error(err);
-        });
     };
   });
 })();

@@ -22,13 +22,17 @@ module.exports = function(io) {
 
     socket.on('join room', function(name, roomId){
       Teacher.findById(roomId, function(err, teacher){
-        socket.join(roomId, function(){
-          room[roomId] = room[roomId] || [];
-          room[roomId].push(name);
-          socket.currentRoom = roomId;
-          socket.userName = name;
+        if (socket.currentRoom) {
           io.sockets.to(roomId).emit('stored messages and users', teacher.chat , room[roomId]);
-        });
+        } else {
+          socket.join(roomId, function(){
+            room[roomId] = room[roomId] || [];
+            room[roomId].push(name);
+            socket.currentRoom = roomId;
+            socket.userName = name;
+            io.sockets.to(roomId).emit('stored messages and users', teacher.chat , room[roomId]);
+          });
+        }
       });
     });
 
