@@ -39,7 +39,7 @@ module.exports = function(io) {
       });
     });
     function emitMessagePoint(socket, name, roomId, teacher, user){
-      room[roomId].push(user);
+      room[roomId].unshift(user);
       socket.join(roomId, function(){
         socket.currentRoom = roomId;
         socket.userName = name;

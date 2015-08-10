@@ -33,6 +33,11 @@
         url:'/teacher/:setId/question/:questionId',
         templateUrl: '../html/question.html',
         controller: 'QuestionCtrl'
+      })
+      .state('chat', {
+        url:'/teacher/chatroom/:roomId',
+        templateUrl: '../html/chat.html',
+        controller: 'TeacherRoomCtrl'
       });
   });
 })();

@@ -1,0 +1,24 @@
+<h1 class='title text-center lead'>Chatroom</h1>
+<div class='row'>
+  <div class='col-xs-10'>
+    <form ng-submit='sendMessage()'>
+      <div class='input-group'>
+        <input class='form-control' ng-model='message' placeholder='message' required>
+        <span class='input-group-btn'>
+          <button type='submit' class='btn btn-primary'>Send</button>
+        </span>
+      </div>
+    </form>
+    <div class='chatBox'>
+      <div ng-repeat='message in messages track by $index'>
+        <span class='chat-name'>{{message.name}}: </span>
+        <span>{{message.text}}</span>
+      </div>
+    </div>
+  </div>
+  <div class='col-xs-2 chatBox'>
+    <h3 class='text-center page-header'>Online</h3>
+    <h5 ng-repeat='user in users'>
+      <span class="badge">{{user.point}}</span> {{user.name}}</h5>
+  </div>
+</div>

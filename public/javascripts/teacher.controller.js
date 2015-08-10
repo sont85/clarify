@@ -6,10 +6,10 @@
       console.log(msg)
       ChartService.chart(msg);
     });
-
     function bindSet() {
       TeacherService.allQuestions()
         .success(function(allQuestion) {
+          console.log(allQuestion)
           $scope.allQuestion = allQuestion;
         }).catch(function(err) {
           console.log(err);
@@ -17,6 +17,10 @@
     }
     bindSet();
 
+    $scope.linkToChat = function(){
+      console.log($scope.allQuestion[0].createdBy)
+      $location.url('teacher/chatroom/'+$scope.allQuestion[0].createdBy);
+    };
     $scope.addSet = function() {
       TeacherService.addSet($scope.newSetName)
         .success(function(response) {
@@ -49,23 +53,12 @@
   app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
-        .success(function(currentSet) {
-          $scope.currentSet = currentSet;
-          $scope.sendMessage = function() {
-            socket.emit('chat message', $scope.message, $scope.currentSet.teacherName, $scope.currentSet.createdBy);
-            $scope.message = '';
-          };
-          socket.on('message', function(message) {
-            $scope.$apply(function() {
-              $scope.messages = message;
-              console.log($scope.messages);
-            });
-          });
-          socket.emit('join room', currentSet.teacherName, currentSet.createdBy);
-        }).catch(function(err) {
-          console.log(err);
-        });
-    };
+      .success(function(currentSet) {
+        $scope.currentSet = currentSet;
+      }).catch(function(err) {
+        console.log(err);
+      });
+    }
     bindCurrentSet();
     socket.on('start question', function(question) {
       (function clearAllIntervals() {
@@ -83,22 +76,9 @@
       setTimeout(function() {
         $scope.$apply(function() {
           $scope.timer = null;
-          clearInterval(timer)
+          clearInterval(timer);
         });
       }, question.time * 1000);
-    });
-
-    socket.on('leave room', function(users) {
-      $scope.$apply(function() {
-        $scope.users = users;
-      });
-    });
-
-    socket.on('stored messages and users', function(message, users) {
-      $scope.$apply(function() {
-        $scope.users = users;
-        $scope.messages = message;
-      });
     });
     $scope.addQuestion = function() {
       TeacherService.addQuestion($scope.newQuestion)
@@ -119,6 +99,42 @@
     $scope.linkToQuestion = function(question) {
       $location.url('teacher/' + $stateParams.setId + '/question/' + question._id);
     };
+  });
+  app.controller('TeacherRoomCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
+    function bindSet() {
+      TeacherService.allQuestions()
+        .success(function(allQuestion) {
+          socket.emit('join room', allQuestion[0].teacherName, $stateParams.roomId);
+          $scope.sendMessage = function() {
+            socket.emit('chat message', $scope.message, allQuestion[0].teacherName, $stateParams.roomId);
+            $scope.message = '';
+          };
+        }).catch(function(err) {
+          console.log(err);
+        });
+    }
+    bindSet();
+    $scope.$on('$destroy', function() {
+      socket.emit('leaving room');
+    });
+
+    socket.on('message', function(message) {
+      $scope.$apply(function() {
+        $scope.messages = message;
+      });
+    });
+
+    socket.on('leave room', function(users) {
+      $scope.$apply(function() {
+        $scope.users = users;
+      });
+    });
+    socket.on('stored messages and users', function(message, users) {
+      $scope.$apply(function() {
+        $scope.users = users;
+        $scope.messages = message;
+      });
+    });
   });
   app.controller('QuestionCtrl', function(TeacherService, $scope, $location, $stateParams) {
     function bindQuestion() {
@@ -164,8 +180,8 @@
             confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Confirm'
           }, function() {
-            // location.href = 'http://localhost:3000/auth/google';
-            location.href = 'https://clarity.herokuapp.com/auth/google';
+            location.href = 'http://localhost:3000/auth/google';
+            // location.href = 'https://clarity.herokuapp.com/auth/google';
           });
         }).catch(function(err) {
           console.error(err);
