@@ -55,7 +55,13 @@ router.get('/auth/google',
 router.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
-    res.redirect('/');
+    if (req.user.type === 'teacher') {
+      res.redirect('/#/teacher');
+    } else if (req.user.type === 'student') {
+      res.redirect('/#/student');
+    } else {
+      res.redirect('/');
+    }
   });
 
 router.get('/logout', function(req, res){

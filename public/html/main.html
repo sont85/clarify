@@ -1,6 +1,6 @@
 <div>
   <div class='text-center'>
-    <h2 class='title'>Welcome {{user.displayName}}</h2>
+    <h2 class='title'>{{user.displayName}}</h2>
     <img class='google-image lead' src='{{user.image}}'>
     <div>
       <button ng-if='user.type === "student"' ui-sref='student' class='btn btn-default'>Student Dashboard</button>

@@ -146,8 +146,8 @@
           confirmButtonColor: '#DD6B55',
           confirmButtonText: 'Confirm'
         }, function() {
-          location.href = 'http://localhost:3000/auth/google';
-          // location.href = 'https://clarity.herokuapp.com/auth/google';
+          // location.href = 'http://localhost:3000/auth/google';
+          location.href = 'https://clarity.herokuapp.com/auth/google';
         });
       }).catch(function(err) {
         console.error(err);
