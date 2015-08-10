@@ -45,8 +45,8 @@
       });
     };
   });
-  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state, $timeout) {
-    function bindCurrentSet() {
+  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
+    (function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
         .success(function(currentSet) {
           $scope.currentSet = currentSet;
@@ -64,19 +64,22 @@
         }).catch(function(err) {
           console.log(err);
         });
-    }
-    bindCurrentSet();
-    socket.on('start question', function(question){
-      $scope.$apply(function(){
+    })();
+    socket.on('start question', function(question) {
+      (function clearAllIntervals() {
+        for (var i = 1; i < 99999; i++)
+          window.clearInterval(i);
+      })();
+      $scope.$apply(function() {
         $scope.timer = question.time;
       });
-      var timer = setInterval(function(){
-        $scope.$apply(function(){
-          $scope.timer --;
+      var timer = setInterval(function() {
+        $scope.$apply(function() {
+          $scope.timer--;
         });
       }, 1000);
-      setTimeout(function(){
-        $scope.$apply( function(){
+      setTimeout(function() {
+        $scope.$apply(function() {
           $scope.timer = null;
           clearInterval(timer)
         });

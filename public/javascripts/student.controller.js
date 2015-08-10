@@ -80,7 +80,6 @@
 
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
-      $scope.timeOut = true;
       $scope.result = result;
       socket.emit('answers', result, $scope.studentAnswer, $stateParams.roomId);
       console.log(result);
@@ -109,11 +108,15 @@
     };
 
     socket.on('start question', function(question) {
+      (function clearAllIntervals(){
+          for (var i = 0; i < 99999; i++) {
+            window.clearInterval(i);
+          }
+      })();
       $('#container').empty();
       $('#container2').empty();
       $scope.$apply(function() {
         $scope.time = question.time;
-        $scope.timeOut = false;
         $scope.currentQuestion = question;
         $scope.answer = null;
       });
@@ -126,7 +129,6 @@
       setTimeout(function() {
         clearInterval(timer);
         $scope.$apply(function() {
-          $scope.timeOut = true;
           $scope.time = null;
         });
         if (!$scope.studentAnswer) {
