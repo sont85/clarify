@@ -1,7 +1,7 @@
 'use strict';
 var mongoose = require('mongoose');
 var Teacher = require('./models/teacherSchema');
-var Question = require('./models/questionSchema');
+var Point = require('./models/pointSchema');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/clarity');
 
 var result = {};
@@ -20,21 +20,32 @@ module.exports = function(io) {
       });
     });
 
-    socket.on('join room', function(name, roomId){
+    socket.on('join room', function(name, roomId, studentId){
       Teacher.findById(roomId, function(err, teacher){
+        room[roomId] = room[roomId] || [];
+        var user = {name: name, point: 'N/A'};
         if (socket.currentRoom) {
           io.sockets.to(roomId).emit('stored messages and users', teacher.chat , room[roomId]);
         } else {
-          socket.join(roomId, function(){
-            room[roomId] = room[roomId] || [];
-            room[roomId].push(name);
-            socket.currentRoom = roomId;
-            socket.userName = name;
-            io.sockets.to(roomId).emit('stored messages and users', teacher.chat , room[roomId]);
-          });
+          if (studentId) {
+            Point.findOne({studentId: studentId, teacherId: roomId}, function(err, pointData) {
+              user.point = pointData.points;
+              emitMessagePoint(socket, name, roomId, teacher, user);
+            });
+          } else {
+            emitMessagePoint(socket, name, roomId, teacher, user);
+          }
         }
       });
     });
+    function emitMessagePoint(socket, name, roomId, teacher, user){
+      room[roomId].push(user);
+      socket.join(roomId, function(){
+        socket.currentRoom = roomId;
+        socket.userName = name;
+        io.sockets.to(roomId).emit('stored messages and users', teacher.chat , room[roomId]);
+      });
+    }
 
     socket.on('answers', function(truthy, letter, roomId){
       result[roomId] = result[roomId] || {

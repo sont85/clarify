@@ -92,6 +92,6 @@
   </div>
   <div class='col-xs-2 chatBox'>
     <h3 class='text-center page-header'>Users Online</h3>
-    <h4 ng-repeat='user in users'>{{user}}</h4>
+    <h5 ng-repeat='user in users'><span class="badge">{{user.point}}</span> {{user.name}}</h5>
   </div>
 </div>

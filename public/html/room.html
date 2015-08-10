@@ -15,30 +15,33 @@
   </div>
 </div>
 <h3 class='text-center white'>{{currentQuestion.question}}</h3>
-<form ng-submit="submitAnswer()" ng-show='currentQuestion'>
-  <div class='well mutliple-choice'>
-    <div>
-      <input name="answer" type="radio" value="A" ng-model='studentAnswer' id='answerA' required>
-      <label for='answerA'> A. {{currentQuestion.choiceA}}</label>
-    </div>
-    <div>
-      <input name="answer" type="radio" value="B" ng-model='studentAnswer' id='answerB' required>
-      <label for='answerB'> B. {{currentQuestion.choiceB}}</label>
-    </div>
-    <div ng-show='currentQuestion.choiceC'>
-      <input name="answer" type="radio" value="C" ng-model='studentAnswer' id='answerC' required>
-      <label for='answerC'> C. {{currentQuestion.choiceC}}</label>
-    </div>
-    <div ng-show='currentQuestion.choiceD'>
-      <input name="answer" type="radio" value="D" ng-model='studentAnswer' id='answerD' required>
-      <label for='answerD'> D. {{currentQuestion.choiceD}}</label>
-    </div>
+<div class='row'>
+  <div class='col-sm-10'>
+    <form ng-submit="submitAnswer()" ng-show='currentQuestion'>
+      <div class='well mutliple-choice'>
+        <div>
+          <input name="answer" type="radio" value="A" ng-model='studentAnswer' id='answerA' required>
+          <label for='answerA'> A. {{currentQuestion.choiceA}}</label>
+        </div>
+        <div>
+          <input name="answer" type="radio" value="B" ng-model='studentAnswer' id='answerB' required>
+          <label for='answerB'> B. {{currentQuestion.choiceB}}</label>
+        </div>
+        <div ng-show='currentQuestion.choiceC'>
+          <input name="answer" type="radio" value="C" ng-model='studentAnswer' id='answerC' required>
+          <label for='answerC'> C. {{currentQuestion.choiceC}}</label>
+        </div>
+        <div ng-show='currentQuestion.choiceD'>
+          <input name="answer" type="radio" value="D" ng-model='studentAnswer' id='answerD' required>
+          <label for='answerD'> D. {{currentQuestion.choiceD}}</label>
+        </div>
+      </div>
+      <div class='text-center lead'>
+        <button class='btn btn-primary' type="submit" ng-disabled='timeOut'>submit Answer</button>
+      </div>
+    </form>
   </div>
-  <div class='text-center lead'>
-    <button class='btn btn-primary' type="submit" ng-disabled='timeOut'>submit Answer</button>
-  </div>
-</form>
-
+</div>
 <div class="row">
   <div class="col-sm-6">
     <div id='container'></div>
@@ -66,7 +69,8 @@
     </div>
   </div>
   <div class='col-xs-2 chatBox'>
-    <h3 class='text-center page-header'>Users Online</h3>
-    <h4 ng-repeat='user in users'>{{user}}</h4>
+    <h3 class='text-center page-header'>Online</h3>
+    <h5 ng-repeat='user in users'>
+      <span class="badge">{{user.point}}</span> {{user.name}}</h5>
   </div>
 </div>

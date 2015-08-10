@@ -42,7 +42,7 @@
       StudentService.getPoint()
       .success(function(response) {
         $scope.pointsData = response;
-        socket.emit('join room', response.studentName, $stateParams.roomId);
+        socket.emit('join room', response.studentName, $stateParams.roomId, response.studentId);
       }).catch(function(err) {
         console.log(err);
       });
@@ -63,7 +63,6 @@
       socket.emit('chat message', $scope.message, $scope.pointsData.studentName, $stateParams.roomId);
       $scope.message = '';
     };
-    // $scope.messages = [];
     socket.on('message', function(message) {
       $scope.$apply(function(){
         $scope.messages = message;
@@ -81,6 +80,7 @@
 
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
+      $scope.result = result;
       socket.emit('answers', result, $scope.studentAnswer, $stateParams.roomId);
       $scope.timeOut = true;
       console.log(result);
@@ -124,7 +124,7 @@
 
     socket.on('result', function(msg) {
       console.log(msg);
-      console.log("correct ratio", msg.true / msg.total);
+      console.log('correct ratio', msg.true / msg.total);
       ChartService.chart(msg);
     });
   });
