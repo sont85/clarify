@@ -140,7 +140,6 @@
 
     socket.on('result', function(msg) {
       console.log(msg);
-      console.log('correct ratio', msg.true / msg.total);
       ChartService.chart(msg);
     });
   });

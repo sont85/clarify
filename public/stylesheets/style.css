@@ -75,6 +75,9 @@ nav{
 .chat-name {
   font-weight: bold;
 }
+#container {
+  margin-bottom: 20px;
+}
 @media (max-width: 480px) {
   .main-image {
     height: 600px;

@@ -3,6 +3,7 @@
   var app = angular.module('clarity.controller.teacher', []);
   app.controller('TeacherCtrl', function($scope, TeacherService, ChartService, $location, $state) {
     socket.on('result', function(msg) {
+      console.log(msg)
       ChartService.chart(msg);
     });
 
