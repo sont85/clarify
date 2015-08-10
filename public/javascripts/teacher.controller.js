@@ -48,7 +48,6 @@
     };
   });
   app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
-  $scope.messages = []
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
         .success(function(currentSet) {
@@ -59,13 +58,10 @@
             socket.emit('chat message', $scope.message, $scope.currentSet.teacherName, $scope.currentSet.createdBy);
             $scope.message = '';
           };
-          socket.on('message', function(text, name) {
+          socket.on('message', function(message) {
             $scope.$apply(function(){
-              var message = {
-                text: text,
-                name: name
-              };
-              $scope.messages.unshift(message);
+              $scope.messages = message;
+              console.log($scope.messages);
             });
           });
           //end of chat message
@@ -76,9 +72,11 @@
         });
     }
     bindCurrentSet();
-    socket.on('user in room', function(names, numberOfUser) {
+    socket.on('stored messages', function(message, numberOfUser) {
       $scope.$apply(function() {
         $scope.userCount = numberOfUser;
+        $scope.messages = message;
+        console.log($scope.messages);
       });
     });
     $scope.addQuestion = function() {
@@ -145,8 +143,8 @@
             confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Confirm'
           }, function() {
-            // location.href = 'http://localhost:3000/auth/google';
-            location.href = 'https://clarity.herokuapp.com/auth/google';
+            location.href = 'http://localhost:3000/auth/google';
+            // location.href = 'https://clarity.herokuapp.com/auth/google';
           });
         }).catch(function(err) {
           console.error(err);

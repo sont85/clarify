@@ -5,22 +5,30 @@ var Question = require('./models/questionSchema');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/clarity');
 
 var result = {};
-var room = {};
+// var room = {};
 module.exports = function(io) {
   io.sockets.on('connection', function(socket){
     console.log('user connected');
     // socket.emit('users count', io.engine.clientsCount);
 
     socket.on('chat message', function(text, name, roomId){
-      io.sockets.to(roomId).emit('message', text, name);
+      Teacher.findById(roomId, function(err, teacher){
+        teacher.chat.length >= 25? teacher.chat.pop() : null;
+        teacher.chat.unshift({text: text, name: name});
+        teacher.save();
+        console.log(teacher.chat);
+        io.sockets.to(roomId).emit('message', teacher.chat);
+      });
     });
 
     socket.on('join', function(name, roomId){
-      room[roomId] = room[roomId] || { names: [] };
-      room[roomId].names.push(name);
-      socket.join(roomId, function(){
-      var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
-      io.sockets.to(roomId).emit('user in room', room[roomId].names , numberOfUser);
+      // room[roomId] = room[roomId] || { names: [] };
+      // room[roomId].names.push(name);
+      Teacher.findById(roomId, function(err, teacher){
+        socket.join(roomId, function(){
+          var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
+          io.sockets.to(roomId).emit('stored messages', teacher.chat , numberOfUser);
+        });
       });
     });
 

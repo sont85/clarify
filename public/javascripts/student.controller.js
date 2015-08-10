@@ -56,23 +56,19 @@
       socket.emit('chat message', $scope.message, $scope.pointsData.studentName, $stateParams.roomId);
       $scope.message = '';
     };
-    $scope.messages = [];
-    socket.on('message', function(text, name) {
+    // $scope.messages = [];
+    socket.on('message', function(message) {
       $scope.$apply(function(){
-        var message = {
-          text: text,
-          name: name
-        };
-        $scope.messages.unshift(message);
+        $scope.messages = message;
+        console.log($scope.messages);
       });
     });
 
-    socket.on('user in room', function(names, numberOfUser) {
+    socket.on('stored messages', function(message, numberOfUser) {
       $scope.$apply(function() {
-        console.log(names);
-        console.log('number of user', numberOfUser);
-        $scope.names = names;
         $scope.userCount = numberOfUser;
+        $scope.messages = message;
+        console.log($scope.messages);
       });
     });
 

@@ -8,7 +8,7 @@ gulp.task('concat-uglify', function(){
   gulp.src('public/javascripts/*.js')
   .pipe(sourcemaps.init())
   .pipe(concat('bundle.js'))
-  // .pipe(uglify())
+  .pipe(uglify())
   .pipe(sourcemaps.write())
   .pipe(gulp.dest('public'));
 });

@@ -2,8 +2,8 @@
   'use strict';
   var app = angular.module('clarity.service', []);
   app.constant('Constant', {
-    url: 'https://clarity.herokuapp.com/'
-    // url: 'http://localhost:3000/'
+    // url: 'https://clarity.herokuapp.com/'
+    url: 'http://localhost:3000/'
   });
   app.service('TeacherService', function($http, $stateParams, Constant) {
     this.currentQuestion = function(questionId) {
