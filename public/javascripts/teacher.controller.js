@@ -46,7 +46,7 @@
     };
   });
   app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
-    (function bindCurrentSet() {
+    function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
         .success(function(currentSet) {
           $scope.currentSet = currentSet;
@@ -64,7 +64,8 @@
         }).catch(function(err) {
           console.log(err);
         });
-    })();
+    };
+    bindCurrentSet();
     socket.on('start question', function(question) {
       (function clearAllIntervals() {
         for (var i = 1; i < 99999; i++)
@@ -162,8 +163,8 @@
             confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Confirm'
           }, function() {
-            location.href = 'http://localhost:3000/auth/google';
-            // location.href = 'https://clarity.herokuapp.com/auth/google';
+            // location.href = 'http://localhost:3000/auth/google';
+            location.href = 'https://clarity.herokuapp.com/auth/google';
           });
         }).catch(function(err) {
           console.error(err);
