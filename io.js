@@ -12,7 +12,7 @@ module.exports = function(io) {
 
     socket.on('chat message', function(text, name, roomId){
       Teacher.findById(roomId, function(err, teacher){
-        teacher.chat.length >= 25? teacher.chat.pop() : null;
+        teacher.chat.length >= 25? teacher.chat.pop(): null;
         teacher.chat.unshift({text: text, name: name});
         teacher.save();
         console.log(teacher.chat);
@@ -27,8 +27,6 @@ module.exports = function(io) {
           room[roomId].push(name);
           socket.currentRoom = roomId;
           socket.userName = name;
-          console.log('join name', socket.userName);
-          // var numberOfUser = Object.keys(io.sockets.adapter.rooms[roomId]).length;
           io.sockets.to(roomId).emit('stored messages and users', teacher.chat , room[roomId]);
         });
       });
@@ -63,14 +61,20 @@ module.exports = function(io) {
       socket.broadcast.to(roomId).emit('currentTestQuestion', question);
     });
 
-    socket.on('disconnect', function(){
-      console.log(socket);
-      console.log('disconnect room', this.currentRoom);
-      if (this.currentRoom) {
-        var index = room[this.currentRoom].indexOf(this.userName);
-        room[this.currentRoom].splice(index, 1);
-        io.sockets.to(this.currentRoom).emit('leave room', room[this.currentRoom]);
-      }
+    socket.on('leaving room', function(){
+      leavingRoom(this);
     });
+    socket.on('disconnect', function(){
+      leavingRoom(this);
+    });
+    function leavingRoom(socket) {
+      if (socket.currentRoom) {
+        var index = room[socket.currentRoom].indexOf(socket.userName);
+        room[socket.currentRoom].splice(index, 1);
+        socket.leave(socket.currentRoom);
+        io.sockets.to(socket.currentRoom).emit('leave room', room[socket.currentRoom]);
+        socket.currentRoom = null;
+      }
+    }
   });
 };

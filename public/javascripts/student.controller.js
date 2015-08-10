@@ -40,14 +40,18 @@
   app.controller('RoomCtrl', function($scope, TeacherService, StudentService, ChartService, $location, $stateParams) {
     function bindPoint() {
       StudentService.getPoint()
-        .success(function(response) {
-          $scope.pointsData = response;
-          socket.emit('join room', response.studentName, $stateParams.roomId);
-        }).catch(function(err) {
-          console.log(err);
-        });
+      .success(function(response) {
+        $scope.pointsData = response;
+        socket.emit('join room', response.studentName, $stateParams.roomId);
+      }).catch(function(err) {
+        console.log(err);
+      });
     }
     bindPoint();
+
+    $scope.$on('$destroy', function(){
+      socket.emit('leaving room');
+    });
 
     socket.on('leave room', function(users) {
       $scope.$apply(function() {
