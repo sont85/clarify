@@ -28,7 +28,7 @@
         });
     };
     $scope.linkToList = function(set) {
-      $location.url('/teacher/questionList/' + set._id);
+      $location.url('/teacher/set/' + set._id);
     };
     $scope.deleteSet = function(set) {
       swal({
@@ -46,7 +46,7 @@
       });
     };
   });
-  app.controller('QuestionListCtrl', function($scope, TeacherService, ChartService, $location, $stateParams, $state) {
+  app.controller('SetCtrl', function($scope, TeacherService, ChartService, $location, $stateParams, $state) {
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
       .success(function(currentSet) {
@@ -167,7 +167,7 @@
 
     $scope.deleteQuestion = function() {
       TeacherService.deleteQuestion($scope.currentQuestion);
-      $location.url('teacher/questionList/' + $stateParams.setId);
+      $location.url('teacher/set/' + $stateParams.setId);
     };
     $scope.editQuestion = function() {
       TeacherService.editQuestion($scope.editedQuestion)

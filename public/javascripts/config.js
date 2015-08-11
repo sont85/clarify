@@ -24,10 +24,10 @@
         templateUrl: '../html/teacher.html',
         controller: 'TeacherCtrl'
       })
-      .state('questionList', {
-        url: '/teacher/questionList/:setId',
-        templateUrl: '../html/questionList.html',
-        controller: 'QuestionListCtrl'
+      .state('set', {
+        url: '/teacher/set/:setId',
+        templateUrl: '../html/set.html',
+        controller: 'SetCtrl'
       })
       .state('question', {
         url:'/teacher/:setId/question/:questionId',
@@ -36,12 +36,12 @@
       })
       .state('teacherChat', {
         url:'/teacher/chatroom/:roomId',
-        templateUrl: '../html/chat.html',
+        templateUrl: '../html/chatroom.html',
         controller: 'TeacherChatCtrl'
       })
       .state('studentChat', {
         url:'/student/chatroom/:roomId',
-        templateUrl: '../html/chat.html',
+        templateUrl: '../html/chatroom.html',
         controller: 'StudentChatCtrl'
       });
   });

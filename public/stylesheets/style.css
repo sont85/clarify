@@ -44,7 +44,8 @@ nav{
 }
 .title {
   color: white;
-  font-size: 60px;
+  font-size: 50px;
+  font-weight: bold
 }
 .white {
   color: white;
