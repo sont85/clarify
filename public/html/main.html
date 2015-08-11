@@ -1,15 +1,15 @@
-<div>
-  <div class='text-center'>
-    <h2 class='title'>{{user.displayName}}</h2>
-    <img class='google-image lead' src='{{user.image}}'>
-    <div>
-      <button ng-if='user.type === "student"' ui-sref='student' class='btn btn-default shadow'>Student Dashboard</button>
-    </div>
-    <div>
-      <button ng-if='user.type === "teacher"' ui-sref='teacher' class='btn btn-default shadow'>Teacher Dashboard</button>
-    </div>
+<div class='text-center'>
+  <h2 class='title'>{{user.displayName}}</h2>
+  <img class='google-image lead' ng-src='{{user.image}}'>
+  <div>
+    <button ng-if='user.type === "student"' ui-sref='student' class='btn btn-default shadow'>Student Dashboard</button>
   </div>
-  <div class='text-center panel' ng-hide='user.type'>
+  <div>
+    <button ng-if='user.type === "teacher"' ui-sref='teacher' class='btn btn-default shadow'>Teacher Dashboard</button>
+  </div>
+</div>
+<div class='row'>
+  <div class='text-center panel col-sm-6 col-sm-offset-3 shadow' ng-hide='user.type'>
     <h3>Please Register User Type</h3>
     <label for='registerTeacher'>Teacher</label>
     <input id='registerTeacher' name='userType' ng-model='type' required type='radio' value='teacher'>
