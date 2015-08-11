@@ -53,9 +53,9 @@
     }
     bindPoint();
 
-    // $scope.$on('$destroy', function() {
-    //   socket.emit('leaving room');
-    // });
+    $scope.$on('$destroy', function() {
+      socket.emit('leaving room');
+    });
 
     socket.on('leave room', function(users) {
       $scope.$apply(function() {

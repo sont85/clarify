@@ -64,7 +64,7 @@ module.exports = function(io) {
       }
       result[roomId][truthy] ++;
       var users = io.sockets.adapter.rooms[roomId];
-      var totalStudent = Object.keys(users).length;
+      var totalStudent = Object.keys(users).length - 1;
       if (result[roomId].total === totalStudent) {
         io.sockets.in(roomId).emit('result', result[roomId]);
         console.log(result);

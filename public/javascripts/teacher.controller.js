@@ -1,11 +1,7 @@
 (function() {
   'use strict';
   var app = angular.module('clarity.controller.teacher', []);
-  app.controller('TeacherCtrl', function($scope, TeacherService, ChartService, $location, $state) {
-    socket.on('result', function(msg) {
-      console.log(msg)
-      ChartService.chart(msg);
-    });
+  app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state) {
     function bindSet() {
       TeacherService.allQuestions()
         .success(function(allQuestion) {
@@ -50,16 +46,36 @@
       });
     };
   });
-  app.controller('QuestionListCtrl', function($scope, TeacherService, $location, $stateParams, $state) {
+  app.controller('QuestionListCtrl', function($scope, TeacherService, ChartService, $location, $stateParams, $state) {
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
       .success(function(currentSet) {
         $scope.currentSet = currentSet;
+        socket.emit('join room', currentSet.teacherName, currentSet.createdBy);
       }).catch(function(err) {
         console.log(err);
       });
     }
     bindCurrentSet();
+    $scope.$on('$destroy', function() {
+      socket.emit('leaving room');
+    });
+
+    socket.on('leave room', function(users) {
+      $scope.$apply(function() {
+        $scope.users = users;
+      });
+    });
+    socket.on('stored messages and users', function(message, users) {
+      $scope.$apply(function() {
+        $scope.users = users;
+      });
+    });
+    socket.on('result', function(msg) {
+      console.log(msg)
+      ChartService.chart(msg);
+    });
+
     $scope.addQuestion = function() {
       TeacherService.addQuestion($scope.newQuestion)
         .success(function(response) {
@@ -158,7 +174,7 @@
         });
     };
   });
-  app.controller('MainCtrl', function($scope, StudentService) {
+  app.controller('MainCtrl', function($scope, StudentService, Constant) {
     StudentService.getUserInfo()
       .success(function(response) {
         $scope.user = response;
@@ -176,8 +192,7 @@
             confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Confirm'
           }, function() {
-            location.href = 'http://localhost:3000/auth/google';
-            // location.href = 'https://clarity.herokuapp.com/auth/google';
+            location.href = Constant.url + 'auth/google';
           });
         }).catch(function(err) {
           console.error(err);
