@@ -54,14 +54,14 @@ module.exports = function(io) {
         true : 0,
         false: 0,
         null: 0,
-        total: 0,
+        total: [],
         A: 0,
         B: 0,
         C: 0,
         D: 0
       };
       console.log('before=======', result[roomId].total)
-      result[roomId].total ++;
+      result[roomId].total.push(socket.userName);
       if (letter !== 'null') {
         result[roomId][letter] ++;
       }
@@ -69,7 +69,7 @@ module.exports = function(io) {
 
 
       console.log("======result=====",result[roomId].total, testTaker[roomId].length)
-      if (result[roomId].total === testTaker[roomId].length) {
+      if (result[roomId].total.length === testTaker[roomId].length) {
         io.sockets.in(roomId).emit('result', result[roomId]);
         result[roomId] = null;
         testTaker[roomId] = null;
@@ -97,6 +97,12 @@ module.exports = function(io) {
         if (testTaker[socket.currentRoom]) {
           var index2 = testTaker[socket.currentRoom].indexOf(socket.userName);
           testTaker[socket.currentRoom].splice(index2, 1);
+        }
+        if (result[socket.currentRoom]) {
+          var index3 = result[socket.currentRoom].total.indexOf(socket.userName);
+          if (index3 >= 0) {
+            result[socket.currentRoom].total.splice(index3, 1);
+          }
         }
         socket.leave(socket.currentRoom);
         io.sockets.to(socket.currentRoom).emit('leave room', room[socket.currentRoom]);

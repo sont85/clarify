@@ -24,6 +24,9 @@ router.get('/question/:questionId', function(req, res){
 
 router.get('/allQuestion', function(req, res){
   Question.find({createdBy: req.user._id}, function(err, allQuestion){
+    if (!allQuestion) {
+      res.json(req.user)
+    }
     res.json(allQuestion);
   });
 });

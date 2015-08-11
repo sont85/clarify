@@ -1,11 +1,15 @@
 (function() {
   'use strict';
   var app = angular.module('clarity.controller.teacher', []);
-  app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state) {
+  app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state, StudentService) {
     function bindSet() {
       TeacherService.allQuestions()
-        .success(function(allQuestion) {
-          $scope.allQuestion = allQuestion;
+        .success(function(response) {
+          if (typeof response === Array) {
+            $scope.allQuestion = response;
+          } else {
+            $scope.teacherId = response._id;
+          }
         }).catch(function(err) {
           console.log(err);
         });
@@ -13,7 +17,12 @@
     bindSet();
 
     $scope.linkToChat = function(){
-      $location.url('teacher/chatroom/'+$scope.allQuestion[0].createdBy);
+      if ($scope.allQuestion) {
+        var teacherId = $scope.allQuestion[0].createdBy;
+      } else {
+        var teacherId = $scope.teacherId;
+      }
+      $location.url('teacher/chatroom/'+ teacherId);
     };
     $scope.addSet = function() {
       TeacherService.addSet($scope.newSetName)
