@@ -2,8 +2,8 @@
   'use strict';
   var app = angular.module('clarity.service', []);
   app.constant('Constant', {
-    // url: 'https://clarity.herokuapp.com/'
-    url: 'http://localhost:3000/'
+    url: 'https://clarity.herokuapp.com/'
+    // url: 'http://localhost:3000/'
   });
   app.service('TeacherService', function($http, $stateParams, Constant) {
     this.currentQuestion = function(questionId) {
@@ -46,7 +46,7 @@
       return $http.post(Constant.url + 'register', {type: userType});
     };
     this.getUserInfo = function() {
-      return $http.get(Constant.url +'/user');
+      return $http.get(Constant.url + 'user');
     };
     this.allTeacher = function() {
       return $http.get(Constant.url + 'student/teachers');
