@@ -5,10 +5,10 @@
     function bindSet() {
       TeacherService.allQuestions()
         .success(function(response) {
-          if (typeof response === Array) {
-            $scope.allQuestion = response;
-          } else {
+          if (response._id) {
             $scope.teacherId = response._id;
+          } else {
+            $scope.allQuestion = response;
           }
         }).catch(function(err) {
           console.log(err);
@@ -17,12 +17,11 @@
     bindSet();
 
     $scope.linkToChat = function(){
-      if ($scope.allQuestion) {
-        var teacherId = $scope.allQuestion[0].createdBy;
+      if ($scope.teacherId) {
+        $location.url('teacher/chatroom/'+ $scope.teacherId);
       } else {
-        var teacherId = $scope.teacherId;
+        $location.url('teacher/chatroom/'+ $scope.allQuestion[0].createdBy);
       }
-      $location.url('teacher/chatroom/'+ teacherId);
     };
     $scope.addSet = function() {
       TeacherService.addSet($scope.newSetName)

@@ -24,10 +24,11 @@ router.get('/question/:questionId', function(req, res){
 
 router.get('/allQuestion', function(req, res){
   Question.find({createdBy: req.user._id}, function(err, allQuestion){
-    if (!allQuestion) {
+    if (allQuestion.length === 0) {
       res.json(req.user)
+    } else {
+      res.json(allQuestion);
     }
-    res.json(allQuestion);
   });
 });
 router.post('/set', function(req, res){
