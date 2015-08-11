@@ -12,7 +12,6 @@
     function bindMyTeacher() {
       StudentService.myTeacher()
         .success(function(teachers) {
-          console.log(teachers);
           $scope.myTeachers = teachers;
         }).catch(function(err) {
           console.log(err);
@@ -37,7 +36,6 @@
       $location.url('/student/room/' + teacher._id);
     };
     $scope.linkToChat = function(teacher) {
-      console.log(teacher)
       $location.url('/student/chatroom/' + teacher._id);
     };
   });
@@ -56,23 +54,19 @@
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
-
     socket.on('leave room', function(users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-
-    socket.on('stored messages and users', function(message, users) {
+    socket.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-
     $scope.linkToChat = function(){
       $location.url('student/chatroom/'+ $stateParams.roomId);
     };
-
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       $scope.result = result;
@@ -101,7 +95,6 @@
         });
       }
     };
-
     socket.on('start question', function(question) {
       (function clearAllIntervals(){
           for (var i = 0; i < 99999; i++) {
@@ -132,7 +125,6 @@
         }
       }, question.time * 1000);
     });
-
     socket.on('result', function(msg) {
       console.log(msg);
       ChartService.chart(msg);
@@ -144,7 +136,7 @@
         .success(function(user) {
           socket.emit('join room', user.displayName, $stateParams.roomId);
           $scope.sendMessage = function() {
-            socket.emit('chat message', $scope.message, user.displayName, $stateParams.roomId);
+            socket.emit('get chat message', $scope.message, user.displayName, $stateParams.roomId);
             $scope.message = '';
           };
         }).catch(function(err) {
@@ -168,7 +160,7 @@
         $scope.users = users;
       });
     });
-    socket.on('stored messages and users', function(message, users) {
+    socket.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
         $scope.messages = message;
@@ -176,7 +168,6 @@
     });
 
     $scope.linkToQuiz = function() {
-      console.log('yo')
       $location.url('student/room/'+$stateParams.roomId);
     }
   });
