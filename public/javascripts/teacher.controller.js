@@ -5,7 +5,6 @@
     function bindSet() {
       TeacherService.allQuestions()
         .success(function(allQuestion) {
-          console.log(allQuestion)
           $scope.allQuestion = allQuestion;
         }).catch(function(err) {
           console.log(err);
@@ -14,7 +13,6 @@
     bindSet();
 
     $scope.linkToChat = function(){
-      console.log($scope.allQuestion[0].createdBy)
       $location.url('teacher/chatroom/'+$scope.allQuestion[0].createdBy);
     };
     $scope.addSet = function() {
@@ -66,7 +64,7 @@
         $scope.users = users;
       });
     });
-    socket.on('stored messages and users', function(message, users) {
+    socket.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
@@ -116,38 +114,33 @@
     };
   });
   app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, $location, $stateParams, $state) {
-    function bindSet() {
-      TeacherService.allQuestions()
-        .success(function(allQuestion) {
-          socket.emit('join room', allQuestion[0].teacherName, $stateParams.roomId);
+    function getUserInfo() {
+      StudentService.getUserInfo()
+        .success(function(user) {
+          socket.emit('join room', user.displayName, user._id);
           $scope.sendMessage = function() {
-            socket.emit('chat message', $scope.message, allQuestion[0].teacherName, $stateParams.roomId);
+            socket.emit('get chat message', $scope.message, user.displayName, user._id);
             $scope.message = '';
           };
         }).catch(function(err) {
-          console.log(err);
+          console.error(err);
         });
     }
-    bindSet();
+    getUserInfo();
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
-
-    $scope.linkToQuiz = function() {
-    };
-
     socket.on('message', function(message) {
       $scope.$apply(function() {
         $scope.messages = message;
       });
     });
-
     socket.on('leave room', function(users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-    socket.on('stored messages and users', function(message, users) {
+    socket.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
         $scope.messages = message;
@@ -182,18 +175,17 @@
   });
   app.controller('MainCtrl', function($scope, StudentService, Constant) {
     StudentService.getUserInfo()
-      .success(function(response) {
-        $scope.user = response;
-        console.log(response);
+      .success(function(user) {
+        $scope.user = user;
       }).catch(function(err) {
         console.error(err);
       });
     $scope.registerUser = function() {
       StudentService.registerUser($scope.type)
-        .success(function(response) {
+        .success(function(user) {
           swal({
             title: 'Successfully Registered',
-            text: response.displayName + ' Added To System',
+            text: user.displayName + ' Added To System',
             type: 'success',
             confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Confirm'
