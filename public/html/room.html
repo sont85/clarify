@@ -1,7 +1,7 @@
-<h3 class='clickable white' ng-click='linkToChat()'>ChatRoom</h3>
+<h3 class='clickable link' ng-click='linkToChat()'>Chat Room</h3>
 <div class='row'>
   <div class='col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4'>
-    <div class='panel panel-default text-center card'>
+    <div class='panel panel-default text-center shadow'>
       <h4>Instructor:
         <span class="badge">{{pointsData.teacherName}}</span>
       </h4>
@@ -19,7 +19,7 @@
 <div class='row'>
   <div class='col-xs-12'>
     <form ng-submit="submitAnswer()" ng-show='currentQuestion'>
-      <div class='well mutliple-choice'>
+      <div class='well mutliple-choice shadow'>
         <div>
           <input name="answer" type="radio" value="A" ng-model='studentAnswer' id='answerA' required>
           <label for='answerA'> A. {{currentQuestion.choiceA}}</label>
@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class='text-center lead'>
-        <button class='btn btn-primary' type="submit" ng-disabled='!time'>submit Answer</button>
+        <button class='btn btn-primary shadow' type="submit" ng-disabled='!time'>submit Answer</button>
       </div>
     </form>
   </div>

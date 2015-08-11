@@ -52,9 +52,6 @@ nav{
 .vertical-middle {
   padding-top: 75px;
 }
-.shadow {
-  text-shadow: 2px 2px #444;
-}
 .top-padding {
   padding-top: 20px;
 }
@@ -74,6 +71,17 @@ nav{
 }
 .chat-name {
   font-weight: bold;
+}
+.start {
+  color: #D8C868;
+  font-weight: bold;
+}
+.link {
+  color: #D8C868;
+  font-weight: bold;
+}
+.shadow {
+  box-shadow: 0px 10px 10px #111;
 }
 #container {
   margin-bottom: 20px;

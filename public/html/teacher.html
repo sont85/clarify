@@ -1,6 +1,6 @@
-<div>
-  <h3 class='white clickable' ng-click='linkToChat()'>Chatroom</h3>
-  <button class='btn btn-primary pull-right' data-target="#setModal" data-toggle="modal" type="button">Add Question Set</button>
+<h3 class='link clickable' ng-click='linkToChat()'>Chat Room</h3>
+<div class=' text-center'>
+  <button class='btn btn-default shadow' data-target="#setModal" data-toggle="modal" type="button">Add Question Set</button>
 </div>
 <div class='row'>
   <div class='col-xs-12'>
@@ -10,10 +10,10 @@
 <div class='row'>
   <div ng-repeat='set in allQuestion'>
     <div class='col-sm-4'>
-      <div class='panel panel-default text-center'>
+      <div class='panel panel-default text-center shadow'>
         <button type="button" ng-click='deleteSet(set)' class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <div class='clickable line-clamp set-height' ng-click='linkToList(set)'>
-          <h3>{{set.listName}}</h3>
+          <h3 class='link'>{{set.listName}}</h3>
         </div>
         <div>
           <hr>

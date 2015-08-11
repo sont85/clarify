@@ -1,12 +1,12 @@
 <div>
   <h3 class='white text-center'>{{currentQuestion.question}}</h3>
-  <ul class='well mutliple-choice'>
+  <ul class='well mutliple-choice shadow'>
     <li>A: {{currentQuestion.choiceA}}</li>
     <li>B: {{currentQuestion.choiceB}}</li>
     <li>C: {{currentQuestion.choiceC}}</li>
     <li>D: {{currentQuestion.choiceD}}</li>
   </ul>
-  <div class='row'>
+  <div class='row lead'>
     <div class='col-xs-6'>
       <span class='h3 white'>Answer: {{currentQuestion.answer}}</span>
     </div>
@@ -16,8 +16,8 @@
   </div>
 </div>
 <div class='text-center'>
-  <button class='btn btn-warning' ng-click='deleteQuestion()'>Delete Question</button>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editQuestion">Edit Question</button>
+  <button class='btn btn-warning shadow' ng-click='deleteQuestion()'>Delete Question</button>
+  <button type="button" class="btn btn-primary shadow" data-toggle="modal" data-target="#editQuestion">Edit Question</button>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="editQuestion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

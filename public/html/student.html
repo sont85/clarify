@@ -2,16 +2,18 @@
 <div class='row'>
   <div ng-repeat='myTeacher in myTeachers'>
     <div class='col-sm-4'>
-      <div class='panel panel-default text-center'>
+      <div class='panel panel-default text-center shadow'>
         <div class='well clickable' ng-click='enterRoom(myTeacher)'>
-          <span class="h4">{{myTeacher.displayName}} Room</span>
+          <h4>{{myTeacher.displayName}}</h4>
+          <h4 class='link'>Quiz Center</h4>
         </div>
-        <div class='clickable' ng-click='linkToChat(myTeacher)'><h2>Chatroom</h2></div>
+        <div class='clickable' ng-click='linkToChat(myTeacher)'>
+          <h2 class='link'>Chatroom</h2>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<h1 class='text-center white lead'>All Teachers</h1>
 <div class='input-group'>
   <select class='form-control' ng-model='selectedTeacher'>
     <option ng-repeat='teacher in teachers' value='{{teacher}}'>{{teacher.displayName}}</option>

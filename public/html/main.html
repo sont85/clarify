@@ -3,10 +3,10 @@
     <h2 class='title'>{{user.displayName}}</h2>
     <img class='google-image lead' src='{{user.image}}'>
     <div>
-      <button ng-if='user.type === "student"' ui-sref='student' class='btn btn-default'>Student Dashboard</button>
+      <button ng-if='user.type === "student"' ui-sref='student' class='btn btn-default shadow'>Student Dashboard</button>
     </div>
     <div>
-      <button ng-if='user.type === "teacher"' ui-sref='teacher' class='btn btn-default'>Teacher Dashboard</button>
+      <button ng-if='user.type === "teacher"' ui-sref='teacher' class='btn btn-default shadow'>Teacher Dashboard</button>
     </div>
   </div>
   <div class='text-center panel' ng-hide='user.type'>
