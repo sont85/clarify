@@ -134,7 +134,7 @@
     function joinChatroom() {
       StudentService.getUserInfo()
         .success(function(user) {
-          socket.emit('join room', user.displayName, $stateParams.roomId);
+          socket.emit('join room', user.displayName, $stateParams.roomId, user._id);
           $scope.sendMessage = function() {
             socket.emit('get chat message', $scope.message, user.displayName, $stateParams.roomId);
             $scope.message = '';

@@ -78,7 +78,12 @@ module.exports = function(io) {
     });
     function leavingRoom(socket) {
       if (socket.currentRoom) {
-        var index = room[socket.currentRoom].indexOf(socket.userName);
+        var index;
+        room[socket.currentRoom].forEach(function(item, i){
+          if (item.name === socket.userName){
+            index = i;
+          }
+        });
         room[socket.currentRoom].splice(index, 1);
         socket.leave(socket.currentRoom);
         io.sockets.to(socket.currentRoom).emit('leave room', room[socket.currentRoom]);

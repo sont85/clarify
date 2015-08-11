@@ -46,7 +46,7 @@
       return $http.post(Constant.url + 'register', {type: userType});
     };
     this.getUserInfo = function() {
-      return $http.get(Constant.url + 'user');
+      return $http.get(Constant.url +'/user');
     };
     this.allTeacher = function() {
       return $http.get(Constant.url + 'student/teachers');
