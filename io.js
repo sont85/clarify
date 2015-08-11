@@ -6,6 +6,7 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/clarity');
 
 var result = {};
 var room = {};
+var testTaker = {}
 module.exports = function(io) {
   io.sockets.on('connection', function(socket){
     console.log('user connected');
@@ -44,6 +45,10 @@ module.exports = function(io) {
         io.sockets.to(roomId).emit('all chat messages/users', teacher.chat , room[roomId]);
       });
     }
+    socket.on('number of test taker', function(testTakerName){
+      testTaker[socket.currentRoom] = testTaker[socket.currentRoom] || [];
+      testTaker[socket.currentRoom].push(testTakerName)
+    });
     socket.on('answers', function(truthy, letter, roomId){
       result[roomId] = result[roomId] || {
         true : 0,
@@ -55,16 +60,20 @@ module.exports = function(io) {
         C: 0,
         D: 0
       };
+      console.log('before=======', result[roomId].total)
       result[roomId].total ++;
       if (letter !== 'null') {
         result[roomId][letter] ++;
       }
       result[roomId][truthy] ++;
-      var users = io.sockets.adapter.rooms[roomId];
-      var totalStudent = Object.keys(users).length - 1;
-      if (result[roomId].total === totalStudent) {
+
+
+      console.log("======result=====",result[roomId].total, testTaker[roomId].length)
+      if (result[roomId].total === testTaker[roomId].length) {
         io.sockets.in(roomId).emit('result', result[roomId]);
         result[roomId] = null;
+        testTaker[roomId] = null;
+        console.log('===final====', testTaker[roomId]);
       }
     });
     socket.on('startTest', function(question, roomId) {
@@ -85,6 +94,10 @@ module.exports = function(io) {
           }
         });
         room[socket.currentRoom].splice(index, 1);
+        if (testTaker[socket.currentRoom]) {
+          var index2 = testTaker[socket.currentRoom].indexOf(socket.userName);
+          testTaker[socket.currentRoom].splice(index2, 1);
+        }
         socket.leave(socket.currentRoom);
         io.sockets.to(socket.currentRoom).emit('leave room', room[socket.currentRoom]);
         socket.currentRoom = null;

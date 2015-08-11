@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   var app = angular.module('clarity.controller.student', []);
-  app.controller('StudentCtrl', function($scope, TeacherService, StudentService, $location) {
+  app.controller('StudentCtrl', function($scope, StudentService, $location) {
     StudentService.allTeacher()
       .success(function(teachers) {
         $scope.teachers = teachers;
@@ -39,7 +39,7 @@
       $location.url('/student/chatroom/' + teacher._id);
     };
   });
-  app.controller('RoomCtrl', function($scope, TeacherService, StudentService, ChartService, $location, $stateParams) {
+  app.controller('RoomCtrl', function($scope, StudentService, ChartService, $location, $stateParams) {
     function bindPoint() {
       StudentService.getPoint()
         .success(function(response) {
@@ -68,10 +68,10 @@
       $location.url('student/chatroom/'+ $stateParams.roomId);
     };
     $scope.submitAnswer = function() {
+      $scope.answerSent = true;
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       $scope.result = result;
       socket.emit('answers', result, $scope.studentAnswer, $stateParams.roomId);
-      console.log(result);
       if (result) {
         swal({
           title: 'Correct',
@@ -101,6 +101,7 @@
             window.clearInterval(i);
           }
       })();
+      socket.emit('number of test taker', $scope.pointsData.studentName)
       $('#container').empty();
       $('#container2').empty();
       $scope.$apply(function() {
@@ -119,9 +120,10 @@
         $scope.$apply(function() {
           $scope.time = null;
         });
-        if (!$scope.studentAnswer) {
+        if (!$scope.answerSent) {
           console.log($stateParams.roomId);
           socket.emit('answers', 'null', 'null', $stateParams.roomId);
+          $scope.answerSent = null;
         }
       }, question.time * 1000);
     });
@@ -130,7 +132,7 @@
       ChartService.chart(msg);
     });
   });
-  app.controller('StudentChatCtrl', function($scope, StudentService, $location, $stateParams, $state) {
+  app.controller('StudentChatCtrl', function($scope, StudentService, $location, $stateParams) {
     function joinChatroom() {
       StudentService.getUserInfo()
         .success(function(user) {

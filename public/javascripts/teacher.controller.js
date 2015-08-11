@@ -44,7 +44,7 @@
       });
     };
   });
-  app.controller('SetCtrl', function($scope, TeacherService, ChartService, $location, $stateParams, $state) {
+  app.controller('SetCtrl', function($scope, TeacherService, ChartService, $location, $stateParams) {
     function bindCurrentSet() {
       TeacherService.getCurrentSet($stateParams.setId)
       .success(function(currentSet) {
@@ -85,6 +85,9 @@
         });
     };
     $scope.startTest = function(question) {
+      if($scope.timer) {
+        return;
+      }
       (function clearAllIntervals() {
         for (var i = 1; i < 99999; i++)
           window.clearInterval(i);
@@ -113,7 +116,7 @@
       $location.url('teacher/chatroom/'+ $scope.currentSet.createdBy);
     };
   });
-  app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, $location, $stateParams, $state) {
+  app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
     function getUserInfo() {
       StudentService.getUserInfo()
         .success(function(user) {
