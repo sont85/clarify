@@ -3,8 +3,8 @@
   <div ng-repeat='myTeacher in myTeachers'>
     <div class='col-sm-4'>
       <div class='panel panel-default text-center'>
-        <div class='well'>
-          <span class="h4 clickable" ng-click='enterRoom(myTeacher)'>{{myTeacher.displayName}} Room</span>
+        <div class='well clickable' ng-click='enterRoom(myTeacher)'>
+          <span class="h4">{{myTeacher.displayName}} Room</span>
         </div>
         <div class='clickable' ng-click='linkToChat(myTeacher)'><h2>Chatroom</h2></div>
       </div>

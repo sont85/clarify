@@ -111,6 +111,9 @@
     $scope.linkToQuestion = function(question) {
       $location.url('teacher/' + $stateParams.setId + '/question/' + question._id);
     };
+    $scope.linkToChat = function(){
+      $location.url('teacher/chatroom/'+ $scope.currentSet.createdBy);
+    };
   });
   app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, $location, $stateParams, $state) {
     function bindSet() {
@@ -129,6 +132,9 @@
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
+
+    $scope.linkToQuiz = function() {
+    };
 
     socket.on('message', function(message) {
       $scope.$apply(function() {

@@ -69,6 +69,10 @@
       });
     });
 
+    $scope.linkToChat = function(){
+      $location.url('student/chatroom/'+ $stateParams.roomId);
+    };
+
     $scope.submitAnswer = function() {
       var result = $scope.currentQuestion.answer === $scope.studentAnswer;
       $scope.result = result;
@@ -151,6 +155,7 @@
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
+    $scope.student = true;
 
     socket.on('message', function(message) {
       $scope.$apply(function() {
@@ -169,5 +174,10 @@
         $scope.messages = message;
       });
     });
+
+    $scope.linkToQuiz = function() {
+      console.log('yo')
+      $location.url('student/room/'+$stateParams.roomId);
+    }
   });
 })();
