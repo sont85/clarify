@@ -3,8 +3,8 @@
   <ul class='well mutliple-choice shadow'>
     <li>A: {{currentQuestion.choiceA}}</li>
     <li>B: {{currentQuestion.choiceB}}</li>
-    <li>C: {{currentQuestion.choiceC}}</li>
-    <li>D: {{currentQuestion.choiceD}}</li>
+    <li ng-show='{{currentQuestion.choiceC}}'>C: {{currentQuestion.choiceC}}</li>
+    <li ng-show='{{currentQuestion.choiceD}}'>D: {{currentQuestion.choiceD}}</li>
   </ul>
   <div class='row lead'>
     <div class='col-xs-6'>
