@@ -30,8 +30,8 @@
         $scope.users = users;
       });
     });
-    $scope.linkToChat = function(){
-      $location.url('student/chatroom/'+ $stateParams.roomId);
+    $scope.linkToChat = function() {
+      $location.url('student/chatroom/' + $stateParams.roomId);
     };
     $scope.submitAnswer = function() {
       $scope.answerSent = true;
@@ -56,10 +56,10 @@
       }
     };
     socket.on('start question', function(question) {
-      (function clearAllIntervals(){
-          for (var i = 0; i < 99999; i++) {
-            window.clearInterval(i);
-          }
+      (function clearAllIntervals() {
+        for (var i = 0; i < 99999; i++) {
+          window.clearInterval(i);
+        }
       })();
       socket.emit('number of test taker', $scope.pointsData.studentName)
       $('#container').empty();
@@ -91,16 +91,16 @@
     });
   });
   app.controller('StudentChatCtrl', function($scope, StudentService, $location, $stateParams) {
-      StudentService.getUserInfo($scope)
-        .success(function(user) {
-          socket.emit('join room', user.displayName, $stateParams.roomId, user._id);
-          $scope.sendMessage = function() {
-            socket.emit('get chat message', $scope.message, user.displayName, $stateParams.roomId);
-            $scope.message = '';
-          };
-        }).catch(function(err) {
-          console.log(err);
-        });
+    StudentService.getUserInfo($scope)
+      .success(function(user) {
+        socket.emit('join room', user.displayName, $stateParams.roomId, user._id);
+        $scope.sendMessage = function() {
+          socket.emit('get chat message', $scope.message, user.displayName, $stateParams.roomId);
+          $scope.message = '';
+        };
+      }).catch(function(err) {
+        console.log(err);
+      });
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
@@ -123,9 +123,8 @@
         $scope.messages = message;
       });
     });
-
     $scope.linkToQuiz = function() {
-      $location.url('student/room/'+$stateParams.roomId);
-    }
+      $location.url('student/room/' + $stateParams.roomId);
+    };
   });
 })();

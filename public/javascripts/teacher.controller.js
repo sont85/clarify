@@ -3,11 +3,11 @@
   var app = angular.module('clarity.controller.teacher', []);
   app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state, StudentService) {
     TeacherService.allQuestions($scope);
-    $scope.linkToChat = function(){
+    $scope.linkToChat = function() {
       if ($scope.teacherId) {
-        $location.url('teacher/chatroom/'+ $scope.teacherId);
+        $location.url('teacher/chatroom/' + $scope.teacherId);
       } else {
-        $location.url('teacher/chatroom/'+ $scope.allQuestion[0].createdBy);
+        $location.url('teacher/chatroom/' + $scope.allQuestion[0].createdBy);
       }
     };
     $scope.addSet = function() {
@@ -32,16 +32,7 @@
     };
   });
   app.controller('SetCtrl', function($scope, TeacherService, ChartService, $location, $stateParams) {
-    function bindCurrentSet() {
-      TeacherService.getCurrentSet($stateParams.setId)
-      .success(function(currentSet) {
-        $scope.currentSet = currentSet;
-        socket.emit('join room', currentSet.teacherName, currentSet.createdBy);
-      }).catch(function(err) {
-        console.log(err);
-      });
-    }
-    bindCurrentSet();
+    TeacherService.getCurrentSet($scope);
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
@@ -57,22 +48,14 @@
       });
     });
     socket.on('result', function(msg) {
-      console.log(msg)
       ChartService.chart(msg);
     });
 
     $scope.addQuestion = function() {
-      TeacherService.addQuestion($scope.newQuestion)
-        .success(function(response) {
-          bindCurrentSet();
-          $scope.newQuestion = '';
-          $('#questionModal').modal('hide');
-        }).catch(function(err) {
-          console.log(err);
-        });
+      TeacherService.addQuestion($scope);
     };
     $scope.startTest = function(question) {
-      if($scope.timer) {
+      if ($scope.timer) {
         return;
       }
       (function clearAllIntervals() {
@@ -99,24 +82,21 @@
     $scope.linkToQuestion = function(question) {
       $location.url('teacher/' + $stateParams.setId + '/question/' + question._id);
     };
-    $scope.linkToChat = function(){
-      $location.url('teacher/chatroom/'+ $scope.currentSet.createdBy);
+    $scope.linkToChat = function() {
+      $location.url('teacher/chatroom/' + $scope.currentSet.createdBy);
     };
   });
   app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
-    function getUserInfo() {
-      StudentService.getUserInfo()
-        .success(function(user) {
-          socket.emit('join room', user.displayName, user._id);
-          $scope.sendMessage = function() {
-            socket.emit('get chat message', $scope.message, user.displayName, user._id);
-            $scope.message = '';
-          };
-        }).catch(function(err) {
-          console.error(err);
-        });
-    }
-    getUserInfo();
+    StudentService.getUserInfo()
+      .success(function(user) {
+        socket.emit('join room', user.displayName, user._id);
+        $scope.sendMessage = function() {
+          socket.emit('get chat message', $scope.message, user.displayName, user._id);
+          $scope.message = '';
+        };
+      }).catch(function(err) {
+        console.error(err);
+      });
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
