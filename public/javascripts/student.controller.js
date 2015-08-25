@@ -2,35 +2,11 @@
   'use strict';
   var app = angular.module('clarity.controller.student', []);
   app.controller('StudentCtrl', function($scope, StudentService, $location) {
-    StudentService.allTeacher()
-      .success(function(teachers) {
-        $scope.teachers = teachers;
-      }).catch(function(err) {
-        console.log(err);
-      });
-
-    function bindMyTeacher() {
-      StudentService.myTeacher()
-        .success(function(teachers) {
-          $scope.myTeachers = teachers;
-        }).catch(function(err) {
-          console.log(err);
-        });
-    }
-    bindMyTeacher();
+    StudentService.allTeacher($scope);
+    StudentService.myTeacher($scope);
 
     $scope.addTeacher = function() {
-      StudentService.addTeacher($scope.selectedTeacher)
-        .success(function(response) {
-          if (response === 'success') {
-            swal(response, 'Successfully added Teacher', response);
-          } else {
-            swal('Error', response, 'error');
-          }
-          bindMyTeacher();
-        }).catch(function(err) {
-          console.log(err);
-        });
+      StudentService.addTeacher($scope);
     };
     $scope.enterRoom = function(teacher) {
       $location.url('/student/room/' + teacher._id);
@@ -40,17 +16,7 @@
     };
   });
   app.controller('RoomCtrl', function($scope, StudentService, ChartService, $location, $stateParams) {
-    function bindPoint() {
-      StudentService.getPoint()
-        .success(function(response) {
-          $scope.pointsData = response;
-          socket.emit('join room', response.studentName, $stateParams.roomId, response.studentId);
-        }).catch(function(err) {
-          console.log(err);
-        });
-    }
-    bindPoint();
-
+    StudentService.getPoint($scope);
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });
@@ -69,10 +35,9 @@
     };
     $scope.submitAnswer = function() {
       $scope.answerSent = true;
-      var result = $scope.currentQuestion.answer === $scope.studentAnswer;
-      $scope.result = result;
-      socket.emit('answers', result, $scope.studentAnswer, $stateParams.roomId);
-      if (result) {
+      $scope.result = $scope.currentQuestion.answer === $scope.studentAnswer;
+      socket.emit('answers', $scope.result, $scope.studentAnswer, $stateParams.roomId);
+      if ($scope.result) {
         swal({
           title: 'Correct',
           text: '+1 Point',
@@ -80,12 +45,7 @@
           type: 'success',
           showConfirmButton: false
         });
-        StudentService.postPoint()
-        .success(function(response) {
-          bindPoint();
-        }).catch(function(err) {
-          console.log(err);
-        });
+        StudentService.postPoint($scope);
       } else {
         swal({
           title: 'Wrong',
@@ -121,20 +81,17 @@
           $scope.time = null;
         });
         if (!$scope.answerSent) {
-          console.log($stateParams.roomId);
           socket.emit('answers', 'null', 'null', $stateParams.roomId);
           $scope.answerSent = null;
         }
       }, question.time * 1000);
     });
     socket.on('result', function(msg) {
-      console.log(msg);
       ChartService.chart(msg);
     });
   });
   app.controller('StudentChatCtrl', function($scope, StudentService, $location, $stateParams) {
-    function joinChatroom() {
-      StudentService.getUserInfo()
+      StudentService.getUserInfo($scope)
         .success(function(user) {
           socket.emit('join room', user.displayName, $stateParams.roomId, user._id);
           $scope.sendMessage = function() {
@@ -144,8 +101,6 @@
         }).catch(function(err) {
           console.log(err);
         });
-    }
-    joinChatroom();
     $scope.$on('$destroy', function() {
       socket.emit('leaving room');
     });

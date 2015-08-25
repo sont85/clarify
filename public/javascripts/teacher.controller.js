@@ -2,20 +2,7 @@
   'use strict';
   var app = angular.module('clarity.controller.teacher', []);
   app.controller('TeacherCtrl', function($scope, TeacherService, $location, $state, StudentService) {
-    function bindSet() {
-      TeacherService.allQuestions()
-        .success(function(response) {
-          if (response._id) {
-            $scope.teacherId = response._id;
-          } else {
-            $scope.allQuestion = response;
-          }
-        }).catch(function(err) {
-          console.log(err);
-        });
-    }
-    bindSet();
-
+    TeacherService.allQuestions($scope);
     $scope.linkToChat = function(){
       if ($scope.teacherId) {
         $location.url('teacher/chatroom/'+ $scope.teacherId);
@@ -24,14 +11,7 @@
       }
     };
     $scope.addSet = function() {
-      TeacherService.addSet($scope.newSetName)
-        .success(function(response) {
-          bindSet();
-          $scope.newSetName = '';
-          $('#setModal').modal('hide');
-        }).catch(function(err) {
-          console.log(err);
-        });
+      TeacherService.addSet($scope);
     };
     $scope.linkToList = function(set) {
       $location.url('/teacher/set/' + set._id);
@@ -48,7 +28,6 @@
       }, function() {
         swal('Deleted!', 'Your imaginary file has been deleted.', 'success');
         TeacherService.deleteSet(set);
-        $state.reload();
       });
     };
   });
@@ -192,20 +171,7 @@
         console.error(err);
       });
     $scope.registerUser = function() {
-      StudentService.registerUser($scope.type)
-        .success(function(user) {
-          swal({
-            title: 'Successfully Registered',
-            text: user.displayName + ' Added To System',
-            type: 'success',
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Confirm'
-          }, function() {
-            location.href = Constant.url + 'auth/google';
-          });
-        }).catch(function(err) {
-          console.error(err);
-        });
+      StudentService.registerUser($scope.type);
     };
   });
 })();
