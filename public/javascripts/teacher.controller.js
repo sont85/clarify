@@ -138,29 +138,13 @@
     });
   });
   app.controller('QuestionCtrl', function(TeacherService, $scope, $location, $stateParams) {
-    function bindQuestion() {
-      TeacherService.currentQuestion($stateParams.questionId)
-        .success(function(response) {
-          $scope.currentQuestion = response;
-        }).catch(function(err) {
-          console.log(err);
-        });
-    }
-    bindQuestion();
-
+    TeacherService.currentQuestion($scope);
     $scope.deleteQuestion = function() {
       TeacherService.deleteQuestion($scope.currentQuestion);
       $location.url('teacher/set/' + $stateParams.setId);
     };
     $scope.editQuestion = function() {
-      TeacherService.editQuestion($scope.editedQuestion)
-        .success(function(response) {
-          bindQuestion();
-          $('#editQuestion').modal('hide');
-          $scope.editedQuestion = '';
-        }).catch(function(err) {
-          console.log(err);
-        });
+      TeacherService.editQuestion($scope);
     };
   });
   app.controller('MainCtrl', function($scope, StudentService, Constant) {

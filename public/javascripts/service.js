@@ -7,8 +7,13 @@
   });
   app.service('TeacherService', function($http, $stateParams, Constant, $state) {
     var self = this;
-    this.currentQuestion = function(questionId) {
-      return $http.get(Constant.url + 'teacher/question/'+ questionId);
+    this.currentQuestion = function($scope) {
+      $http.get(Constant.url + 'teacher/question/'+ $stateParams.questionId)
+      .success(function(response) {
+        $scope.currentQuestion = response;
+      }).catch(function(err) {
+        console.log(err);
+      });
     };
     this.addSet = function($scope){
       $http.post(Constant.url + 'teacher/set', { setName: $scope.newSetName })
@@ -23,8 +28,15 @@
     this.addQuestion = function(newQuestion){
       return $http.post(Constant.url + 'teacher/question/'+ $stateParams.setId, newQuestion);
     };
-    this.editQuestion = function(editedQuestion) {
-      return $http.patch(Constant.url + 'teacher/question/' + $stateParams.questionId + '/' + $stateParams.questionId, editedQuestion);
+    this.editQuestion = function($scope) {
+      $http.patch(Constant.url + 'teacher/question/' + $stateParams.questionId + '/' + $stateParams.questionId, $scope.editedQuestion)
+      .success(function(response) {
+        self.currentQuestion($scope);
+        $('#editQuestion').modal('hide');
+        $scope.editedQuestion = '';
+      }).catch(function(err) {
+        console.log(err);
+      });
     };
     this.deleteQuestion = function(question){
       $http.delete(Constant.url + 'teacher/question/'+ $stateParams.setId + '/'+ question._id)
