@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   var app = angular.module('clarity.controller.student', []);
-  app.controller('StudentCtrl', function($scope, StudentService, $location) {
+  app.controller('StudentCtrl', function($scope, StudentService, $location, IOService) {
     StudentService.allTeacher($scope);
     StudentService.myTeacher($scope);
 
@@ -15,17 +15,17 @@
       $location.url('/student/chatroom/' + teacher._id);
     };
   });
-  app.controller('RoomCtrl', function($scope, StudentService, ChartService, $location, $stateParams) {
+  app.controller('RoomCtrl', function($scope, StudentService, ChartService, IOService, $location, $stateParams) {
     StudentService.getPoint($scope);
     $scope.$on('$destroy', function() {
-      socket.emit('leaving room');
+      IOService.emit('leaving room');
     });
-    socket.on('leave room', function(users) {
+    IOService.on('leave room', function(users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-    socket.on('all chat messages/users', function(message, users) {
+    IOService.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
@@ -36,7 +36,7 @@
     $scope.submitAnswer = function() {
       $scope.answerSent = true;
       $scope.result = $scope.currentQuestion.answer === $scope.studentAnswer;
-      socket.emit('answers', $scope.result, $scope.studentAnswer, $stateParams.roomId);
+      IOService.emit('answers', $scope.result, $scope.studentAnswer, $stateParams.roomId);
       if ($scope.result) {
         swal({
           title: 'Correct',
@@ -55,13 +55,13 @@
         });
       }
     };
-    socket.on('start question', function(question) {
+    IOService.on('start question', function(question) {
       (function clearAllIntervals() {
         for (var i = 0; i < 99999; i++) {
           window.clearInterval(i);
         }
       })();
-      socket.emit('number of test taker', $scope.pointsData.studentName)
+      IOService.emit('number of test taker', $scope.pointsData.studentName)
       $('#container').empty();
       $('#container2').empty();
       $scope.$apply(function() {
@@ -81,43 +81,43 @@
           $scope.time = null;
         });
         if (!$scope.answerSent) {
-          socket.emit('answers', 'null', 'null', $stateParams.roomId);
+          IOService.emit('answers', 'null', 'null', $stateParams.roomId);
           $scope.answerSent = null;
         }
       }, question.time * 1000);
     });
-    socket.on('result', function(msg) {
+    IOService.on('result', function(msg) {
       ChartService.chart(msg);
     });
   });
-  app.controller('StudentChatCtrl', function($scope, StudentService, $location, $stateParams) {
+  app.controller('StudentChatCtrl', function($scope, StudentService, IOService, $location, $stateParams) {
     StudentService.getUserInfo($scope)
       .success(function(user) {
-        socket.emit('join room', user.displayName, $stateParams.roomId, user._id);
+        IOService.emit('join room', user.displayName, $stateParams.roomId, user._id);
         $scope.sendMessage = function() {
-          socket.emit('get chat message', $scope.message, user.displayName, $stateParams.roomId);
+          IOService.emit('get chat message', $scope.message, user.displayName, $stateParams.roomId);
           $scope.message = '';
         };
       }).catch(function(err) {
         console.log(err);
       });
     $scope.$on('$destroy', function() {
-      socket.emit('leaving room');
+      IOService.emit('leaving room');
     });
     $scope.student = true;
 
-    socket.on('message', function(message) {
+    IOService.on('message', function(message) {
       $scope.$apply(function() {
         $scope.messages = message;
       });
     });
 
-    socket.on('leave room', function(users) {
+    IOService.on('leave room', function(users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-    socket.on('all chat messages/users', function(message, users) {
+    IOService.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
         $scope.messages = message;

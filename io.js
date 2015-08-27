@@ -1,8 +1,6 @@
 'use strict';
-var mongoose = require('mongoose');
 var Teacher = require('./models/teacherSchema');
 var Point = require('./models/pointSchema');
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/clarity');
 
 var result = {};
 var room = {};
@@ -47,7 +45,7 @@ module.exports = function(io) {
     }
     socket.on('number of test taker', function(testTakerName){
       testTaker[socket.currentRoom] = testTaker[socket.currentRoom] || [];
-      testTaker[socket.currentRoom].push(testTakerName)
+      testTaker[socket.currentRoom].push(testTakerName);
     });
     socket.on('answers', function(truthy, letter, roomId){
       result[roomId] = result[roomId] || {
@@ -60,20 +58,15 @@ module.exports = function(io) {
         C: 0,
         D: 0
       };
-      console.log('before=======', result[roomId].total)
       result[roomId].total.push(socket.userName);
       if (letter !== 'null') {
         result[roomId][letter] ++;
       }
       result[roomId][truthy] ++;
-
-
-      console.log("======result=====",result[roomId].total, testTaker[roomId].length)
       if (result[roomId].total.length === testTaker[roomId].length) {
         io.sockets.in(roomId).emit('result', result[roomId]);
         result[roomId] = null;
         testTaker[roomId] = null;
-        console.log('===final====', testTaker[roomId]);
       }
     });
     socket.on('startTest', function(question, roomId) {

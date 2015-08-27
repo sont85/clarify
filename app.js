@@ -7,6 +7,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var io = require('socket.io')();
 var session = require('express-session');
+var mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/clarity');
 
 var app = express();
 app.io = io;

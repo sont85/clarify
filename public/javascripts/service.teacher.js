@@ -5,7 +5,7 @@
     // url: 'https://clarity.herokuapp.com/'
     url: 'http://localhost:3000/'
   });
-  app.service('TeacherService', function($http, $stateParams, Constant, $state) {
+  app.service('TeacherService', function($http, $stateParams, Constant, $state, IOService) {
     var self = this;
     this.currentQuestion = function($scope) {
       $http.get(Constant.url + 'teacher/question/'+ $stateParams.questionId)
@@ -77,7 +77,7 @@
       $http.get(Constant.url + 'teacher/set/'+ $stateParams.setId)
       .success(function(currentSet) {
         $scope.currentSet = currentSet;
-        socket.emit('join room', currentSet.teacherName, currentSet.createdBy);
+        IOService.emit('join room', currentSet.teacherName, currentSet.createdBy);
       }).catch(function(err) {
         console.log(err);
       });

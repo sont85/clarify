@@ -1,6 +1,4 @@
 (function() {
   'use strict';
-  var app = angular.module('app', ['ui.router', 'clarity.service.student', 'clarity.service.teacher', 'clarity.service.charts', 'clarity.controller.student', 'clarity.controller.teacher', 'clarity.config']);
+  var app = angular.module('app', ['ui.router', 'clarity.service', 'clarity.controller.student', 'clarity.controller.teacher', 'clarity.config']);
 })();
-var socket = io.connect('http://localhost:3000');
-// var socket = io.connect('https://clarity.herokuapp.com');

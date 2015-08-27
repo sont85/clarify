@@ -31,23 +31,23 @@
       });
     };
   });
-  app.controller('SetCtrl', function($scope, TeacherService, ChartService, $location, $stateParams) {
+  app.controller('SetCtrl', function($scope, TeacherService, IOService, ChartService, $location, $stateParams) {
     TeacherService.getCurrentSet($scope);
     $scope.$on('$destroy', function() {
-      socket.emit('leaving room');
+      IOService.emit('leaving room');
     });
 
-    socket.on('leave room', function(users) {
+    IOService.on('leave room', function(users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-    socket.on('all chat messages/users', function(message, users) {
+    IOService.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-    socket.on('result', function(msg) {
+    IOService.on('result', function(msg) {
       ChartService.chart(msg);
     });
 
@@ -65,7 +65,7 @@
       $('#container').empty();
       $('#container2').empty();
       var roomId = $scope.currentSet.createdBy;
-      socket.emit('startTest', question, roomId);
+      IOService.emit('startTest', question, roomId);
       $scope.timer = question.time;
       var timer = setInterval(function() {
         $scope.$apply(function() {
@@ -86,31 +86,31 @@
       $location.url('teacher/chatroom/' + $scope.currentSet.createdBy);
     };
   });
-  app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, $location, $stateParams) {
+  app.controller('TeacherChatCtrl', function($scope, TeacherService, StudentService, IOService, $location, $stateParams) {
     StudentService.getUserInfo()
       .success(function(user) {
-        socket.emit('join room', user.displayName, user._id);
+        IOService.emit('join room', user.displayName, user._id);
         $scope.sendMessage = function() {
-          socket.emit('get chat message', $scope.message, user.displayName, user._id);
+          IOService.emit('get chat message', $scope.message, user.displayName, user._id);
           $scope.message = '';
         };
       }).catch(function(err) {
         console.error(err);
       });
     $scope.$on('$destroy', function() {
-      socket.emit('leaving room');
+      IOService.emit('leaving room');
     });
-    socket.on('message', function(message) {
+    IOService.on('message', function(message) {
       $scope.$apply(function() {
         $scope.messages = message;
       });
     });
-    socket.on('leave room', function(users) {
+    IOService.on('leave room', function(users) {
       $scope.$apply(function() {
         $scope.users = users;
       });
     });
-    socket.on('all chat messages/users', function(message, users) {
+    IOService.on('all chat messages/users', function(message, users) {
       $scope.$apply(function() {
         $scope.users = users;
         $scope.messages = message;

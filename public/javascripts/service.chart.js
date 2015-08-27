@@ -1,5 +1,5 @@
 (function() {
-  var app = angular.module('clarity.service.charts', []);
+  var app = angular.module('clarity.service.chart', []);
   app.service('ChartService', function() {
     this.chart = function(msg) {
       Highcharts.createElement('link', {

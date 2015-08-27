@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   var app = angular.module('clarity.service.student', []);
-  app.service('StudentService', function($http, Constant, $stateParams) {
+  app.service('StudentService', function($http, Constant, $stateParams, IOService) {
     var self = this;
     this.registerUser = function(userType) {
       $http.post(Constant.url + 'register', {type: userType})
@@ -63,7 +63,7 @@
       $http.get(Constant.url + 'student/point/'+ $stateParams.roomId)
       .success(function(response) {
         $scope.pointsData = response;
-        socket.emit('join room', response.studentName, $stateParams.roomId, response.studentId);
+        IOService.emit('join room', response.studentName, $stateParams.roomId, response.studentId);
       }).catch(function(err) {
         console.log(err);
       });
